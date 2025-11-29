@@ -1,0 +1,212 @@
+{
+  "extreme": {
+    "birnin-gwari": {
+      "location_id": "birnin-gwari",
+      "location_name": "Birnin Gwari",
+      "state": "kaduna",
+      "risk_level": "EXTREME",
+      "badge": "⛔ Avoid Travel",
+      "summary": "Active security concerns. Essential travel only with proper security arrangements.",
+      "resident_tips": [
+        "Best movement times: 7-10AM",
+        "Avoid solo travel",
+        "Know safe gathering points",
+        "Stay connected with community",
+        "Keep emergency contacts ready"
+      ],
+      "visitor_advice": "Do not travel to this area. Use alternative routes or transportation methods.",
+      "transit_advice": "Route not recommended. Use Abuja-Kaduna Railway or alternative routes.",
+      "safer_hours": "7:00 - 10:00",
+      "emergency_contacts": ["08123822284"],
+      "alternatives": [
+        "Use Abuja-Kaduna Railway (train service)",
+        "Fly to Kaduna airport"
+      ]
+    },
+    "bukkuyum": {
+      "location_id": "bukkuyum",
+      "location_name": "Bukkuyum",
+      "state": "zamfara",
+      "risk_level": "EXTREME",
+      "badge": "⛔ Avoid Travel",
+      "summary": "Active conflict zone. Avoid all non-essential travel.",
+      "resident_tips": [
+        "Travel only during daylight hours (7AM-4PM)",
+        "Travel in groups when possible",
+        "Inform security agencies of travel plans",
+        "Avoid isolated areas",
+        "Keep emergency contacts accessible"
+      ],
+      "visitor_advice": "Do not travel to this area. This is an active conflict zone.",
+      "transit_advice": "Route not recommended. Avoid completely or use military escort.",
+      "safer_hours": "7:00 - 16:00",
+      "emergency_contacts": ["08106580123"],
+      "alternatives": [
+        "Avoid all road travel through this area",
+        "Use alternative routes if available"
+      ]
+    }
+  },
+  "very_high": {
+    "kaduna": {
+      "location_id": "kaduna",
+      "location_name": "Kaduna",
+      "state": "kaduna",
+      "risk_level": "VERY HIGH",
+      "badge": "⚠️ High Caution",
+      "summary": "Essential travel only. High security concerns in certain areas.",
+      "resident_tips": [
+        "Stay alert in public spaces",
+        "Avoid isolated areas at night",
+        "Travel in groups when possible",
+        "Keep emergency contacts ready"
+      ],
+      "visitor_advice": "Travel with caution. Avoid certain areas and travel during daylight hours.",
+      "transit_advice": "Route requires caution. Travel during daylight hours only.",
+      "safer_hours": "7:00 - 18:00",
+      "emergency_contacts": ["08123822284"],
+      "alternatives": []
+    }
+  },
+  "high": {
+    "port-harcourt": {
+      "location_id": "port-harcourt",
+      "location_name": "Port Harcourt",
+      "state": "rivers",
+      "risk_level": "HIGH",
+      "badge": "🔔 Stay Alert",
+      "summary": "Exercise caution. Stay alert in public spaces.",
+      "resident_tips": [
+        "Stay aware of your surroundings",
+        "Avoid isolated areas at night",
+        "Keep valuables secure",
+        "Use well-lit routes"
+      ],
+      "visitor_advice": "Travel with caution. Exercise standard urban safety precautions.",
+      "transit_advice": "Route is passable with caution. Stay on main roads.",
+      "safer_hours": "6:00 - 20:00",
+      "emergency_contacts": ["08032003514"],
+      "alternatives": []
+    }
+  },
+  "moderate": {
+    "victoria-island": {
+      "location_id": "victoria-island",
+      "location_name": "Victoria Island",
+      "state": "lagos",
+      "risk_level": "MODERATE",
+      "badge": "✅ Generally Safe",
+      "summary": "Lagos's premier business and entertainment district.",
+      "highlights": [
+        "Fine dining restaurants",
+        "Beach bars and nightlife",
+        "Business district",
+        "Shopping centers",
+        "Waterfront views"
+      ],
+      "visitor_tips": [
+        "Use ride-hailing services (Uber, Bolt)",
+        "Enjoy the vibrant nightlife",
+        "Explore the beach bars",
+        "Try local and international cuisine",
+        "Visit during weekends for events"
+      ],
+      "resident_tips": [
+        "Standard urban safety awareness",
+        "Keep valuables secure",
+        "Use well-lit routes at night",
+        "Enjoy the amenities"
+      ],
+      "transit_advice": "Route is clear. Enjoy your journey through VI.",
+      "safer_hours": "All hours generally safe",
+      "emergency_contacts": ["767"],
+      "welcome_message": "Welcome to Victoria Island! Enjoy Lagos's premier district."
+    },
+    "lekki": {
+      "location_id": "lekki",
+      "location_name": "Lekki",
+      "state": "lagos",
+      "risk_level": "MODERATE",
+      "badge": "✅ Generally Safe",
+      "summary": "Upscale residential and commercial area in Lagos.",
+      "highlights": [
+        "Lekki Conservation Centre",
+        "Lekki Beach",
+        "Shopping malls",
+        "Residential estates",
+        "Restaurants and cafes"
+      ],
+      "visitor_tips": [
+        "Visit Lekki Conservation Centre",
+        "Enjoy Lekki Beach",
+        "Explore shopping options",
+        "Try local restaurants"
+      ],
+      "resident_tips": [
+        "Standard safety awareness",
+        "Enjoy the amenities",
+        "Stay connected with community"
+      ],
+      "transit_advice": "Route is clear. Safe for travel.",
+      "safer_hours": "All hours generally safe",
+      "emergency_contacts": ["767"],
+      "welcome_message": "Welcome to Lekki! Enjoy this vibrant area."
+    },
+    "ibadan": {
+      "location_id": "ibadan",
+      "location_name": "Ibadan",
+      "state": "oyo",
+      "risk_level": "MODERATE",
+      "badge": "✅ Generally Safe",
+      "summary": "Historic city with cultural attractions.",
+      "highlights": [
+        "University of Ibadan",
+        "Cultural centers",
+        "Local markets",
+        "Historical sites"
+      ],
+      "visitor_tips": [
+        "Explore cultural sites",
+        "Visit local markets",
+        "Try local cuisine",
+        "Enjoy the city's history"
+      ],
+      "resident_tips": [
+        "Standard safety awareness",
+        "Enjoy the city amenities"
+      ],
+      "transit_advice": "Route is clear. Safe for travel.",
+      "safer_hours": "All hours generally safe",
+      "emergency_contacts": ["08081768614"],
+      "welcome_message": "Welcome to Ibadan! Explore this historic city."
+    }
+  },
+  "low": {
+    "example-safe-location": {
+      "location_id": "example-safe-location",
+      "location_name": "Example Safe Location",
+      "state": "lagos",
+      "risk_level": "LOW",
+      "badge": "🟢 Safe",
+      "summary": "Generally safe area with minimal security concerns.",
+      "highlights": [
+        "Peaceful environment",
+        "Good amenities",
+        "Safe for families"
+      ],
+      "visitor_tips": [
+        "Enjoy your visit",
+        "Explore the area",
+        "Feel free to move around"
+      ],
+      "resident_tips": [
+        "Normal safety awareness",
+        "Enjoy the peaceful environment"
+      ],
+      "transit_advice": "Route is clear and safe.",
+      "safer_hours": "All hours safe",
+      "emergency_contacts": [],
+      "welcome_message": "Welcome! Enjoy this safe area."
+    }
+  }
+}

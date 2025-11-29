@@ -1,0 +1,68 @@
+{
+  "language_rules": {
+    "never_use": [
+      "X people killed",
+      "death toll",
+      "massacre",
+      "slaughter",
+      "casualty count",
+      "body count"
+    ],
+    "translations": {
+      "killed": "Security incident reported",
+      "mass kidnapping": "Kidnapping incidents reported on this route",
+      "bandit attack killed": "Armed group activity in the area",
+      "fatalities": "Security incidents",
+      "deaths": "Security incidents",
+      "casualties": "Security incidents"
+    }
+  },
+  "advisory_levels": {
+    "EXTREME": {
+      "visitor": "Do Not Travel",
+      "transit": "Not Recommended",
+      "resident": "High Alert"
+    },
+    "VERY HIGH": {
+      "visitor": "Reconsider Travel",
+      "transit": "Caution Required",
+      "resident": "Exercise Caution"
+    },
+    "HIGH": {
+      "visitor": "Travel with Caution",
+      "transit": "Proceed with Caution",
+      "resident": "Stay Alert"
+    },
+    "MODERATE": {
+      "visitor": "Standard Precautions",
+      "transit": "Clear with Precautions",
+      "resident": "Normal Awareness"
+    },
+    "LOW": {
+      "visitor": "Safe to Travel",
+      "transit": "Clear",
+      "resident": "Generally Safe"
+    }
+  },
+  "resident_messages": {
+    "EXTREME": "Stay safe, stay connected. We're here to help you navigate daily life safely.",
+    "VERY HIGH": "Your safety matters. Take necessary precautions and stay informed.",
+    "HIGH": "Remain vigilant and stay connected with your community.",
+    "MODERATE": "Standard safety awareness. Stay alert and connected.",
+    "LOW": "Continue practicing normal safety awareness."
+  },
+  "visitor_messages": {
+    "EXTREME": "This area is not safe for travel. Please consider alternatives.",
+    "VERY HIGH": "Travel is not recommended unless absolutely essential.",
+    "HIGH": "Travel with extreme caution and proper security arrangements.",
+    "MODERATE": "Travel is possible with standard safety precautions.",
+    "LOW": "Travel is generally safe with normal precautions."
+  },
+  "transit_messages": {
+    "EXTREME": "This route is not recommended. Use alternative routes.",
+    "VERY HIGH": "Route requires extreme caution. Consider alternatives.",
+    "HIGH": "Route is passable but requires caution and proper timing.",
+    "MODERATE": "Route is clear with standard precautions.",
+    "LOW": "Route is clear and safe for travel."
+  }
+}

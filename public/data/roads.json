@@ -1,0 +1,537 @@
+[
+  {
+    "id": "kaduna-birnin-gwari",
+    "name": "Kaduna - Birnin Gwari Road",
+    "alias": "The Red Zone",
+    "states": [
+      "Kaduna"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Buruku to Undawa stretch"
+    ],
+    "description": "Most dangerous road in Kaduna. Communities deserted. Military escort required.",
+    "alternative": "Avoid completely or wait for military escort"
+  },
+  {
+    "id": "abuja-kaduna",
+    "name": "Abuja - Kaduna Highway",
+    "alias": null,
+    "states": [
+      "FCT Abuja",
+      "Kaduna"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Rijana",
+      "Katari",
+      "Kachia Junction"
+    ],
+    "description": "Multiple kidnappings weekly. Notorious for attacks even with military presence.",
+    "alternative": "Take Abuja-Kaduna Railway (train)"
+  },
+  {
+    "id": "gusau-funtua",
+    "name": "Gusau - Funtua Road",
+    "alias": null,
+    "states": [
+      "Zamfara",
+      "Katsina"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Tsafe to Magazu stretch"
+    ],
+    "description": "Most dangerous road in Zamfara. Highest traffic, prime target.",
+    "alternative": "Avoid or travel with security escort"
+  },
+  {
+    "id": "gusau-sokoto",
+    "name": "Gusau - Sokoto Road",
+    "alias": null,
+    "states": [
+      "Zamfara",
+      "Sokoto"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire 184km route"
+    ],
+    "description": "Regular mass kidnappings. 50+ kidnapped in single incidents.",
+    "alternative": "Fly if possible"
+  },
+  {
+    "id": "sokoto-zamfara",
+    "name": "Sokoto - Zamfara Highway",
+    "alias": "Tureta-Bakura Route",
+    "states": [
+      "Sokoto",
+      "Zamfara"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Tureta-Bakura stretch (97km)"
+    ],
+    "description": "50 wedding guests kidnapped in single incident.",
+    "alternative": "Avoid completely"
+  },
+  {
+    "id": "katsina-jibia",
+    "name": "Katsina - Jibia Highway",
+    "alias": null,
+    "states": [
+      "Katsina"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Near Kadobe village"
+    ],
+    "description": "Close to Niger Republic border. Regular kidnappings.",
+    "alternative": "Essential travel only with escort"
+  },
+  {
+    "id": "kaura-namoda-zurmi",
+    "name": "Kaura Namoda - Zurmi Road",
+    "alias": null,
+    "states": [
+      "Zamfara"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "To Katsina border"
+    ],
+    "description": "Links to Katsina bandit territory.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "kaura-namoda-shinkafi",
+    "name": "Kaura Namoda - Shinkafi Road",
+    "alias": null,
+    "states": [
+      "Zamfara"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Deep bandit territory.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "gusau-magami-dansadau",
+    "name": "Gusau - Magami - Dansadau Road",
+    "alias": null,
+    "states": [
+      "Zamfara"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Interior Zamfara - active bandit operations.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "magami-dangulbi-anka",
+    "name": "Magami - Dangulbi - Anka Road",
+    "alias": null,
+    "states": [
+      "Zamfara"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Connects to multiple bandit camps.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "dakitakwas-zuru",
+    "name": "DakiTakwas - Zuru Highway",
+    "alias": null,
+    "states": [
+      "Zamfara",
+      "Kebbi"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire 138km route"
+    ],
+    "description": "27 kidnapped in single incident. Connects multiple states.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "birnin-gwari-funtua",
+    "name": "Birnin Gwari - Funtua Road",
+    "alias": null,
+    "states": [
+      "Kaduna",
+      "Katsina"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Connects to Red Zone. Extremely dangerous.",
+    "alternative": "Wait for military escort or avoid"
+  },
+  {
+    "id": "jibia-gurbi-kaura-namoda",
+    "name": "Jibia - Gurbi - Kaura Namoda Road",
+    "alias": null,
+    "states": [
+      "Katsina",
+      "Zamfara"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire cross-state route"
+    ],
+    "description": "Connects Katsina to Zamfara bandit territory.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "dutsinma-kankara-faskari",
+    "name": "Dutsinma - Kankara - Sheme - Faskari Road",
+    "alias": null,
+    "states": [
+      "Katsina"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Interior Katsina - known kidnapping hotspot.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "maiduguri-damaturu",
+    "name": "Maiduguri - Damaturu Road",
+    "alias": null,
+    "states": [
+      "Borno",
+      "Yobe"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Damaturu Forest",
+      "Entire route"
+    ],
+    "description": "Active ISWAP/Boko Haram territory. IEDs and ambushes.",
+    "alternative": "Military escort mandatory"
+  },
+  {
+    "id": "maiduguri-bama",
+    "name": "Maiduguri - Bama Road",
+    "alias": null,
+    "states": [
+      "Borno"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Entire route to Cameroon border"
+    ],
+    "description": "ISWAP stronghold area.",
+    "alternative": "Avoid completely"
+  },
+  {
+    "id": "maiduguri-damboa",
+    "name": "Maiduguri - Damboa Road",
+    "alias": null,
+    "states": [
+      "Borno"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Timbuktu Triangle area"
+    ],
+    "description": "Active JAS/Boko Haram area.",
+    "alternative": "Military escort required"
+  },
+  {
+    "id": "port-harcourt-warri",
+    "name": "Port Harcourt - Warri Route",
+    "alias": null,
+    "states": [
+      "Rivers",
+      "Delta"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Eleme Junction",
+      "Entire corridor"
+    ],
+    "description": "Now MORE dangerous than Abuja-Kaduna. Daily kidnappings.",
+    "alternative": "Fly between cities"
+  },
+  {
+    "id": "warri-sapele-benin",
+    "name": "Warri - Sapele - Benin Road",
+    "alias": null,
+    "states": [
+      "Delta",
+      "Edo"
+    ],
+    "risk_level": "EXTREME",
+    "danger_zones": [
+      "Forest stretches"
+    ],
+    "description": "Kidnap gangs control forest areas.",
+    "alternative": "Avoid or travel only in daylight with groups"
+  },
+  {
+    "id": "abuja-lokoja",
+    "name": "Abuja - Abaji - Lokoja Road",
+    "alias": null,
+    "states": [
+      "FCT Abuja",
+      "Kogi"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Abaji axis",
+      "Lokoja approach"
+    ],
+    "description": "Alternative to Kaduna road but still dangerous.",
+    "alternative": "Travel in daylight only, in convoy"
+  },
+  {
+    "id": "obajana-kabba",
+    "name": "Obajana - Kabba Road",
+    "alias": null,
+    "states": [
+      "Kogi"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Osokoko-Obajana corridor"
+    ],
+    "description": "Nov 2025: Coordinated attacks, 21 passengers kidnapped.",
+    "alternative": "Travel with caution, daylight only"
+  },
+  {
+    "id": "loko-oweto",
+    "name": "Loko - Oweto Road",
+    "alias": null,
+    "states": [
+      "Nasarawa",
+      "Benue"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Armed robberies and kidnappings.",
+    "alternative": "Essential travel only"
+  },
+  {
+    "id": "makurdi-jos",
+    "name": "Makurdi - Jos Road",
+    "alias": null,
+    "states": [
+      "Benue",
+      "Plateau"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Multiple points"
+    ],
+    "description": "Farmer-herder conflict zone. Roadblocks common.",
+    "alternative": "Travel in convoy, daylight only"
+  },
+  {
+    "id": "lambata-izom",
+    "name": "Lambata - Izom Road",
+    "alias": null,
+    "states": [
+      "Niger"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Gurara LGA stretch"
+    ],
+    "description": "Bandits operate unchallenged.",
+    "alternative": "Avoid if possible"
+  },
+  {
+    "id": "minna-suleja",
+    "name": "Minna - Suleja Road",
+    "alias": null,
+    "states": [
+      "Niger",
+      "FCT Abuja"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Forest areas"
+    ],
+    "description": "Passes through bandit-prone areas.",
+    "alternative": "Travel in daylight, convoy recommended"
+  },
+  {
+    "id": "garaku-dari",
+    "name": "Garaku - Dari Road",
+    "alias": null,
+    "states": [
+      "Nasarawa"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Within identified terrorist enclave.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "assakio-awe",
+    "name": "Assakio - Awe Road",
+    "alias": null,
+    "states": [
+      "Nasarawa"
+    ],
+    "risk_level": "VERY HIGH",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Terrorist enclave area.",
+    "alternative": "Avoid"
+  },
+  {
+    "id": "lagos-ibadan",
+    "name": "Lagos - Ibadan Expressway",
+    "alias": null,
+    "states": [
+      "Lagos",
+      "Ogun",
+      "Oyo"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Shagamu Interchange",
+      "Long Bridge area"
+    ],
+    "description": "High traffic but weekly attacks.",
+    "alternative": "Travel 7AM-4PM only, consider train"
+  },
+  {
+    "id": "okpella-auchi-okene",
+    "name": "Okpella - Auchi - Okene Road",
+    "alias": null,
+    "states": [
+      "Edo",
+      "Kogi"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Forest stretches"
+    ],
+    "description": "Poor road conditions enable attacks.",
+    "alternative": "Travel in daylight, groups"
+  },
+  {
+    "id": "akure-akoko",
+    "name": "Akure - Akoko Road",
+    "alias": null,
+    "states": [
+      "Ondo"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Multiple points"
+    ],
+    "description": "Combination of accidents and armed attacks.",
+    "alternative": "Exercise caution"
+  },
+  {
+    "id": "benin-ore",
+    "name": "Benin - Ore Road",
+    "alias": null,
+    "states": [
+      "Edo",
+      "Ondo"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Forest areas"
+    ],
+    "description": "Long stretch through forests.",
+    "alternative": "Travel in daylight only"
+  },
+  {
+    "id": "enugu-onitsha",
+    "name": "Enugu - Awka - Onitsha Expressway",
+    "alias": null,
+    "states": [
+      "Enugu",
+      "Anambra"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Multiple points"
+    ],
+    "description": "Unknown gunmen and kidnapping.",
+    "alternative": "Travel in daylight, stay alert"
+  },
+  {
+    "id": "okigwe-uturu",
+    "name": "Okigwe - Uturu Road",
+    "alias": null,
+    "states": [
+      "Imo",
+      "Abia"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Poor road sections"
+    ],
+    "description": "Accidents and armed robberies.",
+    "alternative": "Exercise extreme caution"
+  },
+  {
+    "id": "ihiala-okigwe",
+    "name": "Ihiala - Okigwe Road",
+    "alias": null,
+    "states": [
+      "Anambra",
+      "Imo"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Forest areas"
+    ],
+    "description": "Southeast separatist activity zone.",
+    "alternative": "Travel in daylight"
+  },
+  {
+    "id": "east-west-highway",
+    "name": "East-West Highway",
+    "alias": "Niger Delta Highway",
+    "states": [
+      "Delta",
+      "Bayelsa",
+      "Rivers",
+      "Akwa Ibom"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Benin Bypass",
+      "Warri-Port Harcourt section"
+    ],
+    "description": "Poor road conditions enable attacks.",
+    "alternative": "Fly between major cities"
+  },
+  {
+    "id": "zaria-kaduna",
+    "name": "Zaria - Kaduna Highway",
+    "alias": null,
+    "states": [
+      "Kaduna"
+    ],
+    "risk_level": "HIGH",
+    "danger_zones": [
+      "Entire route"
+    ],
+    "description": "Connected to bandit territory.",
+    "alternative": "Travel in convoy, daylight only"
+  }
+]

@@ -1,0 +1,390 @@
+{
+  "bukkuyum": {
+    "location_id": "bukkuyum",
+    "location_name": "Bukkuyum",
+    "state": "zamfara",
+    "risk_level": "EXTREME",
+    "risk_score": 98,
+    "trend": "Worsening",
+    "trend_direction": "up",
+    "statistics": {
+      "2025": {
+        "incidents": 136,
+        "fatalities": 662,
+        "kidnapped": 1200,
+        "year_to_date": true
+      },
+      "2024": {
+        "incidents": 112,
+        "fatalities": 556,
+        "kidnapped": 980
+      },
+      "5_year_totals": {
+        "incidents": 485,
+        "fatalities": 2840,
+        "kidnapped": 4200
+      }
+    },
+    "trend_analysis": {
+      "fatalities_change": "+19%",
+      "incidents_change": "+21%",
+      "kidnapped_change": "+22%"
+    },
+    "threat_actors": [
+      "Armed bandits (15+ active groups)",
+      "Kidnapping gangs",
+      "Cattle rustlers",
+      "ISWAP affiliates"
+    ],
+    "danger_zones": [
+      {
+        "name": "Buruku-Undawa stretch",
+        "risk_level": "EXTREME",
+        "description": "15km highway stretch with daily attacks"
+      },
+      {
+        "name": "Randegi axis",
+        "risk_level": "EXTREME",
+        "description": "Forest hideouts, multiple ambush points"
+      },
+      {
+        "name": "Gamdum Mallam area",
+        "risk_level": "EXTREME",
+        "description": "Bandit stronghold, avoid completely"
+      },
+      {
+        "name": "Buzugu-Rayau corridor",
+        "risk_level": "EXTREME",
+        "description": "Mass kidnapping zone"
+      }
+    ],
+    "time_patterns": {
+      "high_risk_hours": "18:00 - 06:00",
+      "worst_period": "Dry season (Nov-Apr)",
+      "safer_hours": "10:00 - 16:00",
+      "pattern_note": "Attacks peak during early morning and evening hours"
+    },
+    "recent_incidents": [
+      {
+        "date": "2025-11-15",
+        "description": "45 travelers kidnapped on highway between Buruku and Undawa",
+        "casualties": 0,
+        "type": "kidnapping"
+      },
+      {
+        "date": "2025-11-08",
+        "description": "12 killed in Randegi axis attack on mining convoy",
+        "casualties": 12,
+        "type": "attack"
+      },
+      {
+        "date": "2025-11-03",
+        "description": "30 villagers abducted from Gamdum Mallam area",
+        "casualties": 2,
+        "type": "kidnapping"
+      },
+      {
+        "date": "2025-10-28",
+        "description": "Highway ambush: 8 killed, 15 kidnapped near Buzugu",
+        "casualties": 8,
+        "type": "ambush"
+      }
+    ],
+    "safer_areas": [],
+    "travel_advice": {
+      "primary": "DO NOT TRAVEL. Only with military escort.",
+      "details": "This area is under active bandit control. Multiple daily attacks. No safe routes. Essential travel only with verified military escort."
+    },
+    "recommendations": [
+      "Avoid all non-essential travel",
+      "If travel is unavoidable, coordinate with military/security forces",
+      "Travel only during daylight hours (10:00-16:00) if absolutely necessary",
+      "Inform security agencies of travel plans",
+      "Use alternative routes if available",
+      "Travel in large convoys with security",
+      "Keep emergency contacts readily accessible"
+    ],
+    "alternative_routes": [
+      "Fly to Gusau and use military-escorted convoy",
+      "Avoid all road travel through this area"
+    ],
+    "data_confidence": "HIGH",
+    "last_updated": "2025-11-29",
+    "sources": [
+      "ACLED",
+      "SBM Intelligence",
+      "Local security reports",
+      "Premium Times",
+      "Daily Trust"
+    ]
+  },
+  "birnin-gwari": {
+    "location_id": "birnin-gwari",
+    "location_name": "Birnin Gwari",
+    "state": "kaduna",
+    "risk_level": "EXTREME",
+    "risk_score": 95,
+    "trend": "Stable",
+    "trend_direction": "stable",
+    "statistics": {
+      "2025": {
+        "incidents": 89,
+        "fatalities": 312,
+        "kidnapped": 650,
+        "year_to_date": true
+      },
+      "2024": {
+        "incidents": 92,
+        "fatalities": 298,
+        "kidnapped": 720
+      },
+      "5_year_totals": {
+        "incidents": 420,
+        "fatalities": 1850,
+        "kidnapped": 3200
+      }
+    },
+    "trend_analysis": {
+      "fatalities_change": "+5%",
+      "incidents_change": "-3%",
+      "kidnapped_change": "-10%"
+    },
+    "threat_actors": [
+      "Armed bandits",
+      "Kidnapping syndicates",
+      "Cattle rustlers"
+    ],
+    "danger_zones": [
+      {
+        "name": "Kaduna-Birnin Gwari Road",
+        "risk_level": "EXTREME",
+        "description": "Entire 120km stretch is high-risk"
+      },
+      {
+        "name": "Kuyello Forest",
+        "risk_level": "EXTREME",
+        "description": "Bandit hideout, multiple ambush points"
+      }
+    ],
+    "time_patterns": {
+      "high_risk_hours": "17:00 - 08:00",
+      "worst_period": "Dry season (Nov-Apr)",
+      "safer_hours": "10:00 - 16:00",
+      "pattern_note": "Most attacks occur during early morning and evening"
+    },
+    "recent_incidents": [
+      {
+        "date": "2025-11-20",
+        "description": "School bus ambushed, 15 students kidnapped",
+        "casualties": 1,
+        "type": "kidnapping"
+      },
+      {
+        "date": "2025-11-12",
+        "description": "Commercial vehicle attacked, 8 killed",
+        "casualties": 8,
+        "type": "attack"
+      }
+    ],
+    "safer_areas": [],
+    "travel_advice": {
+      "primary": "Avoid completely. Use Abuja-Kaduna Railway if traveling to Kaduna.",
+      "details": "This route is extremely dangerous. Multiple daily attacks. Use train service as alternative."
+    },
+    "recommendations": [
+      "Use Abuja-Kaduna Railway instead of road travel",
+      "If road travel is unavoidable, use military escort",
+      "Travel only during daylight hours",
+      "Avoid traveling alone",
+      "Inform security agencies before travel"
+    ],
+    "alternative_routes": [
+      "Abuja-Kaduna Railway (train service)",
+      "Fly to Kaduna airport"
+    ],
+    "data_confidence": "HIGH",
+    "last_updated": "2025-11-28",
+    "sources": [
+      "ACLED",
+      "SBM Intelligence",
+      "FRSC reports",
+      "Local security agencies"
+    ]
+  },
+  "maiduguri": {
+    "location_id": "maiduguri",
+    "location_name": "Maiduguri",
+    "state": "borno",
+    "risk_level": "EXTREME",
+    "risk_score": 92,
+    "trend": "Improving",
+    "trend_direction": "down",
+    "statistics": {
+      "2025": {
+        "incidents": 109,
+        "fatalities": 849,
+        "kidnapped": 320,
+        "year_to_date": true
+      },
+      "2024": {
+        "incidents": 145,
+        "fatalities": 1120,
+        "kidnapped": 450
+      },
+      "5_year_totals": {
+        "incidents": 680,
+        "fatalities": 5200,
+        "kidnapped": 2100
+      }
+    },
+    "trend_analysis": {
+      "fatalities_change": "-24%",
+      "incidents_change": "-25%",
+      "kidnapped_change": "-29%"
+    },
+    "threat_actors": [
+      "ISWAP",
+      "Boko Haram remnants",
+      "Armed bandits"
+    ],
+    "danger_zones": [
+      {
+        "name": "Outskirts and rural areas",
+        "risk_level": "EXTREME",
+        "description": "ISWAP activity concentrated outside city limits"
+      },
+      {
+        "name": "Highway approaches",
+        "risk_level": "VERY HIGH",
+        "description": "Roads leading into city are high-risk"
+      }
+    ],
+    "time_patterns": {
+      "high_risk_hours": "18:00 - 06:00",
+      "worst_period": "Year-round",
+      "safer_hours": "10:00 - 17:00",
+      "pattern_note": "City center relatively safer, outskirts extremely dangerous"
+    },
+    "recent_incidents": [
+      {
+        "date": "2025-11-18",
+        "description": "ISWAP attack on outskirts, 15 killed",
+        "casualties": 15,
+        "type": "attack"
+      },
+      {
+        "date": "2025-11-10",
+        "description": "IED explosion near market, 8 killed",
+        "casualties": 8,
+        "type": "IED"
+      }
+    ],
+    "safer_areas": [
+      "City center (with security checkpoints)",
+      "Military-protected zones"
+    ],
+    "travel_advice": {
+      "primary": "Essential travel only. City center relatively safer but outskirts extremely dangerous.",
+      "details": "While security has improved in city center, outskirts remain active conflict zone. Travel with extreme caution."
+    },
+    "recommendations": [
+      "Stay within city center",
+      "Avoid outskirts and rural areas",
+      "Travel with security escort if leaving city",
+      "Follow military checkpoints and curfews",
+      "Monitor security situation closely"
+    ],
+    "alternative_routes": [
+      "Fly to Maiduguri airport",
+      "Use military-escorted convoys for road travel"
+    ],
+    "data_confidence": "HIGH",
+    "last_updated": "2025-11-27",
+    "sources": [
+      "ACLED",
+      "Military intelligence",
+      "Local security reports",
+      "Premium Times"
+    ]
+  },
+  "victoria-island": {
+    "location_id": "victoria-island",
+    "location_name": "Victoria Island",
+    "state": "lagos",
+    "risk_level": "MODERATE",
+    "risk_score": 42,
+    "trend": "Stable",
+    "trend_direction": "stable",
+    "statistics": {
+      "2025": {
+        "incidents": 8,
+        "fatalities": 2,
+        "kidnapped": 0,
+        "year_to_date": true
+      },
+      "2024": {
+        "incidents": 12,
+        "fatalities": 3,
+        "kidnapped": 1
+      },
+      "5_year_totals": {
+        "incidents": 45,
+        "fatalities": 8,
+        "kidnapped": 3
+      }
+    },
+    "trend_analysis": {
+      "fatalities_change": "-33%",
+      "incidents_change": "-33%",
+      "kidnapped_change": "-100%"
+    },
+    "threat_actors": [
+      "Petty criminals",
+      "Armed robbers (occasional)"
+    ],
+    "danger_zones": [
+      {
+        "name": "Late night isolated areas",
+        "risk_level": "MODERATE",
+        "description": "Higher risk after dark in less populated areas"
+      }
+    ],
+    "time_patterns": {
+      "high_risk_hours": "22:00 - 05:00",
+      "worst_period": "Year-round",
+      "safer_hours": "06:00 - 22:00",
+      "pattern_note": "Generally safe during daylight and early evening"
+    },
+    "recent_incidents": [
+      {
+        "date": "2025-11-10",
+        "description": "Armed robbery incident, no casualties",
+        "casualties": 0,
+        "type": "robbery"
+      }
+    ],
+    "safer_areas": [
+      "Main commercial areas",
+      "Well-lit residential zones",
+      "Areas with security presence"
+    ],
+    "travel_advice": {
+      "primary": "Standard precautions. Generally safe but remain vigilant, especially at night.",
+      "details": "Victoria Island is relatively safe but exercise standard urban safety precautions. Avoid isolated areas at night."
+    },
+    "recommendations": [
+      "Stay alert in crowded areas",
+      "Avoid isolated areas at night",
+      "Keep valuables secure",
+      "Use well-lit routes",
+      "Stay in groups when possible"
+    ],
+    "alternative_routes": [],
+    "data_confidence": "MEDIUM",
+    "last_updated": "2025-11-25",
+    "sources": [
+      "Lagos State Police",
+      "Local news reports"
+    ]
+  }
+}

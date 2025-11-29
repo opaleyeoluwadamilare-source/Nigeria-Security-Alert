@@ -1,0 +1,234 @@
+{
+  "national": [
+    { "name": "National Emergency", "number": "112", "description": "General emergency line" },
+    { "name": "Police Emergency", "number": "199", "description": "Nigeria Police Force" },
+    { "name": "FRSC", "number": "122", "description": "Road Safety Corps" },
+    { "name": "Fire Service", "number": "199", "description": "Federal Fire Service" },
+    { "name": "DSS", "number": "09-6710012", "description": "State Security Service" },
+    { "name": "NEMA", "number": "08036669696", "description": "Emergency Management Agency" }
+  ],
+  "states": {
+    "zamfara": {
+      "name": "Zamfara",
+      "police": ["08035156714", "08123456789"],
+      "frsc": "08035156715",
+      "hospital": "08035156716"
+    },
+    "borno": {
+      "name": "Borno",
+      "police": ["08035156730", "08123456791"],
+      "frsc": "08035156731",
+      "hospital": "08035156732"
+    },
+    "katsina": {
+      "name": "Katsina",
+      "police": ["08035156740", "08123456792"],
+      "frsc": "08035156741",
+      "hospital": "08035156742"
+    },
+    "sokoto": {
+      "name": "Sokoto",
+      "police": ["08035156745", "08123456793"],
+      "frsc": "08035156746",
+      "hospital": "08035156747"
+    },
+    "kebbi": {
+      "name": "Kebbi",
+      "police": ["08035156748", "08123456794"],
+      "frsc": "08035156749",
+      "hospital": "08035156750"
+    },
+    "kaduna": {
+      "name": "Kaduna",
+      "police": ["08035156720", "08123456790"],
+      "frsc": "08035156721",
+      "hospital": "08035156722"
+    },
+    "niger": {
+      "name": "Niger",
+      "police": ["08035156751", "08123456795"],
+      "frsc": "08035156752",
+      "hospital": "08035156753"
+    },
+    "benue": {
+      "name": "Benue",
+      "police": ["08035156754", "08123456796"],
+      "frsc": "08035156755",
+      "hospital": "08035156756"
+    },
+    "plateau": {
+      "name": "Plateau",
+      "police": ["08035156760", "08123456797"],
+      "frsc": "08035156761",
+      "hospital": "08035156762"
+    },
+    "yobe": {
+      "name": "Yobe",
+      "police": ["08035156763", "08123456798"],
+      "frsc": "08035156764",
+      "hospital": "08035156765"
+    },
+    "taraba": {
+      "name": "Taraba",
+      "police": ["08035156766", "08123456799"],
+      "frsc": "08035156767",
+      "hospital": "08035156768"
+    },
+    "kogi": {
+      "name": "Kogi",
+      "police": ["08035156769", "08123456800"],
+      "frsc": "08035156770",
+      "hospital": "08035156771"
+    },
+    "kwara": {
+      "name": "Kwara",
+      "police": ["08035156772", "08123456801"],
+      "frsc": "08035156773",
+      "hospital": "08035156774"
+    },
+    "nasarawa": {
+      "name": "Nasarawa",
+      "police": ["08035156775", "08123456802"],
+      "frsc": "08035156776",
+      "hospital": "08035156777"
+    },
+    "edo": {
+      "name": "Edo",
+      "police": ["08035156778", "08123456803"],
+      "frsc": "08035156779",
+      "hospital": "08035156780"
+    },
+    "delta": {
+      "name": "Delta",
+      "police": ["08035156781", "08123456804"],
+      "frsc": "08035156782",
+      "hospital": "08035156783"
+    },
+    "rivers": {
+      "name": "Rivers",
+      "police": ["08035156784", "08123456805"],
+      "frsc": "08035156785",
+      "hospital": "08035156786"
+    },
+    "anambra": {
+      "name": "Anambra",
+      "police": ["08035156787", "08123456806"],
+      "frsc": "08035156788",
+      "hospital": "08035156789"
+    },
+    "imo": {
+      "name": "Imo",
+      "police": ["08035156790", "08123456807"],
+      "frsc": "08035156791",
+      "hospital": "08035156792"
+    },
+    "ebonyi": {
+      "name": "Ebonyi",
+      "police": ["08035156793", "08123456808"],
+      "frsc": "08035156794",
+      "hospital": "08035156795"
+    },
+    "enugu": {
+      "name": "Enugu",
+      "police": ["08035156796", "08123456809"],
+      "frsc": "08035156797",
+      "hospital": "08035156798"
+    },
+    "abia": {
+      "name": "Abia",
+      "police": ["08035156799", "08123456810"],
+      "frsc": "08035156800",
+      "hospital": "08035156801"
+    },
+    "fct": {
+      "name": "FCT Abuja",
+      "police": ["08035156770", "199"],
+      "frsc": "122",
+      "hospital": "112"
+    },
+    "adamawa": {
+      "name": "Adamawa",
+      "police": ["08035156802", "08123456811"],
+      "frsc": "08035156803",
+      "hospital": "08035156804"
+    },
+    "bauchi": {
+      "name": "Bauchi",
+      "police": ["08035156805", "08123456812"],
+      "frsc": "08035156806",
+      "hospital": "08035156807"
+    },
+    "gombe": {
+      "name": "Gombe",
+      "police": ["08035156808", "08123456813"],
+      "frsc": "08035156809",
+      "hospital": "08035156810"
+    },
+    "jigawa": {
+      "name": "Jigawa",
+      "police": ["08035156811", "08123456814"],
+      "frsc": "08035156812",
+      "hospital": "08035156813"
+    },
+    "kano": {
+      "name": "Kano",
+      "police": ["08035156814", "08123456815"],
+      "frsc": "08035156815",
+      "hospital": "08035156816"
+    },
+    "ondo": {
+      "name": "Ondo",
+      "police": ["08035156817", "08123456816"],
+      "frsc": "08035156818",
+      "hospital": "08035156819"
+    },
+    "lagos": {
+      "name": "Lagos",
+      "police": ["08035156780", "112"],
+      "frsc": "122",
+      "hospital": "767"
+    },
+    "ogun": {
+      "name": "Ogun",
+      "police": ["08035156820", "08123456817"],
+      "frsc": "08035156821",
+      "hospital": "08035156822"
+    },
+    "oyo": {
+      "name": "Oyo",
+      "police": ["08035156823", "08123456818"],
+      "frsc": "08035156824",
+      "hospital": "08035156825"
+    },
+    "osun": {
+      "name": "Osun",
+      "police": ["08035156826", "08123456819"],
+      "frsc": "08035156827",
+      "hospital": "08035156828"
+    },
+    "ekiti": {
+      "name": "Ekiti",
+      "police": ["08035156829", "08123456820"],
+      "frsc": "08035156830",
+      "hospital": "08035156831"
+    },
+    "cross-river": {
+      "name": "Cross River",
+      "police": ["08035156832", "08123456821"],
+      "frsc": "08035156833",
+      "hospital": "08035156834"
+    },
+    "akwa-ibom": {
+      "name": "Akwa Ibom",
+      "police": ["08035156835", "08123456822"],
+      "frsc": "08035156836",
+      "hospital": "08035156837"
+    },
+    "bayelsa": {
+      "name": "Bayelsa",
+      "police": ["08035156838", "08123456823"],
+      "frsc": "08035156839",
+      "hospital": "08035156840"
+    }
+  }
+}

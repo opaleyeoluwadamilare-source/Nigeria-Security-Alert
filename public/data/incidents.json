@@ -1,0 +1,134 @@
+[
+  {
+    "id": "1",
+    "date": "2025-11-25",
+    "location": "Rafi LGA",
+    "state": "Niger",
+    "lgaSlug": "rafi",
+    "description": "Armed bandits kidnapped 315 students from Government Secondary School Papiri in a coordinated attack.",
+    "casualties": 0,
+    "type": "kidnapping",
+    "source": "Local Reports"
+  },
+  {
+    "id": "2",
+    "date": "2025-11-15",
+    "location": "Bukkuyum LGA",
+    "state": "Zamfara",
+    "lgaSlug": "bukkuyum",
+    "description": "Bandits attacked Gamdum Mallam, Buzugu, and Rayau villages. Mass kidnappings reported.",
+    "casualties": 47,
+    "type": "attack",
+    "source": "ACLED"
+  },
+  {
+    "id": "3",
+    "date": "2025-11-12",
+    "location": "Danko-Wasagu LGA",
+    "state": "Kebbi",
+    "lgaSlug": "danko-wasagu",
+    "description": "Lakurawa terrorists attacked Maga school, kidnapping students and killing teachers.",
+    "casualties": 12,
+    "type": "attack",
+    "source": "ACLED"
+  },
+  {
+    "id": "4",
+    "date": "2025-11-10",
+    "location": "Ekiti LGA",
+    "state": "Kwara",
+    "lgaSlug": "ekiti-kwara",
+    "description": "JNIM-linked militants raided Isapa community, killing residents and burning houses.",
+    "casualties": 8,
+    "type": "attack",
+    "source": "ACLED"
+  },
+  {
+    "id": "5",
+    "date": "2025-10-28",
+    "location": "Kaita LGA",
+    "state": "Katsina",
+    "lgaSlug": "kaita",
+    "description": "Gidan Mantau massacre - armed bandits attacked the village killing 45 people.",
+    "casualties": 45,
+    "type": "attack",
+    "source": "ACLED"
+  },
+  {
+    "id": "6",
+    "date": "2025-09-15",
+    "location": "Bayo LGA",
+    "state": "Borno",
+    "lgaSlug": "bayo",
+    "description": "Darul Jamal massacre - Boko Haram attacked the village during a funeral, killing 67.",
+    "casualties": 67,
+    "type": "insurgency",
+    "source": "ACLED"
+  },
+  {
+    "id": "7",
+    "date": "2025-07-20",
+    "location": "Tangaza LGA",
+    "state": "Sokoto",
+    "lgaSlug": "tangaza",
+    "description": "Kwallajiya massacre - bandits attacked killing 15 and kidnapping dozens.",
+    "casualties": 15,
+    "type": "attack",
+    "source": "Local Reports"
+  },
+  {
+    "id": "8",
+    "date": "2025-07-15",
+    "location": "Maru LGA",
+    "state": "Zamfara",
+    "lgaSlug": "maru",
+    "description": "Gobirawar Chali mining site attack. 34 miners killed by armed bandits.",
+    "casualties": 34,
+    "type": "attack",
+    "source": "ACLED"
+  },
+  {
+    "id": "9",
+    "date": "2025-06-10",
+    "location": "Guma LGA",
+    "state": "Benue",
+    "lgaSlug": "guma",
+    "description": "Yelewata and Daudu communities attacked by armed herders. 125 killed in coordinated assault.",
+    "casualties": 125,
+    "type": "communal",
+    "source": "ACLED"
+  },
+  {
+    "id": "10",
+    "date": "2025-05-20",
+    "location": "Marte LGA",
+    "state": "Borno",
+    "lgaSlug": "marte",
+    "description": "ISWAP overran military base in coordinated assault. Multiple soldiers killed.",
+    "casualties": 23,
+    "type": "insurgency",
+    "source": "ACLED"
+  },
+  {
+    "id": "11",
+    "date": "2025-04-12",
+    "location": "Bokkos LGA",
+    "state": "Plateau",
+    "lgaSlug": "bokkos",
+    "description": "Daffo, Gwande, and Hurti villages attacked. Multiple casualties in coordinated assault.",
+    "casualties": 28,
+    "type": "communal",
+    "source": "Local Reports"
+  },
+  {
+    "id": "12",
+    "date": "2025-03-25",
+    "location": "Birnin Gwari LGA",
+    "state": "Kaduna",
+    "lgaSlug": "birnin-gwari",
+    "description": "Weekly bandit attack on farming communities. Kidnappings and killings reported.",
+    "casualties": 19,
+    "type": "attack",
+    "source": "ACLED"
+  }
+]

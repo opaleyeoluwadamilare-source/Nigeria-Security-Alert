@@ -1,0 +1,826 @@
+[
+  {
+    "id": "zamfara",
+    "name": "Zamfara",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "borno",
+    "name": "Borno",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "katsina",
+    "name": "Katsina",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "sokoto",
+    "name": "Sokoto",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kebbi",
+    "name": "Kebbi",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kaduna",
+    "name": "Kaduna",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "niger",
+    "name": "Niger",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "benue",
+    "name": "Benue",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "plateau",
+    "name": "Plateau",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "yobe",
+    "name": "Yobe",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "taraba",
+    "name": "Taraba",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "kogi",
+    "name": "Kogi",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "kwara",
+    "name": "Kwara",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "nasarawa",
+    "name": "Nasarawa",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "edo",
+    "name": "Edo",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "delta",
+    "name": "Delta",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "rivers",
+    "name": "Rivers",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "anambra",
+    "name": "Anambra",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "imo",
+    "name": "Imo",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "ebonyi",
+    "name": "Ebonyi",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "enugu",
+    "name": "Enugu",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "abia",
+    "name": "Abia",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "fct",
+    "name": "FCT Abuja",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "adamawa",
+    "name": "Adamawa",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "bauchi",
+    "name": "Bauchi",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "gombe",
+    "name": "Gombe",
+    "type": "state",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "jigawa",
+    "name": "Jigawa",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "kano",
+    "name": "Kano",
+    "type": "state",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "ondo",
+    "name": "Ondo",
+    "type": "state",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "lagos",
+    "name": "Lagos",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "ogun",
+    "name": "Ogun",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "oyo",
+    "name": "Oyo",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "osun",
+    "name": "Osun",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "ekiti",
+    "name": "Ekiti",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "cross-river",
+    "name": "Cross River",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "akwa-ibom",
+    "name": "Akwa Ibom",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "bayelsa",
+    "name": "Bayelsa",
+    "type": "state",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "bukkuyum",
+    "name": "Bukkuyum",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "shinkafi",
+    "name": "Shinkafi",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "anka",
+    "name": "Anka",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "maru",
+    "name": "Maru",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "tsafe",
+    "name": "Tsafe",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "gusau",
+    "name": "Gusau",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "talataafara",
+    "name": "Talata Mafara",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "zurmi",
+    "name": "Zurmi",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "birnin-magaji",
+    "name": "Birnin Magaji",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "maradun",
+    "name": "Maradun",
+    "state": "zamfara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "safana",
+    "name": "Safana",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kurfi",
+    "name": "Kurfi",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kaita",
+    "name": "Kaita",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "faskari",
+    "name": "Faskari",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "jibia",
+    "name": "Jibia",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "batsari",
+    "name": "Batsari",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "danmusa",
+    "name": "Danmusa",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kankara",
+    "name": "Kankara",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "bakori",
+    "name": "Bakori",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "dutsinma",
+    "name": "Dutsinma",
+    "state": "katsina",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "damboa",
+    "name": "Damboa",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "jere",
+    "name": "Jere",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kaga",
+    "name": "Kaga",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "konduga",
+    "name": "Konduga",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "marte",
+    "name": "Marte",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "dikwa",
+    "name": "Dikwa",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "bayo",
+    "name": "Bayo",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "gwoza",
+    "name": "Gwoza",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "bama",
+    "name": "Bama",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "nganzai",
+    "name": "Nganzai",
+    "state": "borno",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "guma",
+    "name": "Guma",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "logo",
+    "name": "Logo",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "ukum",
+    "name": "Ukum",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "kwande",
+    "name": "Kwande",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "makurdi",
+    "name": "Makurdi",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "agatu",
+    "name": "Agatu",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "gwer-west",
+    "name": "Gwer West",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "katsina-ala",
+    "name": "Katsina-Ala",
+    "state": "benue",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "bokkos",
+    "name": "Bokkos",
+    "state": "plateau",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "barkin-ladi",
+    "name": "Barkin Ladi",
+    "state": "plateau",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "mangu",
+    "name": "Mangu",
+    "state": "plateau",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "riyom",
+    "name": "Riyom",
+    "state": "plateau",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "jos-south",
+    "name": "Jos South",
+    "state": "plateau",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "bassa",
+    "name": "Bassa",
+    "state": "plateau",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "birnin-gwari",
+    "name": "Birnin Gwari",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "giwa",
+    "name": "Giwa",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "igabi",
+    "name": "Igabi",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "chikun",
+    "name": "Chikun",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "kajuru",
+    "name": "Kajuru",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "kachia",
+    "name": "Kachia",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "zangon-kataf",
+    "name": "Zangon Kataf",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "sanga",
+    "name": "Sanga",
+    "state": "kaduna",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "rafi",
+    "name": "Rafi",
+    "state": "niger",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "shiroro",
+    "name": "Shiroro",
+    "state": "niger",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "munya",
+    "name": "Munya",
+    "state": "niger",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "paikoro",
+    "name": "Paikoro",
+    "state": "niger",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "gurara",
+    "name": "Gurara",
+    "state": "niger",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "bosso",
+    "name": "Bosso",
+    "state": "niger",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "tangaza",
+    "name": "Tangaza",
+    "state": "sokoto",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "isa",
+    "name": "Isa",
+    "state": "sokoto",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "sabon-birni",
+    "name": "Sabon Birni",
+    "state": "sokoto",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "rabah",
+    "name": "Rabah",
+    "state": "sokoto",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "illela",
+    "name": "Illela",
+    "state": "sokoto",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "goronyo",
+    "name": "Goronyo",
+    "state": "sokoto",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "danko-wasagu",
+    "name": "Danko-Wasagu",
+    "state": "kebbi",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "zuru",
+    "name": "Zuru",
+    "state": "kebbi",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "sakaba",
+    "name": "Sakaba",
+    "state": "kebbi",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "argungu",
+    "name": "Argungu",
+    "state": "kebbi",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "ekiti-kwara",
+    "name": "Ekiti",
+    "state": "kwara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "isin",
+    "name": "Isin",
+    "state": "kwara",
+    "type": "lga",
+    "risk_level": "EXTREME"
+  },
+  {
+    "id": "ifelodun",
+    "name": "Ifelodun",
+    "state": "kwara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "edu",
+    "name": "Edu",
+    "state": "kwara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "kaiama",
+    "name": "Kaiama",
+    "state": "kwara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "baruten",
+    "name": "Baruten",
+    "state": "kwara",
+    "type": "lga",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "victoria-island",
+    "name": "Victoria Island",
+    "state": "lagos",
+    "type": "area",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "lekki",
+    "name": "Lekki",
+    "state": "lagos",
+    "type": "area",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "ikeja",
+    "name": "Ikeja",
+    "state": "lagos",
+    "type": "city",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "festac",
+    "name": "Festac",
+    "state": "lagos",
+    "type": "area",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "maitama",
+    "name": "Maitama",
+    "state": "fct",
+    "type": "area",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "wuse",
+    "name": "Wuse",
+    "state": "fct",
+    "type": "area",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "gwarinpa",
+    "name": "Gwarinpa",
+    "state": "fct",
+    "type": "area",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "kubwa",
+    "name": "Kubwa",
+    "state": "fct",
+    "type": "area",
+    "risk_level": "HIGH"
+  },
+  {
+    "id": "port-harcourt",
+    "name": "Port Harcourt",
+    "state": "rivers",
+    "type": "city",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "ibadan",
+    "name": "Ibadan",
+    "state": "oyo",
+    "type": "city",
+    "risk_level": "MODERATE"
+  },
+  {
+    "id": "kano",
+    "name": "Kano",
+    "state": "kano",
+    "type": "city",
+    "risk_level": "VERY HIGH"
+  },
+  {
+    "id": "enugu",
+    "name": "Enugu",
+    "state": "enugu",
+    "type": "city",
+    "risk_level": "HIGH"
+  }
+]

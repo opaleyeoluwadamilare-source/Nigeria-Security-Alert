@@ -1,0 +1,53 @@
+{
+  "EXTREME": {
+    "summary": "Avoid this route if possible",
+    "recommendations": [
+      "Strongly consider alternative routes or transportation",
+      "If travel is essential, arrange security escort",
+      "Inform family of travel plans and check-in times",
+      "Travel only in convoy during daylight hours (7AM-11AM)",
+      "Keep emergency contacts saved and accessible"
+    ],
+    "travel_advisory": "Non-essential travel is strongly discouraged"
+  },
+  "VERY HIGH": {
+    "summary": "Essential travel only",
+    "recommendations": [
+      "Travel only if absolutely necessary",
+      "Travel during daylight hours only (7AM-4PM)",
+      "Travel in convoy when possible",
+      "Share your travel itinerary with family",
+      "Keep emergency numbers ready"
+    ],
+    "travel_advisory": "Exercise extreme caution if travel is unavoidable"
+  },
+  "HIGH": {
+    "summary": "Exercise caution",
+    "recommendations": [
+      "Be vigilant throughout your journey",
+      "Avoid traveling at night",
+      "Keep valuables out of sight",
+      "Stay on main roads",
+      "Have emergency contacts ready"
+    ],
+    "travel_advisory": "Travel with caution and stay alert"
+  },
+  "MODERATE": {
+    "summary": "Standard precautions",
+    "recommendations": [
+      "Stay aware of your surroundings",
+      "Avoid isolated areas at night",
+      "Keep emergency contacts accessible",
+      "Follow local news for updates"
+    ],
+    "travel_advisory": "Normal travel with standard precautions"
+  },
+  "LOW": {
+    "summary": "Normal safety awareness",
+    "recommendations": [
+      "Maintain general awareness",
+      "Follow standard safety practices"
+    ],
+    "travel_advisory": "No specific travel concerns"
+  }
+}

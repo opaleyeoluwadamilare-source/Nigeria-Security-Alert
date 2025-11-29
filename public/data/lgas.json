@@ -1,0 +1,668 @@
+[
+  {
+    "id": "bukkuyum",
+    "name": "Bukkuyum",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "10+",
+    "description": "Gamdum Mallam, Buzugu, Rayau attacks. Mass kidnappings."
+  },
+  {
+    "id": "shinkafi",
+    "name": "Shinkafi",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "8+",
+    "description": "Gana village mass kidnappings. 40+ taken in single incident."
+  },
+  {
+    "id": "anka",
+    "name": "Anka",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Regular bandit attacks. Mining sites targeted."
+  },
+  {
+    "id": "maru",
+    "name": "Maru",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "34 killed July 2025. Gobirawar Chali mining attack."
+  },
+  {
+    "id": "tsafe",
+    "name": "Tsafe",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Yandoto mosque attack. Highway danger zone."
+  },
+  {
+    "id": "gusau",
+    "name": "Gusau",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "State capital but councillors kidnapped. Not safe."
+  },
+  {
+    "id": "talataafara",
+    "name": "Talata Mafara",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Jangebe area attacks. 9 killed, 100+ kidnapped July 2025."
+  },
+  {
+    "id": "zurmi",
+    "name": "Zurmi",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Border with Katsina. Active bandit corridor."
+  },
+  {
+    "id": "birnin-magaji",
+    "name": "Birnin Magaji",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Regular attacks reported."
+  },
+  {
+    "id": "maradun",
+    "name": "Maradun",
+    "state": "zamfara",
+    "state_name": "Zamfara",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Active bandit presence."
+  },
+  {
+    "id": "safana",
+    "name": "Safana",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "10+",
+    "description": "21 fighters killed Jan 2025. Baure village ambush."
+  },
+  {
+    "id": "kurfi",
+    "name": "Kurfi",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Multiple coordinated attacks."
+  },
+  {
+    "id": "kaita",
+    "name": "Kaita",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Gidan Mantau massacre Oct 2025. 45 killed."
+  },
+  {
+    "id": "faskari",
+    "name": "Faskari",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Counter-operation July 2025. Active zone."
+  },
+  {
+    "id": "jibia",
+    "name": "Jibia",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Niger border. Highway attacks common."
+  },
+  {
+    "id": "batsari",
+    "name": "Batsari",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Regular attacks reported."
+  },
+  {
+    "id": "danmusa",
+    "name": "Danmusa",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Active bandit camps nearby."
+  },
+  {
+    "id": "kankara",
+    "name": "Kankara",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "2020 school kidnapping area. Still dangerous."
+  },
+  {
+    "id": "bakori",
+    "name": "Bakori",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "HIGH",
+    "incidents_2025": "3+",
+    "description": "Nov 2025 Doguwar Dorawa attack. 2 leaders killed."
+  },
+  {
+    "id": "dutsinma",
+    "name": "Dutsinma",
+    "state": "katsina",
+    "state_name": "Katsina",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Highway attacks on major route."
+  },
+  {
+    "id": "damboa",
+    "name": "Damboa",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "10+",
+    "description": "Timbuktu Triangle. JAS stronghold."
+  },
+  {
+    "id": "jere",
+    "name": "Jere",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Timbuktu Triangle area."
+  },
+  {
+    "id": "kaga",
+    "name": "Kaga",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Timbuktu Triangle area."
+  },
+  {
+    "id": "konduga",
+    "name": "Konduga",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Timbuktu Triangle area."
+  },
+  {
+    "id": "marte",
+    "name": "Marte",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "ISWAP overran military base May 2025."
+  },
+  {
+    "id": "dikwa",
+    "name": "Dikwa",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "3+",
+    "description": "ISWAP assault May 2025."
+  },
+  {
+    "id": "bayo",
+    "name": "Bayo",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "2+",
+    "description": "Darul Jamal massacre Sept 2025. 67 killed."
+  },
+  {
+    "id": "gwoza",
+    "name": "Gwoza",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Former Boko Haram caliphate HQ."
+  },
+  {
+    "id": "bama",
+    "name": "Bama",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Border with Cameroon. ISWAP presence."
+  },
+  {
+    "id": "nganzai",
+    "name": "Nganzai",
+    "state": "borno",
+    "state_name": "Borno",
+    "risk_level": "HIGH",
+    "incidents_2025": "2+",
+    "description": "Police station attack Jan 2025."
+  },
+  {
+    "id": "guma",
+    "name": "Guma",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Yelewata/Daudu massacre June 2025. 125 killed."
+  },
+  {
+    "id": "logo",
+    "name": "Logo",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Regular herder attacks."
+  },
+  {
+    "id": "ukum",
+    "name": "Ukum",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Easter 2025 attacks."
+  },
+  {
+    "id": "kwande",
+    "name": "Kwande",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Herder violence."
+  },
+  {
+    "id": "makurdi",
+    "name": "Makurdi",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "State capital affected."
+  },
+  {
+    "id": "agatu",
+    "name": "Agatu",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Historical massacre site."
+  },
+  {
+    "id": "gwer-west",
+    "name": "Gwer West",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Regular attacks."
+  },
+  {
+    "id": "katsina-ala",
+    "name": "Katsina-Ala",
+    "state": "benue",
+    "state_name": "Benue",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Youth gang violence."
+  },
+  {
+    "id": "bokkos",
+    "name": "Bokkos",
+    "state": "plateau",
+    "state_name": "Plateau",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Daffo, Gwande, Hurti attacks March-April 2025."
+  },
+  {
+    "id": "barkin-ladi",
+    "name": "Barkin Ladi",
+    "state": "plateau",
+    "state_name": "Plateau",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Historical conflict zone."
+  },
+  {
+    "id": "mangu",
+    "name": "Mangu",
+    "state": "plateau",
+    "state_name": "Plateau",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Easter 2025 - 30+ killed."
+  },
+  {
+    "id": "riyom",
+    "name": "Riyom",
+    "state": "plateau",
+    "state_name": "Plateau",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Regular attacks."
+  },
+  {
+    "id": "jos-south",
+    "name": "Jos South",
+    "state": "plateau",
+    "state_name": "Plateau",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Urban-rural violence interface."
+  },
+  {
+    "id": "bassa",
+    "name": "Bassa",
+    "state": "plateau",
+    "state_name": "Plateau",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Regular attacks."
+  },
+  {
+    "id": "birnin-gwari",
+    "name": "Birnin Gwari",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Weekly",
+    "description": "THE RED ZONE. Most dangerous in Kaduna."
+  },
+  {
+    "id": "giwa",
+    "name": "Giwa",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Adjacent to Zamfara bandits."
+  },
+  {
+    "id": "igabi",
+    "name": "Igabi",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Abuja-Kaduna highway attacks."
+  },
+  {
+    "id": "chikun",
+    "name": "Chikun",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Train station area. Kidnappings."
+  },
+  {
+    "id": "kajuru",
+    "name": "Kajuru",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Communal violence."
+  },
+  {
+    "id": "kachia",
+    "name": "Kachia",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Highway junction attacks."
+  },
+  {
+    "id": "zangon-kataf",
+    "name": "Zangon Kataf",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "HIGH",
+    "incidents_2025": "Reduced",
+    "description": "Communal clashes reduced but tense."
+  },
+  {
+    "id": "sanga",
+    "name": "Sanga",
+    "state": "kaduna",
+    "state_name": "Kaduna",
+    "risk_level": "HIGH",
+    "incidents_2025": "Reduced",
+    "description": "Security improved but caution needed."
+  },
+  {
+    "id": "rafi",
+    "name": "Rafi",
+    "state": "niger",
+    "state_name": "Niger",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Papiri school kidnapping Nov 2025. 315 taken."
+  },
+  {
+    "id": "shiroro",
+    "name": "Shiroro",
+    "state": "niger",
+    "state_name": "Niger",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Gold mining area. Regular attacks."
+  },
+  {
+    "id": "munya",
+    "name": "Munya",
+    "state": "niger",
+    "state_name": "Niger",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "Adjacent to bandit territory."
+  },
+  {
+    "id": "paikoro",
+    "name": "Paikoro",
+    "state": "niger",
+    "state_name": "Niger",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Regular kidnappings."
+  },
+  {
+    "id": "gurara",
+    "name": "Gurara",
+    "state": "niger",
+    "state_name": "Niger",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Lambata-Izom road attacks."
+  },
+  {
+    "id": "bosso",
+    "name": "Bosso",
+    "state": "niger",
+    "state_name": "Niger",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Border area."
+  },
+  {
+    "id": "tangaza",
+    "name": "Tangaza",
+    "state": "sokoto",
+    "state_name": "Sokoto",
+    "risk_level": "EXTREME",
+    "incidents_2025": "3+",
+    "description": "Kwallajiya massacre July 2025. 15 killed."
+  },
+  {
+    "id": "isa",
+    "name": "Isa",
+    "state": "sokoto",
+    "state_name": "Sokoto",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "4 villages sacked May 2025."
+  },
+  {
+    "id": "sabon-birni",
+    "name": "Sabon Birni",
+    "state": "sokoto",
+    "state_name": "Sokoto",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "April 2025 attacks."
+  },
+  {
+    "id": "rabah",
+    "name": "Rabah",
+    "state": "sokoto",
+    "state_name": "Sokoto",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Border with Niger Republic."
+  },
+  {
+    "id": "illela",
+    "name": "Illela",
+    "state": "sokoto",
+    "state_name": "Sokoto",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Lakurawa presence."
+  },
+  {
+    "id": "goronyo",
+    "name": "Goronyo",
+    "state": "sokoto",
+    "state_name": "Sokoto",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Regular attacks."
+  },
+  {
+    "id": "danko-wasagu",
+    "name": "Danko-Wasagu",
+    "state": "kebbi",
+    "state_name": "Kebbi",
+    "risk_level": "EXTREME",
+    "incidents_2025": "5+",
+    "description": "Maga school attack Nov 2025. Lakurawa attacks March 2025."
+  },
+  {
+    "id": "zuru",
+    "name": "Zuru",
+    "state": "kebbi",
+    "state_name": "Kebbi",
+    "risk_level": "EXTREME",
+    "incidents_2025": "Multiple",
+    "description": "DakiTakwas-Zuru highway attacks."
+  },
+  {
+    "id": "sakaba",
+    "name": "Sakaba",
+    "state": "kebbi",
+    "state_name": "Kebbi",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Border area."
+  },
+  {
+    "id": "argungu",
+    "name": "Argungu",
+    "state": "kebbi",
+    "state_name": "Kebbi",
+    "risk_level": "HIGH",
+    "incidents_2025": "2+",
+    "description": "Natsini attack Jan 2025."
+  },
+  {
+    "id": "ekiti-kwara",
+    "name": "Ekiti",
+    "state": "kwara",
+    "state_name": "Kwara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "3+",
+    "description": "Eruku church attack. Isapa raid Nov 2025."
+  },
+  {
+    "id": "isin",
+    "name": "Isin",
+    "state": "kwara",
+    "state_name": "Kwara",
+    "risk_level": "EXTREME",
+    "incidents_2025": "2+",
+    "description": "Isanlu Isin Lakurawa raid Sept 2025."
+  },
+  {
+    "id": "ifelodun",
+    "name": "Ifelodun",
+    "state": "kwara",
+    "state_name": "Kwara",
+    "risk_level": "HIGH",
+    "incidents_2025": "2+",
+    "description": "Oke Ode attack. 12 killed."
+  },
+  {
+    "id": "edu",
+    "name": "Edu",
+    "state": "kwara",
+    "state_name": "Kwara",
+    "risk_level": "HIGH",
+    "incidents_2025": "2+",
+    "description": "Gada Woro, Gbugbu attacks."
+  },
+  {
+    "id": "kaiama",
+    "name": "Kaiama",
+    "state": "kwara",
+    "state_name": "Kwara",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Near Kainji. JNIM first attack area."
+  },
+  {
+    "id": "baruten",
+    "name": "Baruten",
+    "state": "kwara",
+    "state_name": "Kwara",
+    "risk_level": "HIGH",
+    "incidents_2025": "Multiple",
+    "description": "Benin border. Expansion zone."
+  }
+]

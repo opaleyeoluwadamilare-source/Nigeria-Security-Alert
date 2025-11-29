@@ -1,0 +1,78 @@
+{
+  "headline_stats": {
+    "deaths_2025": {
+      "value": "5,768+",
+      "label": "Deaths recorded in 2025",
+      "period": "January - June 2025",
+      "source": "CDD West Africa"
+    },
+    "dangerous_roads": {
+      "value": "36",
+      "label": "Dangerous roads mapped",
+      "source": "Multiple sources"
+    },
+    "high_risk_lgas": {
+      "value": "74",
+      "label": "High-risk LGAs identified",
+      "source": "ACLED, HRW, Amnesty"
+    }
+  },
+  "detailed_stats": {
+    "q1_2025": {
+      "period": "January - March 2025",
+      "source": "ACLED",
+      "total_incidents": 1137,
+      "total_deaths": 2760,
+      "incidents_with_fatalities": 559
+    },
+    "jan_jun_2025": {
+      "period": "January - June 2025",
+      "source": "CDD West Africa",
+      "total_deaths": 5768,
+      "percentage_of_west_africa": 44.5
+    },
+    "two_year_total": {
+      "period": "May 2023 - May 2025",
+      "source": "Amnesty International",
+      "total_deaths": 10217
+    },
+    "nbs_official": {
+      "period": "May 2023 - April 2024",
+      "source": "National Bureau of Statistics",
+      "total_deaths": 614937,
+      "total_kidnapped": 2235954,
+      "ransom_paid_naira": "2.2 trillion"
+    }
+  },
+  "key_facts": [
+    "Nigeria accounts for 44.5% of all violent deaths in West Africa",
+    "725 villages in Zamfara alone are under bandit control",
+    "12,000 people killed in Plateau State since 2001",
+    "6,896 killed in Benue State in just 2 years",
+    "Over 1,500 students kidnapped from schools since 2014",
+    "JNIM (Al-Qaeda) made first attack in Nigeria in October 2025"
+  ],
+  "last_updated": "November 28, 2025",
+  "data_sources": [
+    {
+      "name": "ACLED",
+      "full_name": "Armed Conflict Location & Event Data"
+    },
+    {
+      "name": "Human Rights Watch",
+      "full_name": "Human Rights Watch"
+    },
+    {
+      "name": "Amnesty International",
+      "full_name": "Amnesty International"
+    },
+    {
+      "name": "NBS",
+      "full_name": "National Bureau of Statistics, Nigeria"
+    },
+    {
+      "name": "CDD",
+      "full_name": "Centre for Democracy and Development West Africa"
+    }
+  ]
+}
