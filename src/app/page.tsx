@@ -178,19 +178,16 @@ export default function HomePage() {
             {/* Main Headline */}
             <motion.h1 
               variants={itemVariants}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-foreground leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-4 sm:mb-6 text-foreground leading-[1.1] sm:leading-tight px-2 sm:px-0"
             >
-              Know what&apos;s happening
-              <br />
-              <span className="text-foreground">
-                around you
-              </span>
+              <span className="block">Know what&apos;s happening</span>
+              <span className="block text-foreground">around you</span>
             </motion.h1>
             
             {/* Subheadline */}
             <motion.p 
               variants={itemVariants}
-              className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 font-light leading-relaxed"
+              className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-10 font-light leading-relaxed px-4 sm:px-6 md:px-0"
             >
               Check any area or route in Nigeria to stay informed and keep your loved ones safe.
             </motion.p>

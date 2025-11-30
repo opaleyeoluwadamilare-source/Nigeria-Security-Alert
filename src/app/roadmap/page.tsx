@@ -102,21 +102,21 @@ export default function RoadmapPage() {
     <div className="min-h-screen pb-20 w-full overflow-x-hidden">
       {/* Hero */}
       <div className="bg-muted/50 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                <Shield className="w-7 h-7 text-primary-foreground" />
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-xl flex items-center justify-center">
+                <Shield className="w-6 h-6 sm:w-7 sm:h-7 text-primary-foreground" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-2 sm:px-0 leading-tight">
               What We&apos;re Building
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4 sm:px-0 leading-relaxed">
               See what&apos;s available now and what&apos;s coming next to help keep you and your loved ones safe.
             </p>
           </motion.div>
@@ -167,10 +167,10 @@ export default function RoadmapPage() {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">Phase {phase.phase}</p>
-                          <h3 className="text-xl md:text-2xl font-bold">{phase.title}</h3>
+                      <div className="flex items-center justify-between mb-3 sm:mb-4 flex-wrap gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-1">Phase {phase.phase}</p>
+                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight">{phase.title}</h3>
                         </div>
                         <span className={`px-4 py-1.5 rounded-full text-xs font-semibold ${phase.badgeColor}`}>
                           {statusLabels[phase.status]}

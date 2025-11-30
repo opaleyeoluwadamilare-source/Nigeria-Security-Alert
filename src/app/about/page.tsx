@@ -38,30 +38,30 @@ export default function AboutPage() {
     <div className="min-h-screen pb-20 w-full overflow-x-hidden">
       {/* Hero */}
       <div className="bg-muted/50 border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4">
-              <Shield className="w-8 h-8 text-primary-foreground" />
+            <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-primary rounded-2xl mb-4">
+              <Shield className="w-7 h-7 sm:w-8 sm:h-8 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-3">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 px-2 sm:px-0 leading-tight">
               About Nigeria Security Alert
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
               Free security intelligence for all Nigerians
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-6"
+          className="space-y-4 sm:space-y-6"
         >
           {/* Mission */}
           <motion.div variants={itemVariants}>
@@ -70,9 +70,9 @@ export default function AboutPage() {
                 <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
                   <Target className="w-5 h-5 text-accent" />
                 </div>
-                <div>
-                  <h2 className="font-bold mb-2">Mission</h2>
-                  <p className="text-muted-foreground">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg font-bold mb-2">Mission</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                     Every Nigerian deserves to know if their route is safe before they travel. 
                     We aggregate verified security data to help you make informed decisions and 
                     stay safe. This is a not-for-profit public service.
@@ -89,12 +89,12 @@ export default function AboutPage() {
                 <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
                   <Database className="w-5 h-5" />
                 </div>
-                <div>
-                  <h2 className="font-bold mb-2">Data Sources</h2>
-                  <p className="text-muted-foreground mb-3">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg font-bold mb-2">Data Sources</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground mb-3 leading-relaxed">
                     We aggregate and verify data from multiple trusted sources:
                   </p>
-                  <ul className="space-y-2 text-sm">
+                  <ul className="space-y-2 text-xs sm:text-sm">
                     <li className="flex items-center gap-2">
                       <ExternalLink className="w-4 h-4 text-muted-foreground" />
                       <span>ACLED - Armed Conflict Location & Event Data</span>
@@ -128,18 +128,18 @@ export default function AboutPage() {
                 <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
                   <Users className="w-5 h-5" />
                 </div>
-                <div>
-                  <h2 className="font-bold mb-2">Team</h2>
-                  <div className="flex items-center gap-4 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
-                      <span className="text-lg font-bold text-white">T</span>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg font-bold mb-2">Team</h2>
+                  <div className="flex items-center gap-3 sm:gap-4 mb-3">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center flex-shrink-0">
+                      <span className="text-base sm:text-lg font-bold text-white">T</span>
                     </div>
-                    <div>
-                      <p className="font-medium">Thinknodes Innovation Lab</p>
-                      <p className="text-sm text-muted-foreground">Founded by Akin</p>
+                    <div className="min-w-0">
+                      <p className="text-sm sm:text-base font-medium">Thinknodes Innovation Lab</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Founded by Akin</p>
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                     A technology company building solutions for Africa&apos;s most pressing challenges.
                   </p>
                 </div>
@@ -154,8 +154,8 @@ export default function AboutPage() {
                 <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5" />
                 </div>
-                <div>
-                  <h2 className="font-bold mb-2">Contact</h2>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg font-bold mb-2">Contact</h2>
                   <div className="space-y-2">
                     <a 
                       href="mailto:akin@thinknodes.com"

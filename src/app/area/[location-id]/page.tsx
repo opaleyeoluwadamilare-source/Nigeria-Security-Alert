@@ -849,8 +849,8 @@ export default function AreaSafetyPage() {
                     ease: "easeInOut"
                   }}
                 />
-                <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/20 backdrop-blur-sm mb-6 shadow-lg border border-white/30">
+                <div className="text-center px-4 sm:px-0">
+                  <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-white/20 backdrop-blur-sm mb-4 sm:mb-6 shadow-lg border border-white/30">
                     <LocationIcon
                       locationId={location.id}
                       locationName={location.name}
@@ -860,7 +860,7 @@ export default function AreaSafetyPage() {
                       variant="large"
                     />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-bold mb-2" style={{ color: 'white' }}>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 px-2 sm:px-0 leading-tight" style={{ color: 'white' }}>
                     {(() => {
                       // Get context-specific welcome message
                       if (userContext === 'resident') {
@@ -872,7 +872,7 @@ export default function AreaSafetyPage() {
                       }
                     })()}
                   </h2>
-                  <p className="text-base md:text-lg opacity-95" style={{ color: 'white' }}>
+                  <p className="text-sm sm:text-base md:text-lg opacity-95 px-2 sm:px-0 leading-relaxed" style={{ color: 'white' }}>
                     {locationData?.summary && typeof locationData.summary === 'string' && locationData.summary.trim().length > 0
                       ? locationData.summary
                       : 'This area has moderate security risks. Standard precautions advised.'}
@@ -960,9 +960,9 @@ export default function AreaSafetyPage() {
                                location.risk_level === 'HIGH' ? '#CA8A04' : '#DC2626',
                 }}
               >
-                <div className="text-center relative z-10">
+                <div className="text-center relative z-10 px-4 sm:px-0">
                   <motion.div 
-                    className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/20 backdrop-blur-sm mb-6 shadow-lg border border-white/30 relative"
+                    className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-white/20 backdrop-blur-sm mb-4 sm:mb-6 shadow-lg border border-white/30 relative"
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
@@ -988,7 +988,7 @@ export default function AreaSafetyPage() {
                       variant="large"
                     />
                   </motion.div>
-                  <h2 className="text-xl md:text-2xl font-bold mb-2" style={{ color: 'white' }}>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 px-2 sm:px-0 leading-tight" style={{ color: 'white' }}>
                     {location.risk_level === 'HIGH' 
                       ? (userContext === 'resident' ? '🔔 Stay Alert' : 
                          userContext === 'visitor' ? '⚠️ Exercise Caution' : 
@@ -997,7 +997,7 @@ export default function AreaSafetyPage() {
                          userContext === 'visitor' ? '🔴 Do Not Travel' : 
                          '⚠️ Route Not Recommended')}
                   </h2>
-                  <p className="text-base md:text-lg opacity-95" style={{ color: 'white' }}>
+                  <p className="text-sm sm:text-base md:text-lg opacity-95 px-2 sm:px-0 leading-relaxed" style={{ color: 'white' }}>
                     {getContextMessage()}
                   </p>
                 </div>

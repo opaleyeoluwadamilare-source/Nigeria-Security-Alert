@@ -46,7 +46,7 @@ export default function EmergencyPage() {
     <div className="min-h-screen pb-20 w-full overflow-x-hidden">
       {/* Hero - 112 */}
       <div className="bg-risk-extreme-bg border-b border-risk-extreme/20">
-        <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+        <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -58,14 +58,14 @@ export default function EmergencyPage() {
                 className="relative"
               >
                 <div className="absolute inset-0 animate-ping bg-risk-extreme/20 rounded-full" />
-                <div className="relative w-28 h-28 rounded-full bg-risk-extreme flex items-center justify-center shadow-lg">
-                  <span className="text-4xl font-bold text-white font-mono">112</span>
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-risk-extreme flex items-center justify-center shadow-lg">
+                  <span className="text-3xl sm:text-4xl font-bold text-white font-mono">112</span>
                 </div>
               </motion.div>
             </a>
             
-            <h1 className="text-2xl font-bold mt-6 mb-2">National Emergency</h1>
-            <p className="text-muted-foreground mb-4">Tap to call immediately</p>
+            <h1 className="text-xl sm:text-2xl font-bold mt-4 sm:mt-6 mb-2 px-2 sm:px-0 leading-tight">National Emergency</h1>
+            <p className="text-sm sm:text-base text-muted-foreground mb-4 px-2 sm:px-0">Tap to call immediately</p>
             
             <a href="tel:112">
               <Button size="lg" variant="danger" className="gap-2 shadow-lg">
@@ -86,7 +86,7 @@ export default function EmergencyPage() {
         >
           {/* National Numbers */}
           <motion.div variants={itemVariants}>
-            <h2 className="font-bold mb-4">National Emergency Lines</h2>
+            <h2 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">National Emergency Lines</h2>
             {nationalContacts ? (
               <div className="grid grid-cols-2 gap-3">
                 {Object.entries(nationalContacts).map(([key, contact]: [string, any]) => (
@@ -124,7 +124,7 @@ export default function EmergencyPage() {
 
           {/* State Selector */}
           <motion.div variants={itemVariants}>
-            <h2 className="font-bold mb-4">State Emergency Numbers</h2>
+            <h2 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">State Emergency Numbers</h2>
             <Card hover={false} className="p-4">
               <div className="relative">
                 <select

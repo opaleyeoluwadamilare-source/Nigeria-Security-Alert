@@ -56,21 +56,21 @@ export default function SupportPage() {
     <div className="min-h-screen pb-20 w-full overflow-x-hidden">
       {/* Hero */}
       <div className="bg-muted/50 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="max-w-3xl"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-risk-extreme rounded-xl flex items-center justify-center">
-                <Heart className="w-7 h-7 text-white" />
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-risk-extreme rounded-xl flex items-center justify-center">
+                <Heart className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-2 sm:px-0 leading-tight">
               Support This Project
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4 sm:px-0 leading-relaxed">
               Help us keep Nigeria Security Alert free and available to everyone. 
               Every contribution makes a difference.
             </p>
@@ -92,9 +92,9 @@ export default function SupportPage() {
                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center flex-shrink-0">
                   <Users className="w-8 h-8 text-accent" />
                 </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-bold mb-3">Volunteer</h2>
-                  <p className="text-muted-foreground mb-6">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Volunteer</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                     We are looking for passionate individuals to help us expand 
                     our impact. Join our team of volunteers and make a difference.
                   </p>
@@ -132,9 +132,9 @@ export default function SupportPage() {
                 <div className="w-16 h-16 rounded-2xl bg-risk-moderate-bg flex items-center justify-center flex-shrink-0">
                   <Share2 className="w-8 h-8 text-risk-moderate" />
                 </div>
-                <div className="flex-1">
-                  <h2 className="text-2xl font-bold mb-3">Spread the Word</h2>
-                  <p className="text-muted-foreground mb-6">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Spread the Word</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                     The easiest way to help is to share Nigeria Security Alert with 
                     your friends, family, and colleagues. Every share could save a life.
                   </p>
