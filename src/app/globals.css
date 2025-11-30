@@ -420,8 +420,11 @@ pre, code {
     padding-right: max(0.5rem, env(safe-area-inset-right));
     z-index: 60 !important;
     will-change: transform;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    /* Ensure it's always visible */
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   /* Fixed top elements need safe area */
@@ -510,6 +513,25 @@ pre, code {
   .mobile-nav button:active {
     transform: scale(0.95);
     transition: transform 0.1s ease;
+  }
+  
+  /* Ensure mobile drawer content is visible */
+  #mobile-drawer {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  #mobile-drawer > div {
+    display: flex !important;
+    visibility: visible !important;
+  }
+  
+  /* Ensure drawer links are visible */
+  #mobile-drawer a {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 
