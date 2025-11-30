@@ -189,10 +189,11 @@ export async function checkRouteSafety(from: string, to: string) {
 
     if (dangerousRoadsOnRoute.length > 0) {
       const riskScoreMap: Record<string, number> = { "EXTREME": 100, "VERY HIGH": 80, "HIGH": 60 }
-      const mostDangerous = dangerousRoadsOnRoute.reduce((max, road) => {
+      type RoadWithScore = DangerousRoad & { score: number }
+      const mostDangerous = dangerousRoadsOnRoute.reduce<RoadWithScore>((max, road) => {
         const score = riskScoreMap[road.risk] || 40
         return score > max.score ? { ...road, score } : max
-      }, { score: 0, risk: "", name: "", danger_zones: [] as string[], alternative: "" } as DangerousRoad & { score: number })
+      }, { score: 0, risk: "", name: "", danger_zones: [] as string[], alternative: "" } as RoadWithScore)
 
       if (mostDangerous.score > finalScore) {
         finalRisk = mostDangerous.risk
