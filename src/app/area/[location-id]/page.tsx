@@ -132,10 +132,10 @@ const riskColors = {
 }
 
 // Template generator for locations without tiered data
-function getTemplate(riskLevel: string, locationName?: string): Partial<TieredIntelligence> {
+function getTemplate(riskLevel: string, locationName?: string): Partial<TieredLocationIntelligence> {
   const badge = badgeSystem[riskLevel as keyof typeof badgeSystem] || badgeSystem.MODERATE
   const locationText = locationName || 'this area'
-  const baseTemplate: Partial<TieredIntelligence> = {
+  const baseTemplate: Partial<TieredLocationIntelligence> = {
     badge: `${badge.emoji} ${badge.text}`,
     summary: `This area has ${riskLevel.toLowerCase()} security risks. Standard precautions advised.`,
     recommendations: ['Stay aware of your surroundings.', 'Keep emergency contacts accessible.'],
