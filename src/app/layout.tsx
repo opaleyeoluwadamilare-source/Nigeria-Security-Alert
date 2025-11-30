@@ -14,13 +14,6 @@ export const metadata: Metadata = {
   description: 'Verified security intelligence for Nigeria. Check road safety, emergency contacts, and stay informed about security situations across all 36 states.',
   keywords: 'Nigeria security, safety alerts, road safety Nigeria, emergency contacts Nigeria, kidnapping prevention, travel safety Nigeria',
   authors: [{ name: 'Thinknodes Innovation Lab' }],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: 'cover', // For notched devices (iPhone X+)
-  },
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
@@ -50,6 +43,14 @@ export const metadata: Metadata = {
     'format-detection': 'telephone=no', // Prevent auto-linking phone numbers
     'x-ua-compatible': 'IE=edge', // For older browsers
   },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover' as const,
 }
 
 export default function RootLayout({
