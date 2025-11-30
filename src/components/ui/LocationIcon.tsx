@@ -6,7 +6,7 @@ import {
   Trees, Wheat, Building2, Train, Ship,
   Gem, Coffee, Droplets, Zap, MapPin,
   Building, Home, ShoppingBag, Plane, Car,
-  Anchor, Factory, Warehouse, Store
+  Anchor, Warehouse, Store
 } from 'lucide-react'
 import { useMemo } from 'react'
 
