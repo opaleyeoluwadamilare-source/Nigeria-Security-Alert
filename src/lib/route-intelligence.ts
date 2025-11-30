@@ -150,6 +150,10 @@ export async function checkRouteSafety(from: string, to: string) {
   try {
     const { routingData, stateRisksData, dangerousRoadsData, safetyRecommendationsData } = await loadData()
 
+    if (!routingData || !stateRisksData || !dangerousRoadsData || !safetyRecommendationsData) {
+      return null
+    }
+
     const citiesToStates = routingData.cities_to_states || {}
     const adjacency = routingData.state_adjacency || {}
 
