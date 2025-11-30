@@ -113,7 +113,7 @@ export function AreaSearchBar({
         console.log(`Loaded ${mergedLocations.length} locations (${finalLocations.length} from final-1098, ${completeLocations.length} from complete, ${mergedLocations.length - finalLocations.length} unique from complete)`)
         
         setLocations(mergedLocations)
-        const map = new Map(statesData.map((s: any) => [s.id, s.name]))
+        const map = new Map<string, string>(statesData.map((s: any) => [s.id, s.name] as [string, string]))
         setStateMap(map)
         setLoading(false)
       } catch (error) {
