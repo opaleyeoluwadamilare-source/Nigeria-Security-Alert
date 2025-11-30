@@ -13,9 +13,9 @@ export function AnimatedCounter({ value, suffix = '', duration = 2 }: AnimatedCo
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [hasAnimated, setHasAnimated] = useState(false)
-  const [displayValue, setDisplayValue] = useState(0)
+  const [displayValue, setDisplayValue] = useState(value)
   
-  const spring = useSpring(0, {
+  const spring = useSpring(value, {
     duration: duration * 1000,
     bounce: 0,
   })
@@ -24,6 +24,9 @@ export function AnimatedCounter({ value, suffix = '', duration = 2 }: AnimatedCo
     if (isInView && !hasAnimated) {
       spring.set(value)
       setHasAnimated(true)
+    } else if (!isInView) {
+      // If not in view yet, show the value directly
+      setDisplayValue(value)
     }
   }, [isInView, hasAnimated, spring, value])
 
@@ -33,6 +36,13 @@ export function AnimatedCounter({ value, suffix = '', duration = 2 }: AnimatedCo
     })
     return () => unsubscribe()
   }, [spring])
+
+  // Update display value if value changes and we've already animated
+  useEffect(() => {
+    if (hasAnimated) {
+      setDisplayValue(value)
+    }
+  }, [value, hasAnimated])
 
   return (
     <span ref={ref} className="font-mono tabular-nums">
