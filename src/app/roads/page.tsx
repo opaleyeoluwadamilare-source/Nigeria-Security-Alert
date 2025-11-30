@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -77,7 +77,7 @@ const defaultSafetyTips = [
   'Keep doors locked and windows up',
 ]
 
-export default function RoadsPage() {
+function RoadsPageContent() {
   const { states, roads, loading } = useData()
   const searchParams = useSearchParams()
   const [selectedFrom, setSelectedFrom] = useState('')
@@ -639,5 +639,20 @@ export default function RoadsPage() {
         </motion.div>
       </div>
     </div>
+  )
+}
+
+export default function RoadsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading route checker...</p>
+        </div>
+      </div>
+    }>
+      <RoadsPageContent />
+    </Suspense>
   )
 }
