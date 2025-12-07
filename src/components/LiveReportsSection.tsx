@@ -120,15 +120,15 @@ export function LiveReportsSection({
   
   const stateInfo = getStateInfo()
   
-  // NEW: Intelligence hook (only if enabled and state is available)
+  // NEW: Intelligence hook - always call to satisfy React Hooks rules
   // Use normalized state from getStateInfo() for proper state resolution
   // Pass risk level from areaProfile for risk-based time windows and dynamic adjustment
-  const intelligence = enableIntelligence && stateInfo?.state ? useLiveIntelligence(
+  const intelligence = useLiveIntelligence(
     locationId,
-    stateInfo.state,
+    stateInfo?.state || '',
     areaProfile,
     areaProfile?.riskLevel  // Pass risk level for time window and dynamic adjustment
-  ) : null
+  )
   
   const loadReports = async (isRefresh = false) => {
     if (!stateInfo) {
@@ -332,11 +332,12 @@ export function LiveReportsSection({
   
   // Determine if we should show intelligence or raw reports
   // Show intelligence if:
-  // 1. Intelligence exists and is not loading
-  // 2. No error (or error is non-critical)
-  // 3. Has briefing (even with 0 incidents) OR has incidents
+  // 1. Feature is enabled
+  // 2. Intelligence exists and is not loading
+  // 3. No error (or error is non-critical)
+  // 4. Has briefing (even with 0 incidents) OR has incidents
   // This ensures consistent display for all locations, even with 0 incidents
-  const showIntelligence = intelligence && 
+  const showIntelligence = enableIntelligence && intelligence && 
     !intelligence.loading && 
     !intelligence.error && 
     intelligence.briefing !== null // Show if briefing exists (even if empty incidents)

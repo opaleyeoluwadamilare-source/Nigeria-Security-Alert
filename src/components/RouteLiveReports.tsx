@@ -75,18 +75,18 @@ export function RouteLiveReports({
   // Network status detection
   const networkStatus = useNetworkStatus()
   
-  // NEW: Route intelligence hook
+  // NEW: Route intelligence hook - always call to satisfy React Hooks rules
   // Pass highest risk level from routeProfile for risk-based time windows
   const highestRiskLevel = routeProfile?.overallRisk 
     ? routeProfile.overallRisk.toUpperCase().trim() 
     : null
   
-  const intelligence = enableIntelligence && stateIds.length > 0 ? useRouteIntelligence(
+  const intelligence = useRouteIntelligence(
     stateIds,
     routeDisplay,
     routeProfile,
     highestRiskLevel  // Pass highest risk level for time window
-  ) : null
+  )
   
   const loadReports = async (isRefresh = false) => {
     // If no explicit road mappings, use state-based fallback
@@ -322,7 +322,7 @@ export function RouteLiveReports({
   )
   
   // Determine if we should show intelligence or raw reports
-  const showIntelligence = intelligence && 
+  const showIntelligence = enableIntelligence && intelligence && 
     !intelligence.loading && 
     !intelligence.error && 
     (intelligence.briefing || (intelligence.incidents && intelligence.incidents.length > 0))

@@ -293,7 +293,7 @@ export function useLiveIntelligence(
         fallbackToRaw: true,
       }))
     }
-  }, [location, state, areaProfile])
+  }, [location, state, areaProfile, staticRiskLevel])
 
   const fetchIntelligence = useCallback(async () => {
     const cacheKey = getCacheKey(location, state)

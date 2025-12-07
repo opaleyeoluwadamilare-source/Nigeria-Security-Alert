@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { fetchRouteReportsByStates, fetchRouteReports, GDELTArticle } from '@/lib/gdelt'
 import { getRouteRelevanceZone, getRouteRelevanceScore, getRouteZoneLabel, getRouteRoadNamesForStates } from '@/lib/route-relevance'
 import { 
@@ -392,11 +392,13 @@ export function useRouteIntelligence(
     await fetchIntelligenceFresh()
   }, [stateIds, routeDisplay, fetchIntelligenceFresh])
 
+  const stateIdsKey = useMemo(() => stateIds.join(','), [stateIds])
+
   useEffect(() => {
     if (stateIds.length > 0) {
       fetchIntelligence()
     }
-  }, [stateIds.join(','), routeDisplay, fetchIntelligence])
+  }, [stateIdsKey, routeDisplay, fetchIntelligence])
 
   return {
     ...data,
