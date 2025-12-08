@@ -33,6 +33,7 @@ import { useLiveIntelligence } from '@/hooks/useLiveIntelligence'
 import { ClassifiedIncident } from '@/lib/risk-scoring'
 import { useNetworkStatus } from '@/hooks/useNetworkStatus'
 import { IntelligenceLoadingAnimation } from './IntelligenceLoadingAnimation'
+import { LiveIntelligenceProgressBar } from '@/components/ui/LiveIntelligenceProgressBar'
 
 type UserContext = 'resident' | 'visitor' | 'transit'
 
@@ -236,9 +237,17 @@ export function LiveReportsSection({
   // Show loading if either raw reports or intelligence is loading
   if (loading || (intelligence && intelligence.loading && !intelligence.briefing && intelligence.incidents.length === 0)) {
     return (
-      <Card className={`border-blue-200 bg-blue-50/30 dark:bg-blue-950/10 ${className}`} hover={false}>
+      <Card className={`border-green-200 bg-green-50/30 dark:bg-green-950/10 ${className}`} hover={false}>
         <div className="p-3 sm:p-4 md:p-6 lg:p-8">
-          <IntelligenceLoadingAnimation locationName={locationName || locationId} />
+          {intelligence?.loading && (
+            <div className="mb-4 sm:mb-6">
+              <LiveIntelligenceProgressBar stage={intelligence.loadingStage || 'fetching'} />
+            </div>
+          )}
+          <IntelligenceLoadingAnimation 
+            locationName={locationName || locationId} 
+            loadingStage={intelligence?.loadingStage || 'fetching'}
+          />
         </div>
       </Card>
     )
@@ -368,7 +377,7 @@ export function LiveReportsSection({
   const distantCount = intelligence ? intelligence.groupedIncidents.stateWide.length : 0
   
   return (
-    <>
+    <div id="live-reports-section" className="scroll-mt-24">
       {/* Network Status Banner (if offline) */}
       {!networkStatus.isOnline && (
         <Card className={`border-orange-200 dark:border-orange-800 bg-orange-50/50 dark:bg-orange-950/20 ${className}`} hover={false}>
@@ -776,7 +785,7 @@ export function LiveReportsSection({
           </div>
         </Card>
       )}
-    </>
+    </div>
   )
 }
 

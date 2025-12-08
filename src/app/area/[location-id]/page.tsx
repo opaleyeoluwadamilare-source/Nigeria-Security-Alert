@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -33,6 +33,7 @@ import {
 } from 'lucide-react'
 import { RiskBadge } from '@/components/ui/RiskBadge'
 import { Card } from '@/components/ui/Card'
+import { ContextSelectionModal } from '@/components/ContextSelectionModal'
 import { Button } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
 import { LocationIcon } from '@/components/ui/LocationIcon'
@@ -46,6 +47,7 @@ import {
 } from '@/lib/location-intelligence'
 import { analytics } from '@/lib/analytics'
 import { LiveReportsSection } from '@/components/LiveReportsSection'
+import { LiveReportsScrollHint } from '@/components/ui/LiveReportsScrollHint'
 
 type UserContext = 'resident' | 'visitor' | 'transit'
 
@@ -265,30 +267,52 @@ function getTemplate(riskLevel: string, locationName?: string): Partial<TieredLo
 export default function AreaSafetyPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const locationId = params['location-id'] as string
   const { states, emergency } = useData()
   const [location, setLocation] = useState<Location | null>(null)
   const [locationData, setLocationData] = useState<CombinedLocationData | null>(null)
   const [contextData, setContextData] = useState<ContextAwareData | null>(null)
   const [userContext, setUserContext] = useState<UserContext>('visitor')
+  const [showContextSelection, setShowContextSelection] = useState(false)
+  const [contextSelected, setContextSelected] = useState(false)
   const [showResearchMode, setShowResearchMode] = useState(false)
   const [researchModeConfirmed, setResearchModeConfirmed] = useState(false)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
   const [adjustedRiskLevel, setAdjustedRiskLevel] = useState<string | null>(null) // For live intelligence adjusted risk
 
-  // Load user context preference from localStorage
+  // Load user context preference from URL params first, then localStorage
   useEffect(() => {
-    const savedContext = localStorage.getItem(`context_${locationId}`) as UserContext
-    if (savedContext && ['resident', 'visitor', 'transit'].includes(savedContext)) {
-      setUserContext(savedContext)
+    const contextParam = searchParams.get('context') as UserContext | null
+    if (contextParam && ['resident', 'visitor', 'transit'].includes(contextParam)) {
+      setUserContext(contextParam)
+      setContextSelected(true)
+      setShowContextSelection(false)
+    } else {
+      const savedContext = localStorage.getItem(`context_${locationId}`) as UserContext
+      if (savedContext && ['resident', 'visitor', 'transit'].includes(savedContext)) {
+        setUserContext(savedContext)
+        setContextSelected(true)
+        setShowContextSelection(false)
+      } else {
+        setShowContextSelection(true)
+      }
     }
-  }, [locationId])
+  }, [locationId, searchParams])
 
-  // Save context preference
+  // Save context preference and update URL
   const handleContextChange = (context: UserContext) => {
     setUserContext(context)
     localStorage.setItem(`context_${locationId}`, context)
+    setContextSelected(true)
+    setShowContextSelection(false)
+    
+    // Update URL params
+    const newSearchParams = new URLSearchParams(searchParams.toString())
+    newSearchParams.set('context', context)
+    router.push(`?${newSearchParams.toString()}`, { scroll: false })
+    
     analytics.trackContextChange(context, locationId)
   }
 
@@ -638,7 +662,14 @@ export default function AreaSafetyPage() {
   }
 
   return (
-    <div className="min-h-screen pb-20 w-full overflow-x-hidden">
+    <>
+      <ContextSelectionModal
+        isOpen={showContextSelection && !contextSelected}
+        onSelect={handleContextChange}
+        locationName={location?.name}
+      />
+      <LiveReportsScrollHint targetId="live-reports-section" />
+      <div className="min-h-screen pb-20 w-full overflow-x-hidden">
       {/* Sticky Context Selector - Mobile-First, Always Visible */}
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
@@ -1519,5 +1550,6 @@ export default function AreaSafetyPage() {
         </motion.div>
       </div>
     </div>
+    </>
   )
 }

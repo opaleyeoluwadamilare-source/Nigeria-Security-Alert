@@ -13,6 +13,7 @@ import {
   DynamicRiskResult 
 } from '@/lib/risk-scoring'
 import { getTimeWindowForRisk } from '@/lib/risk-time-windows'
+import { LoadingStage } from '@/components/ui/LiveIntelligenceProgressBar'
 
 interface AreaProfile {
   riskLevel?: string
@@ -125,15 +126,17 @@ export function useLiveIntelligence(
     error: null,
     lastUpdated: null,
     fallbackToRaw: false,
+    loadingStage: 'fetching',
   })
 
   const fetchIntelligenceFresh = useCallback(async () => {
     const cacheKey = getCacheKey(location, state)
     
-    setData(prev => ({ ...prev, loading: true, error: null }))
+    setData(prev => ({ ...prev, loading: true, error: null, loadingStage: 'fetching' }))
 
     try {
       // Step 1: Fetch raw articles from GDELT (use existing function)
+      setData(prev => ({ ...prev, loadingStage: 'fetching' }))
       const reports = await fetchAreaReports(location, null, state)
       const articles = reports.articles || []
 
@@ -239,6 +242,7 @@ export function useLiveIntelligence(
       // Step 5: ALWAYS generate briefing with LLM (even with 0 incidents)
       // This ensures consistent intelligence display for all locations
       // Pass dynamicRisk for historical context in briefing
+      setData(prev => ({ ...prev, loadingStage: 'generating' }))
       try {
         const briefingResponse = await fetch('/api/generate-briefing', {
           method: 'POST',
@@ -278,6 +282,7 @@ export function useLiveIntelligence(
         lastUpdated: new Date().toISOString(),
         fallbackToRaw: llmError,
         rawArticles: llmError ? articles : undefined,
+        loadingStage: 'complete',
       }
 
       // Cache the result
