@@ -9,14 +9,18 @@ import * as path from 'path'
 // Load .env.local
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+const SUPABASE_URL_RAW = process.env.NEXT_PUBLIC_SUPABASE_URL
+const SERVICE_ROLE_KEY_RAW = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
+if (!SUPABASE_URL_RAW || !SERVICE_ROLE_KEY_RAW) {
   console.error('Error: Missing Supabase environment variables.')
   console.error('Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local')
   process.exit(1)
 }
+
+// Type assertion after validation
+const SUPABASE_URL: string = SUPABASE_URL_RAW
+const SERVICE_ROLE_KEY: string = SERVICE_ROLE_KEY_RAW
 
 // SQL statements to execute (split for better error handling)
 const migrations = [
