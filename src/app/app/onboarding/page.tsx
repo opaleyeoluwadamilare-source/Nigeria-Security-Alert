@@ -21,6 +21,7 @@ import {
   Navigation,
   MessageCircle,
   Sparkles,
+  Phone,
 } from 'lucide-react'
 import { NigerianShield } from '@/components/landing/NigerianShield'
 import { useAppStore } from '@/lib/store'
@@ -32,12 +33,14 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Toggle } from '@/components/ui/Toggle'
 import { ProgressSteps, StepIndicator } from '@/components/ui/ProgressSteps'
-import type { NigerianLocation, UserLocation } from '@/types'
+import { PhoneAuthModal } from '@/components/auth/PhoneAuthModal'
+import { INCIDENT_TYPES } from '@/types'
+import type { NigerianLocation, UserLocation, IncidentType } from '@/types'
 
-type Step = 'welcome' | 'areas' | 'preview' | 'location' | 'ready'
+type Step = 'welcome' | 'phone' | 'areas' | 'preview' | 'location' | 'ready'
 
-const stepOrder: Step[] = ['welcome', 'areas', 'preview', 'location', 'ready']
-const stepLabels = ['Welcome', 'Your Areas', 'Alerts', 'Location', 'Ready']
+const stepOrder: Step[] = ['welcome', 'phone', 'areas', 'preview', 'location', 'ready']
+const stepLabels = ['Welcome', 'Verify', 'Your Areas', 'Alerts', 'Location', 'Ready']
 
 // Popular areas in Nigeria
 const popularAreas = [
@@ -55,12 +58,23 @@ export default function OnboardingPage() {
   const [selectedAreas, setSelectedAreas] = useState<NigerianLocation[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<NigerianLocation[]>([])
-  const [notificationPreference, setNotificationPreference] = useState<'all' | 'critical'>('all')
+  const [notificationPreference, setNotificationPreference] = useState<'all' | 'critical' | 'custom'>('all')
+  const [selectedAlertTypes, setSelectedAlertTypes] = useState<IncidentType[]>([])
   const [quietHours, setQuietHours] = useState(false)
   const [locationGranted, setLocationGranted] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
 
-  const { setHasCompletedOnboarding, setSavedLocations, setCurrentLocation } =
+  // Phone auth state
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false)
+  const [verifiedPhone, setVerifiedPhone] = useState<string | null>(null)
+  const [showPhoneAuthModal, setShowPhoneAuthModal] = useState(false)
+
+  // Location type modal state
+  const [locationTypeModal, setLocationTypeModal] = useState<'home' | 'work' | null>(null)
+  const [locationTypeSearch, setLocationTypeSearch] = useState('')
+  const [locationTypeResults, setLocationTypeResults] = useState<NigerianLocation[]>([])
+
+  const { setHasCompletedOnboarding, setSavedLocations, setCurrentLocation, setUser } =
     useAppStore()
   const { getLocation, loading: locationLoading } = useLocation()
   const { enable: enablePush, isSupported: pushSupported } =
@@ -79,6 +93,59 @@ export default function OnboardingPage() {
     }, 200)
     return () => clearTimeout(timer)
   }, [searchQuery])
+
+  // Handle location type modal search with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (locationTypeSearch.length >= 2) {
+        setLocationTypeResults(searchLocations(locationTypeSearch, 8))
+      } else {
+        setLocationTypeResults([])
+      }
+    }, 200)
+    return () => clearTimeout(timer)
+  }, [locationTypeSearch])
+
+  // Handle phone auth success
+  const handlePhoneAuthSuccess = (user: { id: string; phone: string }) => {
+    setIsPhoneVerified(true)
+    setVerifiedPhone(user.phone)
+    setShowPhoneAuthModal(false)
+    // Also update the store with the user
+    setUser({
+      id: user.id,
+      phone: user.phone,
+      phone_verified: true,
+      trust_score: 0,
+      created_at: new Date().toISOString(),
+      last_active: new Date().toISOString(),
+    })
+    goNext()
+  }
+
+  // Toggle alert type selection
+  const toggleAlertType = (type: IncidentType) => {
+    if (selectedAlertTypes.includes(type)) {
+      setSelectedAlertTypes(selectedAlertTypes.filter(t => t !== type))
+    } else {
+      setSelectedAlertTypes([...selectedAlertTypes, type])
+    }
+  }
+
+  // Add location with type (home/work)
+  const addLocationWithType = (location: NigerianLocation, type: 'home' | 'work') => {
+    const labeledLocation: NigerianLocation = {
+      ...location,
+      slug: `${type}-${location.slug}`,
+      name: `${type === 'home' ? '🏠' : '💼'} ${location.name}`,
+    }
+    if (!selectedAreas.find((a) => a.slug === labeledLocation.slug)) {
+      setSelectedAreas([...selectedAreas, labeledLocation])
+    }
+    setLocationTypeModal(null)
+    setLocationTypeSearch('')
+    setLocationTypeResults([])
+  }
 
   // Navigation
   const goToStep = (newStep: Step) => {
@@ -328,7 +395,106 @@ export default function OnboardingPage() {
             </motion.div>
           )}
 
-          {/* Step 2: Pick Areas */}
+          {/* Step 2: Phone Verification */}
+          {step === 'phone' && (
+            <motion.div
+              key="phone"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="text-center"
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-6">
+                <Phone className="w-8 h-8 text-primary" />
+              </div>
+
+              <h2 className="text-2xl font-bold text-foreground mb-2">
+                Verify your phone
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                Quick verification helps keep our community safe
+              </p>
+
+              {isPhoneVerified ? (
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="bg-safety-green/10 border border-safety-green/20 rounded-2xl p-6 mb-6"
+                >
+                  <div className="flex items-center justify-center gap-3 mb-2">
+                    <CheckCircle2 className="w-6 h-6 text-safety-green" />
+                    <span className="font-semibold text-foreground">Phone Verified</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{verifiedPhone}</p>
+                </motion.div>
+              ) : (
+                <div className="bg-background-elevated rounded-2xl p-6 mb-6 text-left">
+                  <h3 className="font-semibold text-foreground mb-4">Why verify?</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Shield className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-foreground">Prevent fake reports</p>
+                        <p className="text-xs text-muted-foreground">Verified users keep alerts accurate</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Users className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-foreground">Build trust</p>
+                        <p className="text-xs text-muted-foreground">Your reports carry more weight</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Lock className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-foreground">Your number stays private</p>
+                        <p className="text-xs text-muted-foreground">Never shared with other users</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3">
+                <Button variant="secondary" onClick={goBack}>
+                  <ChevronLeft className="w-5 h-5" />
+                </Button>
+                {isPhoneVerified ? (
+                  <Button onClick={goNext} className="flex-1 btn-primary">
+                    Continue
+                    <ChevronRight className="w-5 h-5 ml-2" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => setShowPhoneAuthModal(true)}
+                    className="flex-1 btn-primary"
+                  >
+                    <Phone className="w-5 h-5 mr-2" />
+                    Verify My Phone
+                  </Button>
+                )}
+              </div>
+
+              {!isPhoneVerified && (
+                <button
+                  onClick={goNext}
+                  className="w-full mt-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Skip for now (you can verify later)
+                </button>
+              )}
+            </motion.div>
+          )}
+
+          {/* Step 3: Pick Areas */}
           {step === 'areas' && (
             <motion.div
               key="areas"
@@ -359,15 +525,25 @@ export default function OnboardingPage() {
                   className="flex-1"
                 >
                   <Navigation className="w-4 h-4 mr-1" />
-                  {locationLoading ? 'Getting...' : 'Current Location'}
+                  {locationLoading ? 'Getting...' : 'Current'}
                 </Button>
-                <Button variant="secondary" size="sm" className="flex-1" disabled>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => setLocationTypeModal('home')}
+                >
                   <Home className="w-4 h-4 mr-1" />
-                  Add Home
+                  Home
                 </Button>
-                <Button variant="secondary" size="sm" className="flex-1" disabled>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => setLocationTypeModal('work')}
+                >
                   <Briefcase className="w-4 h-4 mr-1" />
-                  Add Work
+                  Work
                 </Button>
               </div>
 
@@ -568,7 +744,7 @@ export default function OnboardingPage() {
                   <label className="flex items-center justify-between cursor-pointer">
                     <div>
                       <p className="font-medium text-foreground">Critical only</p>
-                      <p className="text-sm text-muted-foreground">Only high-risk incidents</p>
+                      <p className="text-sm text-muted-foreground">Robbery, Kidnapping, Gunshots, Attack</p>
                     </div>
                     <input
                       type="radio"
@@ -578,7 +754,53 @@ export default function OnboardingPage() {
                       className="w-5 h-5 text-primary"
                     />
                   </label>
+
+                  <label className="flex items-center justify-between cursor-pointer">
+                    <div>
+                      <p className="font-medium text-foreground">Custom</p>
+                      <p className="text-sm text-muted-foreground">Choose specific alert types</p>
+                    </div>
+                    <input
+                      type="radio"
+                      name="notification"
+                      checked={notificationPreference === 'custom'}
+                      onChange={() => setNotificationPreference('custom')}
+                      className="w-5 h-5 text-primary"
+                    />
+                  </label>
                 </div>
+
+                {/* Custom Alert Type Selection */}
+                {notificationPreference === 'custom' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    className="pt-3 border-t border-border"
+                  >
+                    <p className="text-sm text-muted-foreground mb-3">Select the alert types you want:</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {INCIDENT_TYPES.map((incidentType) => (
+                        <button
+                          key={incidentType.type}
+                          onClick={() => toggleAlertType(incidentType.type)}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors text-left ${
+                            selectedAlertTypes.includes(incidentType.type)
+                              ? 'bg-primary/10 border-primary text-primary'
+                              : 'bg-muted/50 border-border text-foreground hover:bg-muted'
+                          }`}
+                        >
+                          <span className="text-lg">{incidentType.icon}</span>
+                          <span className="text-sm font-medium">{incidentType.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                    {selectedAlertTypes.length === 0 && (
+                      <p className="text-xs text-safety-amber mt-2">
+                        Select at least one alert type
+                      </p>
+                    )}
+                  </motion.div>
+                )}
 
                 <div className="pt-3 border-t border-border">
                   <div className="flex items-center justify-between">
@@ -816,11 +1038,25 @@ export default function OnboardingPage() {
                     <div>
                       <p className="text-sm text-muted-foreground">Notifications</p>
                       <p className="font-medium text-foreground">
-                        {notificationPreference === 'all' ? 'All alerts' : 'Critical only'}
+                        {notificationPreference === 'all'
+                          ? 'All alerts'
+                          : notificationPreference === 'critical'
+                            ? 'Critical only'
+                            : `${selectedAlertTypes.length} alert type${selectedAlertTypes.length !== 1 ? 's' : ''}`}
                         {quietHours && ' • Quiet hours on'}
                       </p>
                     </div>
                   </div>
+
+                  {isPhoneVerified && (
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-5 h-5 text-primary" />
+                      <div>
+                        <p className="text-sm text-muted-foreground">Phone</p>
+                        <p className="font-medium text-foreground">Verified</p>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-3">
                     <Navigation className="w-5 h-5 text-safety-green" />
@@ -885,6 +1121,98 @@ export default function OnboardingPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Phone Auth Modal */}
+      <PhoneAuthModal
+        isOpen={showPhoneAuthModal}
+        onClose={() => setShowPhoneAuthModal(false)}
+        onSuccess={handlePhoneAuthSuccess}
+      />
+
+      {/* Location Type Modal (Home/Work) */}
+      <AnimatePresence>
+        {locationTypeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm"
+            onClick={() => setLocationTypeModal(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ type: 'spring', damping: 25 }}
+              className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl overflow-hidden safe-bottom max-h-[80vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {locationTypeModal === 'home' ? (
+                    <Home className="w-6 h-6 text-primary" />
+                  ) : (
+                    <Briefcase className="w-6 h-6 text-primary" />
+                  )}
+                  <h3 className="font-semibold text-lg text-foreground">
+                    Add {locationTypeModal === 'home' ? 'Home' : 'Work'} Location
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setLocationTypeModal(null)}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Search Input */}
+              <div className="px-6 py-4">
+                <Input
+                  leftIcon={<Search className="w-5 h-5" />}
+                  placeholder={`Search for your ${locationTypeModal} area...`}
+                  value={locationTypeSearch}
+                  onChange={(e) => setLocationTypeSearch(e.target.value)}
+                  autoFocus
+                />
+              </div>
+
+              {/* Search Results */}
+              <div className="flex-1 overflow-y-auto px-6 pb-6">
+                {locationTypeResults.length > 0 ? (
+                  <div className="space-y-1">
+                    {locationTypeResults.map((location) => (
+                      <button
+                        key={location.slug}
+                        onClick={() => addLocationWithType(location, locationTypeModal)}
+                        className="w-full px-4 py-3 text-left hover:bg-muted/50 rounded-xl flex items-center justify-between transition-colors"
+                      >
+                        <div>
+                          <div className="font-medium text-foreground">{location.name}</div>
+                          <div className="text-sm text-muted-foreground">{location.state}</div>
+                        </div>
+                        <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                      </button>
+                    ))}
+                  </div>
+                ) : locationTypeSearch.length >= 2 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <MapPin className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p>No areas found for &quot;{locationTypeSearch}&quot;</p>
+                    <p className="text-sm mt-1">Try a different search term</p>
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <MapPin className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p>Start typing to search for your {locationTypeModal} area</p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

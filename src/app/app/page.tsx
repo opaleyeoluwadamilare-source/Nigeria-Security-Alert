@@ -44,14 +44,18 @@ import {
 } from '@/components/landing/IncidentIcons'
 import type { Alert } from '@/types'
 
-type FilterType = 'all' | 'critical' | 'traffic' | 'resolved' | 'my-reports'
+type FilterType = 'all' | 'critical' | 'robbery' | 'kidnapping' | 'fire' | 'accident' | 'traffic' | 'checkpoint' | 'resolved'
 
-const filterOptions: { value: FilterType; label: string }[] = [
+const filterOptions: { value: FilterType; label: string; icon?: string }[] = [
   { value: 'all', label: 'All' },
-  { value: 'critical', label: 'Critical' },
-  { value: 'traffic', label: 'Traffic' },
-  { value: 'resolved', label: 'Resolved' },
-  { value: 'my-reports', label: 'My Reports' },
+  { value: 'critical', label: 'Critical', icon: '🚨' },
+  { value: 'robbery', label: 'Robbery', icon: '🔴' },
+  { value: 'kidnapping', label: 'Kidnapping', icon: '🆘' },
+  { value: 'fire', label: 'Fire', icon: '🔥' },
+  { value: 'accident', label: 'Accident', icon: '🚗' },
+  { value: 'traffic', label: 'Traffic', icon: '🚧' },
+  { value: 'checkpoint', label: 'Checkpoint', icon: '🚔' },
+  { value: 'resolved', label: 'Resolved', icon: '✓' },
 ]
 
 export default function AppFeedPage() {
@@ -97,12 +101,20 @@ export default function AppFeedPage() {
     switch (filter) {
       case 'critical':
         return alert.risk_level === 'EXTREME' || alert.risk_level === 'VERY HIGH' || alert.risk_level === 'HIGH'
+      case 'robbery':
+        return alert.incident_type === 'robbery'
+      case 'kidnapping':
+        return alert.incident_type === 'kidnapping'
+      case 'fire':
+        return alert.incident_type === 'fire'
+      case 'accident':
+        return alert.incident_type === 'accident'
       case 'traffic':
-        return alert.incident_type === 'traffic' || alert.incident_type === 'accident'
+        return alert.incident_type === 'traffic'
+      case 'checkpoint':
+        return alert.incident_type === 'checkpoint'
       case 'resolved':
         return alert.status === 'ended'
-      case 'my-reports':
-        return false // Would need user reports implementation
       default:
         return true
     }
@@ -203,20 +215,32 @@ export default function AppFeedPage() {
         <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4">
           {filterOptions.map((option) => {
             const isActive = filter === option.value
+            // Count alerts for this filter
+            const count = option.value === 'all'
+              ? alerts.filter(a => a.status === 'active').length
+              : option.value === 'critical'
+                ? alerts.filter(a => a.risk_level === 'EXTREME' || a.risk_level === 'VERY HIGH').length
+                : option.value === 'resolved'
+                  ? alerts.filter(a => a.status === 'ended').length
+                  : alerts.filter(a => a.incident_type === option.value).length
+
             return (
               <button
                 key={option.value}
                 onClick={() => setFilter(option.value)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                className={`px-3 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   isActive
                     ? 'bg-primary text-primary-foreground shadow-sm'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }`}
               >
+                {option.icon && <span className="text-sm">{option.icon}</span>}
                 {option.label}
-                {option.value === 'critical' && alerts.filter(a => a.risk_level === 'EXTREME' || a.risk_level === 'VERY HIGH').length > 0 && (
-                  <span className="ml-1.5 px-1.5 py-0.5 bg-safety-red text-white text-xs rounded-full">
-                    {alerts.filter(a => a.risk_level === 'EXTREME' || a.risk_level === 'VERY HIGH').length}
+                {count > 0 && option.value !== 'all' && (
+                  <span className={`ml-1 px-1.5 py-0.5 text-xs rounded-full ${
+                    isActive ? 'bg-white/20' : 'bg-gray-200'
+                  }`}>
+                    {count}
                   </span>
                 )}
               </button>
