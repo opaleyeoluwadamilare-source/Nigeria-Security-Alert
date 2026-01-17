@@ -1,23 +1,33 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   // Verify cron secret to prevent unauthorized access
+  // Check both Authorization header and query param for flexibility
   const authHeader = request.headers.get('authorization')
+  const { searchParams } = new URL(request.url)
+  const querySecret = searchParams.get('secret')
   const cronSecret = process.env.CRON_SECRET
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // If CRON_SECRET is set, require authentication
+  if (cronSecret) {
+    const providedSecret = authHeader?.replace('Bearer ', '') || querySecret
+    if (providedSecret !== cronSecret) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
   }
 
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error('Missing Supabase environment variables')
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey)
 
     // Simple query to keep database active
     const { error } = await supabase.from('reports').select('id').limit(1)
