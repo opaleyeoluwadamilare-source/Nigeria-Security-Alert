@@ -24,8 +24,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString()
+    // In sandbox/dev mode, use a fixed test code for easier testing
+    const isDev = process.env.NODE_ENV === 'development' || process.env.AT_USERNAME === 'sandbox'
+
+    // Generate 6-digit OTP (use fixed code in test mode)
+    const otp = isDev ? '123456' : Math.floor(100000 + Math.random() * 900000).toString()
 
     // Store OTP (expires in 10 minutes)
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000)
@@ -60,13 +63,10 @@ export async function POST(request: NextRequest) {
     const result = await response.json()
     console.log('SMS API response:', result)
 
-    // In development/sandbox, also return the OTP for testing
-    const isDev = process.env.NODE_ENV === 'development' || process.env.AT_USERNAME === 'sandbox'
-
     return NextResponse.json({
       success: true,
       message: 'Verification code sent',
-      ...(isDev && { code: otp }), // Only include in dev/sandbox for testing
+      ...(isDev && { code: otp, testMode: true }), // Include code in dev/sandbox for testing
     })
 
   } catch (error) {

@@ -331,8 +331,18 @@ export function PhoneAuthModal({ isOpen, onClose, onSuccess }: PhoneAuthModalPro
                     </p>
                     {sandboxCode && (
                       <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-                        <p className="text-xs text-amber-600 font-medium">SANDBOX MODE - Your code is:</p>
-                        <p className="text-2xl font-bold text-amber-700 tracking-widest">{sandboxCode}</p>
+                        <p className="text-xs text-amber-600 font-medium">TEST MODE</p>
+                        <p className="text-2xl font-bold text-amber-700 tracking-widest mb-2">{sandboxCode}</p>
+                        <button
+                          onClick={() => {
+                            const codeArray = sandboxCode.split('')
+                            setOtp(codeArray)
+                            handleVerifyOTP(sandboxCode)
+                          }}
+                          className="text-xs bg-amber-600 text-white px-3 py-1.5 rounded-lg hover:bg-amber-700 transition-colors"
+                        >
+                          Use Test Code
+                        </button>
                       </div>
                     )}
                   </div>

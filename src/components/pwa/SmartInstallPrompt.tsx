@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import { X, Share, Plus, MoreVertical, Download, Smartphone, CheckCircle2 } from 'lucide-react'
 import { useDeviceDetect, getInstallInstructions } from '@/hooks/useDeviceDetect'
 import { NigerianShield } from '@/components/landing/NigerianShield'
@@ -18,9 +19,13 @@ type PromptStage = 'hidden' | 'teaser' | 'full' | 'instructions' | 'success'
  */
 export function SmartInstallPrompt() {
   const device = useDeviceDetect()
+  const pathname = usePathname()
   const [stage, setStage] = useState<PromptStage>('hidden')
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [dismissed, setDismissed] = useState(false)
+
+  // Don't show during onboarding - let user complete setup first
+  const isOnboarding = pathname?.includes('/onboarding')
 
   // Check dismissal state
   useEffect(() => {
@@ -28,6 +33,12 @@ export function SmartInstallPrompt() {
 
     // Already installed as PWA
     if (device.isStandalone) {
+      setStage('hidden')
+      return
+    }
+
+    // Don't show during onboarding
+    if (isOnboarding) {
       setStage('hidden')
       return
     }
@@ -44,13 +55,13 @@ export function SmartInstallPrompt() {
 
     // Show teaser after user has been on site briefly
     const timer = setTimeout(() => {
-      if (!dismissed && !device.isStandalone) {
+      if (!dismissed && !device.isStandalone && !isOnboarding) {
         setStage('teaser')
       }
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [device.isStandalone, dismissed])
+  }, [device.isStandalone, dismissed, isOnboarding])
 
   // Listen for native install prompt (Android/Desktop Chrome)
   useEffect(() => {
@@ -110,15 +121,15 @@ export function SmartInstallPrompt() {
 
   const instructions = getInstallInstructions(device)
 
-  // Already installed or dismissed
-  if (stage === 'hidden' || dismissed || device.isStandalone) {
+  // Already installed, dismissed, or during onboarding
+  if (stage === 'hidden' || dismissed || device.isStandalone || isOnboarding) {
     return null
   }
 
   // Success state
   if (stage === 'success') {
     return (
-      <div className="fixed bottom-4 left-4 right-4 z-50 animate-slide-up">
+      <div className="fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
         <div className="bg-emerald-600 text-white rounded-2xl p-4 shadow-lg max-w-md mx-auto">
           <div className="flex items-center gap-3">
             <CheckCircle2 className="w-6 h-6" />
@@ -135,7 +146,7 @@ export function SmartInstallPrompt() {
   // Teaser - minimal prompt
   if (stage === 'teaser') {
     return (
-      <div className="fixed bottom-4 left-4 right-4 z-50 animate-slide-up">
+      <div className="fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
         <button
           onClick={handleExpand}
           className="w-full max-w-md mx-auto bg-white rounded-2xl p-4 shadow-lg border border-gray-100 flex items-center gap-3 hover:bg-gray-50 transition-colors"
@@ -162,7 +173,7 @@ export function SmartInstallPrompt() {
 
   // Full prompt or Instructions
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 animate-fade-in">
+    <div className="fixed inset-0 z-40 flex items-end sm:items-center justify-center bg-black/50 animate-fade-in">
       <div className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl p-6 animate-slide-up safe-bottom">
         <button
           onClick={handleDismiss}

@@ -25,30 +25,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find valid OTP
-    const { data: otpRecord, error: findError } = await supabase
-      .from('otp_codes')
-      .select('*')
-      .eq('phone', normalizedPhone)
-      .eq('code', code)
-      .eq('used', false)
-      .gt('expires_at', new Date().toISOString())
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single()
+    // Demo/Test mode: accept test codes 000000 or 123456 for any valid number
+    const isTestCode = code === '000000' || code === '123456'
+    const isTestMode = process.env.AT_USERNAME === 'sandbox' || process.env.NODE_ENV === 'development'
 
-    if (findError || !otpRecord) {
-      return NextResponse.json(
-        { error: 'Invalid or expired code' },
-        { status: 400 }
-      )
+    if (!isTestCode || !isTestMode) {
+      // Find valid OTP in database
+      const { data: otpRecord, error: findError } = await supabase
+        .from('otp_codes')
+        .select('*')
+        .eq('phone', normalizedPhone)
+        .eq('code', code)
+        .eq('used', false)
+        .gt('expires_at', new Date().toISOString())
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+      if (findError || !otpRecord) {
+        return NextResponse.json(
+          { error: 'Invalid or expired code' },
+          { status: 400 }
+        )
+      }
+
+      // Mark OTP as used
+      await supabase
+        .from('otp_codes')
+        .update({ used: true })
+        .eq('id', otpRecord.id)
     }
-
-    // Mark OTP as used
-    await supabase
-      .from('otp_codes')
-      .update({ used: true })
-      .eq('id', otpRecord.id)
+    // If test code in test mode, skip OTP verification
 
     // Find or create user
     let { data: user, error: userError } = await supabase
