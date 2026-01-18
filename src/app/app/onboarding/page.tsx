@@ -413,7 +413,7 @@ export default function OnboardingPage() {
                 Verify your phone
               </h2>
               <p className="text-muted-foreground mb-6">
-                Quick verification helps keep our community safe
+                Phone verification is required to prevent fake reports
               </p>
 
               {isPhoneVerified ? (
@@ -482,15 +482,6 @@ export default function OnboardingPage() {
                   </Button>
                 )}
               </div>
-
-              {!isPhoneVerified && (
-                <button
-                  onClick={goNext}
-                  className="w-full mt-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Skip for now (you can verify later)
-                </button>
-              )}
             </motion.div>
           )}
 
