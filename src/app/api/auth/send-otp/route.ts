@@ -24,11 +24,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // In sandbox/dev mode, use a fixed test code for easier testing
-    const isDev = process.env.NODE_ENV === 'development' || process.env.AT_USERNAME === 'sandbox'
+    // Check if in test/sandbox mode
+    const isTestMode = process.env.AT_USERNAME === 'sandbox' || process.env.NODE_ENV === 'development'
 
-    // Generate 6-digit OTP (use fixed code in test mode)
-    const otp = isDev ? '123456' : Math.floor(100000 + Math.random() * 900000).toString()
+    // In test mode, skip DB and SMS - just return test code
+    if (isTestMode) {
+      console.log('Test mode: Skipping actual SMS, returning test code 123456')
+      return NextResponse.json({
+        success: true,
+        message: 'Test mode - use code 123456',
+        code: '123456',
+        testMode: true,
+      })
+    }
+
+    // Production mode: Generate real OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString()
 
     // Store OTP (expires in 10 minutes)
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000)
@@ -42,9 +53,7 @@ export async function POST(request: NextRequest) {
     if (dbError) throw dbError
 
     // Send via Africa's Talking
-    const apiUrl = process.env.AT_USERNAME === 'sandbox'
-      ? 'https://api.sandbox.africastalking.com/version1/messaging'
-      : 'https://api.africastalking.com/version1/messaging'
+    const apiUrl = 'https://api.africastalking.com/version1/messaging'
 
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -66,7 +75,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Verification code sent',
-      ...(isDev && { code: otp, testMode: true }), // Include code in dev/sandbox for testing
     })
 
   } catch (error) {

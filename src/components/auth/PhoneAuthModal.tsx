@@ -163,7 +163,7 @@ export function PhoneAuthModal({ isOpen, onClose, onSuccess }: PhoneAuthModalPro
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: formattedPhone, otp: otpCode }),
+        body: JSON.stringify({ phone: formattedPhone, code: otpCode }),
       })
 
       const data = await response.json()

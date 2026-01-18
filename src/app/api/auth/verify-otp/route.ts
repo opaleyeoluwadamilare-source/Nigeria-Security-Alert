@@ -25,37 +25,54 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Demo/Test mode: accept test codes 000000 or 123456 for any valid number
+    // Check if in test/sandbox mode
     const isTestCode = code === '000000' || code === '123456'
     const isTestMode = process.env.AT_USERNAME === 'sandbox' || process.env.NODE_ENV === 'development'
 
-    if (!isTestCode || !isTestMode) {
-      // Find valid OTP in database
-      const { data: otpRecord, error: findError } = await supabase
-        .from('otp_codes')
-        .select('*')
-        .eq('phone', normalizedPhone)
-        .eq('code', code)
-        .eq('used', false)
-        .gt('expires_at', new Date().toISOString())
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
-
-      if (findError || !otpRecord) {
-        return NextResponse.json(
-          { error: 'Invalid or expired code' },
-          { status: 400 }
-        )
+    // In test mode with test code, return mock user without DB
+    if (isTestMode && isTestCode) {
+      console.log('Test mode: Returning mock user for', normalizedPhone)
+      const mockUser = {
+        id: `test-${Date.now()}`,
+        phone: normalizedPhone,
+        phone_verified: true,
+        trust_score: 0,
+        created_at: new Date().toISOString(),
+        last_active: new Date().toISOString(),
       }
-
-      // Mark OTP as used
-      await supabase
-        .from('otp_codes')
-        .update({ used: true })
-        .eq('id', otpRecord.id)
+      return NextResponse.json({
+        success: true,
+        userId: mockUser.id,
+        user: mockUser,
+        testMode: true,
+      })
     }
-    // If test code in test mode, skip OTP verification
+
+    // Production mode: verify against DB
+    // Find valid OTP in database
+    const { data: otpRecord, error: findError } = await supabase
+      .from('otp_codes')
+      .select('*')
+      .eq('phone', normalizedPhone)
+      .eq('code', code)
+      .eq('used', false)
+      .gt('expires_at', new Date().toISOString())
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (findError || !otpRecord) {
+      return NextResponse.json(
+        { error: 'Invalid or expired code' },
+        { status: 400 }
+      )
+    }
+
+    // Mark OTP as used
+    await supabase
+      .from('otp_codes')
+      .update({ used: true })
+      .eq('id', otpRecord.id)
 
     // Find or create user
     let { data: user, error: userError } = await supabase
@@ -91,6 +108,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      userId: user.id,
       user,
     })
   } catch (error) {
