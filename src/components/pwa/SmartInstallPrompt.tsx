@@ -151,18 +151,24 @@ export function SmartInstallPrompt() {
           onClick={handleExpand}
           className="w-full max-w-md mx-auto bg-white rounded-2xl p-4 shadow-lg border border-gray-100 flex items-center gap-3 hover:bg-gray-50 transition-colors"
         >
-          <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center flex-shrink-0">
-            <NigerianShield className="w-6 h-6" />
+          <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+            <NigerianShield className="w-7 h-7 text-white" />
           </div>
           <div className="flex-1 text-left">
-            <p className="font-medium text-gray-900 text-sm">Get instant safety alerts</p>
-            <p className="text-xs text-gray-500">Install app for faster access</p>
+            <p className="font-semibold text-gray-900">Install SafetyAlerts</p>
+            <p className="text-xs text-gray-500">
+              {device.isIOS ? 'Tap to see how → Safari Share button' :
+               device.isAndroid ? 'Tap to install on your phone' :
+               'Add to your home screen'}
+            </p>
           </div>
-          <Download className="w-5 h-5 text-emerald-600" />
+          <div className="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium">
+            Install
+          </div>
         </button>
         <button
           onClick={handleDismiss}
-          className="absolute -top-2 -right-2 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300"
+          className="absolute -top-2 right-2 w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300"
           aria-label="Dismiss"
         >
           <X className="w-4 h-4 text-gray-600" />
@@ -219,24 +225,101 @@ export function SmartInstallPrompt() {
         {/* Install instructions or button */}
         {stage === 'instructions' ? (
           <div className="mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">{instructions.title}</h3>
-            <ol className="space-y-3">
-              {instructions.steps.map((step, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <span className="w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                    {index + 1}
-                  </span>
-                  <span className="text-gray-700 text-sm pt-0.5">{step}</span>
-                </li>
-              ))}
-            </ol>
+            {device.isIOS ? (
+              <>
+                {/* iOS-specific visual instructions */}
+                <h3 className="font-semibold text-gray-900 mb-4 text-center">Install in 3 easy steps</h3>
 
-            {/* Visual hint for iOS */}
-            {device.isIOS && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-xl flex items-center justify-center gap-2">
-                <Share className="w-5 h-5 text-blue-500" />
-                <span className="text-sm text-gray-600">Look for this Share icon</span>
-              </div>
+                {/* Step 1 */}
+                <div className="flex items-center gap-4 p-3 bg-blue-50 rounded-xl mb-3">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <svg className="w-7 h-7 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">Tap the Share button</p>
+                    <p className="text-xs text-gray-500">At the bottom of your Safari browser</p>
+                  </div>
+                  <span className="w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl mb-3">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <Plus className="w-7 h-7 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">Add to Home Screen</p>
+                    <p className="text-xs text-gray-500">Scroll down and tap this option</p>
+                  </div>
+                  <span className="w-7 h-7 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex items-center gap-4 p-3 bg-emerald-50 rounded-xl mb-4">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <CheckCircle2 className="w-7 h-7 text-emerald-500" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">Tap &quot;Add&quot;</p>
+                    <p className="text-xs text-gray-500">Confirm to add to your home screen</p>
+                  </div>
+                  <span className="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                </div>
+
+                {/* Animated arrow pointing down */}
+                <div className="flex flex-col items-center text-blue-500 animate-bounce">
+                  <p className="text-xs font-medium mb-1">Share button is down here</p>
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </div>
+              </>
+            ) : device.isAndroid ? (
+              <>
+                {/* Android-specific visual instructions */}
+                <h3 className="font-semibold text-gray-900 mb-4 text-center">Install in 2 easy steps</h3>
+
+                {/* Step 1 */}
+                <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl mb-3">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <MoreVertical className="w-7 h-7 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">Tap the menu (⋮)</p>
+                    <p className="text-xs text-gray-500">Three dots at top right of browser</p>
+                  </div>
+                  <span className="w-7 h-7 bg-gray-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex items-center gap-4 p-3 bg-emerald-50 rounded-xl mb-4">
+                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <Plus className="w-7 h-7 text-emerald-500" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">&quot;Add to Home screen&quot;</p>
+                    <p className="text-xs text-gray-500">Tap to install the app</p>
+                  </div>
+                  <span className="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Desktop instructions */}
+                <h3 className="font-semibold text-gray-900 mb-3">{instructions.title}</h3>
+                <ol className="space-y-3">
+                  {instructions.steps.map((step, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
+                        {index + 1}
+                      </span>
+                      <span className="text-gray-700 text-sm pt-0.5">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </>
             )}
           </div>
         ) : (
