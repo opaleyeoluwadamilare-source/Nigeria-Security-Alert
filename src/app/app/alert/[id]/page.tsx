@@ -348,8 +348,26 @@ export default function AlertDetailPage({ params }: { params: { id: string } }) 
             )}
           </div>
 
-          <button className="w-full mt-3 py-2 bg-muted rounded-lg text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-2">
-            <ExternalLink className="w-4 h-4" />
+          <button
+            onClick={() => {
+              if (report?.latitude && report?.longitude) {
+                // Detect if iOS for Apple Maps, otherwise Google Maps
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+                const destination = `${report.latitude},${report.longitude}`
+                const label = encodeURIComponent(report.area_name || 'Incident Location')
+
+                if (isIOS) {
+                  // Apple Maps
+                  window.open(`maps://maps.apple.com/?daddr=${destination}&q=${label}`, '_blank')
+                } else {
+                  // Google Maps
+                  window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank')
+                }
+              }
+            }}
+            className="w-full mt-3 py-2 bg-muted rounded-lg text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-2"
+          >
+            <Navigation className="w-4 h-4" />
             Get Directions
           </button>
         </motion.div>

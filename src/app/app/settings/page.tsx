@@ -37,6 +37,7 @@ import {
 } from 'lucide-react'
 import { NigerianShield } from '@/components/landing/NigerianShield'
 import { useDeviceDetect, getInstallInstructions } from '@/hooks/useDeviceDetect'
+import { useDevice } from '@/hooks/useDevice'
 import { useAppStore } from '@/lib/store'
 import { usePushNotifications } from '@/hooks/usePushNotifications'
 import { searchLocations } from '@/lib/locations'
@@ -56,6 +57,7 @@ interface BeforeInstallPromptEvent extends Event {
 export default function SettingsPage() {
   const router = useRouter()
   const device = useDeviceDetect()
+  const deviceInfo = useDevice()
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<NigerianLocation[]>([])
   const [showAddArea, setShowAddArea] = useState(false)
@@ -63,6 +65,7 @@ export default function SettingsPage() {
   const [showPhoneAuth, setShowPhoneAuth] = useState(false)
   const [quietHours, setQuietHours] = useState(false)
   const [criticalOnly, setCriticalOnly] = useState(false)
+  const [smsAlertsEnabled, setSmsAlertsEnabled] = useState(false)
   const [alertRadius, setAlertRadius] = useState<'1km' | '3km' | '5km' | '10km'>('5km')
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [showInstallInstructions, setShowInstallInstructions] = useState(false)
@@ -123,6 +126,9 @@ export default function SettingsPage() {
     enable: enablePush,
     disable: disablePush,
     isLoading: pushLoading,
+    support: pushSupport,
+    testNotification: sendTestNotification,
+    error: pushError,
   } = usePushNotifications()
 
   // Handle search with debounce
@@ -168,43 +174,19 @@ export default function SettingsPage() {
     }
   }
 
-  // Send test notification
-  const sendTestNotification = async () => {
-    if (!('Notification' in window)) {
-      alert('Notifications not supported on this device')
-      return
+  // Send test notification using the hook
+  const handleTestNotification = async () => {
+    const success = await sendTestNotification()
+    if (success) {
+      setTestNotifSent(true)
+      setTimeout(() => setTestNotifSent(false), 3000)
+    } else if (pushSupport.needsPWAInstall) {
+      alert('Install SafetyAlerts as an app to enable notifications. Tap the share button and "Add to Home Screen".')
+    } else if (pushPermission === 'denied') {
+      alert('Notifications are blocked. Please enable in your browser or device settings.')
+    } else {
+      alert('Could not send notification. Please try enabling notifications first.')
     }
-
-    // Request permission if not granted
-    if (Notification.permission === 'default') {
-      const permission = await Notification.requestPermission()
-      if (permission !== 'granted') {
-        alert('Please enable notifications to test')
-        return
-      }
-    }
-
-    if (Notification.permission === 'denied') {
-      alert('Notifications are blocked. Please enable in browser settings.')
-      return
-    }
-
-    // Send test notification
-    const notification = new Notification('🔔 Test Alert - SafetyAlerts', {
-      body: 'If you see this, notifications are working! You\'ll receive alerts for incidents in your areas.',
-      icon: '/icons/icon-192.png',
-      badge: '/icons/icon-72.png',
-      tag: 'test-notification',
-      requireInteraction: false,
-    })
-
-    notification.onclick = () => {
-      window.focus()
-      notification.close()
-    }
-
-    setTestNotifSent(true)
-    setTimeout(() => setTestNotifSent(false), 3000)
   }
 
   // Logout / Reset
@@ -532,10 +514,55 @@ export default function SettingsPage() {
               </div>
             )}
 
+            {/* SMS Alerts - for devices without push support */}
+            {deviceInfo.isIOS && !deviceInfo.canReceivePush && (
+              <div className="p-4 flex items-center justify-between border-t border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-safety-amber/10 rounded-xl flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-safety-amber" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">SMS Alerts</p>
+                    <p className="text-sm text-muted-foreground">
+                      Get critical alerts via SMS
+                    </p>
+                  </div>
+                </div>
+                <Toggle
+                  checked={smsAlertsEnabled}
+                  onChange={async (enabled) => {
+                    setSmsAlertsEnabled(enabled)
+                    if (user?.id) {
+                      try {
+                        await fetch('/api/user/sms-preferences', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            user_id: user.id,
+                            sms_enabled: enabled,
+                            critical_only: true,
+                          }),
+                        })
+                      } catch (e) {
+                        console.error('Failed to update SMS preference:', e)
+                      }
+                    }
+                  }}
+                />
+              </div>
+            )}
+            {deviceInfo.isIOS && !deviceInfo.canReceivePush && smsAlertsEnabled && (
+              <div className="px-4 pb-4">
+                <p className="text-xs text-muted-foreground">
+                  SMS alerts are sent for robberies, kidnappings, and gunshots only. Standard SMS rates apply.
+                </p>
+              </div>
+            )}
+
             {/* Test Notification */}
             <div className="p-4">
               <button
-                onClick={sendTestNotification}
+                onClick={handleTestNotification}
                 disabled={testNotifSent}
                 className={`w-full py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
                   testNotifSent
@@ -753,7 +780,6 @@ export default function SettingsPage() {
             placeholder="Search areas (e.g., Lekki, Wuse 2)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            autoFocus
           />
 
           {searchResults.length > 0 && (

@@ -27,6 +27,7 @@ import { NigerianShield } from '@/components/landing/NigerianShield'
 import { useAppStore } from '@/lib/store'
 import { useLocation } from '@/hooks/useLocation'
 import { usePushNotifications } from '@/hooks/usePushNotifications'
+import { useDevice } from '@/hooks/useDevice'
 import { searchLocations } from '@/lib/locations'
 import { shareAppInvite } from '@/lib/share'
 import { Button } from '@/components/ui/Button'
@@ -74,13 +75,22 @@ export default function OnboardingPage() {
   const [locationTypeSearch, setLocationTypeSearch] = useState('')
   const [locationTypeResults, setLocationTypeResults] = useState<NigerianLocation[]>([])
 
-  const { setHasCompletedOnboarding, setSavedLocations, setCurrentLocation, setUser } =
+  const { setHasCompletedOnboarding, setSavedLocations, setCurrentLocation, setUser, user } =
     useAppStore()
   const { getLocation, loading: locationLoading } = useLocation()
-  const { enable: enablePush, isSupported: pushSupported, isEnabled: pushEnabled } =
-    usePushNotifications()
-  const [notificationsLoading, setNotificationsLoading] = useState(false)
+  const {
+    enable: enablePush,
+    isSupported: pushSupported,
+    isEnabled: pushEnabled,
+    support: pushSupport,
+    error: pushError,
+    isLoading: pushLoading,
+    testNotification,
+  } = usePushNotifications()
+  const deviceInfo = useDevice()
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
+  const [notificationError, setNotificationError] = useState<string | null>(null)
+  const [smsAlertsEnabled, setSmsAlertsEnabled] = useState(false)
 
   const currentStepIndex = stepOrder.indexOf(step)
 
@@ -232,19 +242,35 @@ export default function OnboardingPage() {
 
   // Enable push notifications
   const handleEnableNotifications = async () => {
-    setNotificationsLoading(true)
+    setNotificationError(null)
     try {
       const success = await enablePush()
-      setNotificationsEnabled(success)
-      // Brief delay to show success state
-      setTimeout(() => {
-        goNext()
-      }, 500)
+      if (success) {
+        setNotificationsEnabled(true)
+        // Show a test notification to confirm it works
+        setTimeout(async () => {
+          await testNotification()
+        }, 500)
+        // Brief delay to show success state then continue
+        setTimeout(() => {
+          goNext()
+        }, 1500)
+      } else {
+        // If push failed but we got permission, still continue
+        if (pushError) {
+          setNotificationError(pushError)
+        }
+        // Don't block - continue after showing error briefly
+        setTimeout(() => {
+          goNext()
+        }, 2000)
+      }
     } catch (error) {
       console.error('Failed to enable notifications:', error)
-      goNext() // Continue even if it fails
-    } finally {
-      setNotificationsLoading(false)
+      setNotificationError('Something went wrong. You can enable notifications later in Settings.')
+      setTimeout(() => {
+        goNext()
+      }, 2000)
     }
   }
 
@@ -849,24 +875,13 @@ export default function OnboardingPage() {
                   <ChevronLeft className="w-5 h-5" />
                 </Button>
                 <Button
-                  onClick={async () => {
-                    if (pushSupported) {
-                      await enablePush()
-                    }
-                    goNext()
-                  }}
+                  onClick={goNext}
                   className="flex-1 btn-primary"
                 >
-                  <Bell className="w-5 h-5 mr-2" />
-                  Enable Notifications
+                  Continue
+                  <ChevronRight className="w-5 h-5 ml-2" />
                 </Button>
               </div>
-
-              {!pushSupported && (
-                <p className="text-center text-sm text-muted-foreground mt-3">
-                  Push notifications may not be supported on this device
-                </p>
-              )}
             </motion.div>
           )}
 
@@ -991,121 +1006,273 @@ export default function OnboardingPage() {
               exit="exit"
             >
               <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-safety-amber/10 rounded-full mb-4">
-                  <Bell className="w-8 h-8 text-safety-amber" />
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                  notificationsEnabled ? 'bg-safety-green/10' : 'bg-safety-amber/10'
+                }`}>
+                  {notificationsEnabled ? (
+                    <CheckCircle2 className="w-8 h-8 text-safety-green" />
+                  ) : (
+                    <Bell className="w-8 h-8 text-safety-amber" />
+                  )}
                 </div>
                 <h2 className="text-2xl font-bold text-foreground mb-2">
-                  Stay safe with instant alerts
+                  {notificationsEnabled ? 'Notifications Enabled!' : 'Stay safe with instant alerts'}
                 </h2>
                 <p className="text-muted-foreground">
-                  Get notified immediately when incidents happen in your areas
+                  {notificationsEnabled
+                    ? 'You\'ll receive alerts when incidents happen nearby'
+                    : 'Get notified immediately when incidents happen in your areas'}
                 </p>
               </div>
 
-              {/* Why notifications matter */}
-              <div className="bg-background-elevated rounded-2xl p-4 mb-6">
-                <h3 className="font-semibold text-foreground mb-4">Why this matters:</h3>
-
-                <div className="space-y-4">
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 bg-safety-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg">🚨</span>
+              {/* iOS-specific messaging based on version */}
+              {deviceInfo.isIOS && !notificationsEnabled && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`rounded-2xl p-4 mb-6 ${
+                    deviceInfo.canReceivePush
+                      ? 'bg-safety-green/10 border border-safety-green/20'
+                      : deviceInfo.needsPWAInstall
+                        ? 'bg-blue-50 border border-blue-200'
+                        : 'bg-safety-amber/10 border border-safety-amber/20'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      deviceInfo.canReceivePush
+                        ? 'bg-safety-green/20'
+                        : deviceInfo.needsPWAInstall
+                          ? 'bg-blue-100'
+                          : 'bg-safety-amber/20'
+                    }`}>
+                      <Smartphone className={`w-5 h-5 ${
+                        deviceInfo.canReceivePush
+                          ? 'text-safety-green'
+                          : deviceInfo.needsPWAInstall
+                            ? 'text-blue-600'
+                            : 'text-safety-amber'
+                      }`} />
                     </div>
                     <div>
-                      <p className="font-medium text-foreground">Real-time alerts</p>
-                      <p className="text-sm text-muted-foreground">
-                        Know about robberies, accidents & dangers instantly
-                      </p>
+                      {deviceInfo.canReceivePush ? (
+                        <>
+                          <p className="font-medium text-safety-green">Ready for notifications!</p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Tap the button below to enable push notifications.
+                          </p>
+                        </>
+                      ) : deviceInfo.needsPWAInstall ? (
+                        <>
+                          <p className="font-medium text-blue-900">Install for notifications</p>
+                          <p className="text-sm text-blue-700 mt-1">
+                            {deviceInfo.installInstructions || 'Tap the share button (⬆️) then "Add to Home Screen" to enable notifications.'}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="font-medium text-safety-amber">
+                            {deviceInfo.iOSVersion && deviceInfo.iOSVersion < 16.4
+                              ? `iOS ${deviceInfo.iOSVersion} - SMS alerts available`
+                              : 'Push not supported'}
+                          </p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Your device doesn&apos;t support push notifications, but we can send you SMS alerts for critical incidents like robberies and kidnappings.
+                          </p>
+                          {/* SMS Fallback Toggle */}
+                          <div className="mt-3 flex items-center justify-between p-3 bg-white/50 rounded-lg">
+                            <span className="text-sm font-medium text-foreground">Enable SMS alerts</span>
+                            <Toggle
+                              checked={smsAlertsEnabled}
+                              onChange={(checked) => setSmsAlertsEnabled(checked)}
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
+                </motion.div>
+              )}
 
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 bg-safety-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg">✅</span>
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">Even when app is closed</p>
-                      <p className="text-sm text-muted-foreground">
-                        Alerts reach you 24/7, no need to keep app open
-                      </p>
-                    </div>
-                  </div>
+              {/* Error Message */}
+              {(notificationError || pushError) && !notificationsEnabled && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-safety-amber/10 border border-safety-amber/20 rounded-xl p-3 mb-4"
+                >
+                  <p className="text-sm text-safety-amber text-center">
+                    {notificationError || pushError}
+                  </p>
+                </motion.div>
+              )}
 
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg">🔇</span>
+              {/* Why notifications matter - only show if not yet enabled */}
+              {!notificationsEnabled && !pushSupport.needsPWAInstall && (
+                <div className="bg-background-elevated rounded-2xl p-4 mb-6">
+                  <h3 className="font-semibold text-foreground mb-4">Why this matters:</h3>
+
+                  <div className="space-y-4">
+                    <div className="flex gap-3">
+                      <div className="w-10 h-10 bg-safety-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span className="text-lg">🚨</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground">Real-time alerts</p>
+                        <p className="text-sm text-muted-foreground">
+                          Know about robberies, accidents & dangers instantly
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-foreground">You control it</p>
-                      <p className="text-sm text-muted-foreground">
-                        Customize which alerts you receive in settings
-                      </p>
+
+                    <div className="flex gap-3">
+                      <div className="w-10 h-10 bg-safety-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span className="text-lg">✅</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground">Even when app is closed</p>
+                        <p className="text-sm text-muted-foreground">
+                          Alerts reach you 24/7, no need to keep app open
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span className="text-lg">🔇</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground">You control it</p>
+                        <p className="text-sm text-muted-foreground">
+                          Customize which alerts you receive in settings
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Sample notification preview */}
-              <div className="bg-muted/50 rounded-xl p-4 mb-6">
-                <p className="text-xs text-muted-foreground text-center mb-3">
-                  Notifications look like this:
-                </p>
-                <div className="bg-white rounded-xl p-3 shadow-sm border border-border flex items-start gap-3">
-                  <div className="w-10 h-10 bg-safety-red/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">🔴</span>
+              {!notificationsEnabled && (
+                <div className="bg-muted/50 rounded-xl p-4 mb-6">
+                  <p className="text-xs text-muted-foreground text-center mb-3">
+                    Notifications look like this:
+                  </p>
+                  <div className="bg-white rounded-xl p-3 shadow-sm border border-border flex items-start gap-3">
+                    <div className="w-10 h-10 bg-safety-red/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg">🔴</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground text-sm">ROBBERY near Lekki Phase 1</p>
+                      <p className="text-xs text-muted-foreground truncate">Armed men spotted at Admiralty Way...</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">now</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-foreground text-sm">ROBBERY near Lekki Phase 1</p>
-                    <p className="text-xs text-muted-foreground truncate">Armed men spotted at Admiralty Way...</p>
-                  </div>
-                  <span className="text-xs text-muted-foreground">now</span>
                 </div>
-              </div>
+              )}
+
+              {/* Success message */}
+              {notificationsEnabled && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-safety-green/10 border border-safety-green/20 rounded-2xl p-6 mb-6 text-center"
+                >
+                  <p className="text-safety-green font-medium">
+                    Check your notifications - we sent a test alert!
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Moving to next step...
+                  </p>
+                </motion.div>
+              )}
 
               {/* Action buttons */}
               <div className="space-y-3">
-                <Button
-                  onClick={handleEnableNotifications}
-                  disabled={notificationsLoading || notificationsEnabled}
-                  className="w-full btn-primary py-4"
-                >
-                  {notificationsLoading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                      Enabling...
-                    </>
-                  ) : notificationsEnabled ? (
-                    <>
-                      <CheckCircle2 className="w-5 h-5 mr-2" />
-                      Notifications Enabled!
-                    </>
-                  ) : (
-                    <>
-                      <Bell className="w-5 h-5 mr-2" />
-                      Enable Notifications
-                    </>
-                  )}
-                </Button>
-
-                <div className="flex gap-3">
-                  <Button variant="secondary" onClick={goBack}>
-                    <ChevronLeft className="w-5 h-5" />
-                  </Button>
-                  <button
-                    onClick={skipNotifications}
-                    className="flex-1 text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                {/* Show different button based on device and state */}
+                {deviceInfo.isIOS && !deviceInfo.canReceivePush && !deviceInfo.needsPWAInstall ? (
+                  // Old iOS - offer SMS fallback
+                  <Button
+                    onClick={async () => {
+                      // Save SMS preference if enabled
+                      if (smsAlertsEnabled && user?.id) {
+                        try {
+                          await fetch('/api/user/sms-preferences', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              user_id: user.id,
+                              sms_enabled: true,
+                              critical_only: true,
+                            }),
+                          })
+                        } catch (e) {
+                          console.error('Failed to save SMS preference:', e)
+                        }
+                      }
+                      goNext()
+                    }}
+                    className="w-full btn-primary py-4"
                   >
-                    Skip (not recommended)
-                  </button>
-                </div>
-              </div>
+                    {smsAlertsEnabled ? (
+                      <>
+                        <MessageCircle className="w-5 h-5 mr-2" />
+                        Continue with SMS Alerts
+                      </>
+                    ) : (
+                      <>
+                        <ChevronRight className="w-5 h-5 mr-2" />
+                        Continue
+                      </>
+                    )}
+                  </Button>
+                ) : deviceInfo.needsPWAInstall ? (
+                  <Button
+                    onClick={goNext}
+                    className="w-full btn-primary py-4"
+                  >
+                    Continue (Install Later for Notifications)
+                    <ChevronRight className="w-5 h-5 ml-2" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleEnableNotifications}
+                    disabled={pushLoading || notificationsEnabled}
+                    className="w-full btn-primary py-4"
+                  >
+                    {pushLoading ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                        Enabling...
+                      </>
+                    ) : notificationsEnabled ? (
+                      <>
+                        <CheckCircle2 className="w-5 h-5 mr-2" />
+                        Enabled!
+                      </>
+                    ) : (
+                      <>
+                        <Bell className="w-5 h-5 mr-2" />
+                        Enable Notifications
+                      </>
+                    )}
+                  </Button>
+                )}
 
-              {!pushSupported && (
-                <p className="mt-4 text-xs text-center text-safety-amber">
-                  ⚠️ Push notifications may not be supported on this browser.
-                  Try using Safari on iOS or Chrome on Android.
-                </p>
-              )}
+                {!notificationsEnabled && (
+                  <div className="flex gap-3">
+                    <Button variant="secondary" onClick={goBack}>
+                      <ChevronLeft className="w-5 h-5" />
+                    </Button>
+                    <button
+                      onClick={skipNotifications}
+                      className="flex-1 text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                    >
+                      Skip (not recommended)
+                    </button>
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
 
@@ -1327,7 +1494,6 @@ export default function OnboardingPage() {
                   placeholder={`Search for your ${locationTypeModal} area...`}
                   value={locationTypeSearch}
                   onChange={(e) => setLocationTypeSearch(e.target.value)}
-                  autoFocus
                 />
               </div>
 

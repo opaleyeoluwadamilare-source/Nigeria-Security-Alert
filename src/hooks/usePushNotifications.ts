@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import {
-  isPushSupported,
+  checkPushSupport,
   requestNotificationPermission,
   subscribeToPush,
   unsubscribeFromPush,
   getNotificationPermission,
   subscriptionToJSON,
+  showLocalNotification,
+  type PushSupport,
 } from '@/lib/push'
 import { useAppStore } from '@/lib/store'
 import { getSupabase } from '@/lib/supabase'
@@ -21,125 +23,181 @@ function isSupabaseConfigured(): boolean {
 }
 
 interface UsePushNotificationsReturn {
+  // Support info
   isSupported: boolean
+  support: PushSupport
   permission: NotificationPermission
   isEnabled: boolean
   isLoading: boolean
+  error: string | null
+
+  // Actions
   enable: () => Promise<boolean>
   disable: () => Promise<boolean>
+  testNotification: () => Promise<boolean>
 }
 
 export function usePushNotifications(): UsePushNotificationsReturn {
   const { user, isPushEnabled, setIsPushEnabled } = useAppStore()
-  const [isSupported, setIsSupported] = useState(false)
+  const [support, setSupport] = useState<PushSupport>({
+    supported: false,
+    isIOS: false,
+    isIOSPWA: false,
+    needsPWAInstall: false,
+  })
   const [permission, setPermission] = useState<NotificationPermission>('default')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
+  // Check support on mount
   useEffect(() => {
-    setIsSupported(isPushSupported())
+    const pushSupport = checkPushSupport()
+    setSupport(pushSupport)
     setPermission(getNotificationPermission())
   }, [])
 
+  // Enable push notifications
   const enable = useCallback(async (): Promise<boolean> => {
-    // Allow enabling push even without user authentication
-    if (!isSupported) return false
-
     setIsLoading(true)
+    setError(null)
+
     try {
+      // Check support first
+      const pushSupport = checkPushSupport()
+      setSupport(pushSupport)
+
+      if (!pushSupport.supported) {
+        if (pushSupport.needsPWAInstall) {
+          setError('Please install SafetyAlerts as an app to enable notifications')
+        } else {
+          setError(pushSupport.reason || 'Push notifications not supported')
+        }
+        setIsLoading(false)
+        return false
+      }
+
       // Request permission
       const perm = await requestNotificationPermission()
       setPermission(perm)
 
+      if (perm === 'denied') {
+        setError('Notifications blocked. Please enable in browser settings.')
+        setIsLoading(false)
+        return false
+      }
+
       if (perm !== 'granted') {
+        setError('Notification permission not granted')
         setIsLoading(false)
         return false
       }
 
       // Subscribe to push
       const subscription = await subscribeToPush()
+
       if (!subscription) {
+        // Even without push subscription, local notifications can work
+        // So we'll consider this a partial success
+        console.warn('Push subscription failed, but local notifications may still work')
+        setIsPushEnabled(true)
         setIsLoading(false)
-        return false
+        return true
       }
 
-      // Save subscription to database only if user is authenticated and Supabase is configured
+      // Save subscription to database if user is authenticated
       if (user && isSupabaseConfigured()) {
-        const supabase = getSupabase()
-        const subscriptionData = subscriptionToJSON(subscription)
-        const { error } = await supabase.from('push_subscriptions').upsert(
-          {
-            user_id: user.id,
-            endpoint: subscriptionData.endpoint,
-            keys: subscriptionData.keys,
-          },
-          { onConflict: 'endpoint' }
-        )
+        try {
+          const supabase = getSupabase()
+          const subscriptionData = subscriptionToJSON(subscription)
+          const { error: dbError } = await supabase.from('push_subscriptions').upsert(
+            {
+              user_id: user.id,
+              endpoint: subscriptionData.endpoint,
+              keys: subscriptionData.keys,
+            },
+            { onConflict: 'endpoint' }
+          )
 
-        if (error) {
-          console.warn('Failed to save push subscription to database:', error)
-          // Continue anyway - local push will still work
+          if (dbError) {
+            console.warn('Failed to save push subscription to database:', dbError)
+            // Continue anyway - local push will still work
+          }
+        } catch (dbErr) {
+          console.warn('Database save failed:', dbErr)
         }
       }
 
       setIsPushEnabled(true)
       setIsLoading(false)
       return true
-    } catch (error) {
-      console.error('Enable push failed:', error)
-      setIsLoading(false)
-      return false
-    }
-  }, [user, isSupported, setIsPushEnabled])
-
-  const disable = useCallback(async (): Promise<boolean> => {
-    setIsLoading(true)
-    try {
-      await unsubscribeFromPush()
-
-      if (user && isSupabaseConfigured()) {
-        const supabase = getSupabase()
-        await supabase
-          .from('push_subscriptions')
-          .delete()
-          .eq('user_id', user.id)
-      }
-
-      setIsPushEnabled(false)
-      setIsLoading(false)
-      return true
-    } catch (error) {
-      console.error('Disable push failed:', error)
+    } catch (err) {
+      console.error('Enable push failed:', err)
+      setError('Failed to enable notifications. Please try again.')
       setIsLoading(false)
       return false
     }
   }, [user, setIsPushEnabled])
 
+  // Disable push notifications
+  const disable = useCallback(async (): Promise<boolean> => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      await unsubscribeFromPush()
+
+      if (user && isSupabaseConfigured()) {
+        try {
+          const supabase = getSupabase()
+          await supabase
+            .from('push_subscriptions')
+            .delete()
+            .eq('user_id', user.id)
+        } catch (dbErr) {
+          console.warn('Failed to remove subscription from database:', dbErr)
+        }
+      }
+
+      setIsPushEnabled(false)
+      setIsLoading(false)
+      return true
+    } catch (err) {
+      console.error('Disable push failed:', err)
+      setError('Failed to disable notifications')
+      setIsLoading(false)
+      return false
+    }
+  }, [user, setIsPushEnabled])
+
+  // Test notification
+  const testNotification = useCallback(async (): Promise<boolean> => {
+    if (permission !== 'granted') {
+      const perm = await requestNotificationPermission()
+      setPermission(perm)
+      if (perm !== 'granted') return false
+    }
+
+    return showLocalNotification(
+      '🔔 Test Alert - SafetyAlerts',
+      'Notifications are working! You\'ll receive alerts for incidents in your areas.',
+      { tag: 'test-notification' }
+    )
+  }, [permission])
+
   return {
-    isSupported,
+    isSupported: support.supported,
+    support,
     permission,
     isEnabled: isPushEnabled,
     isLoading,
+    error,
     enable,
     disable,
+    testNotification,
   }
 }
 
 /**
- * Show a local notification (for testing or fallback)
+ * Show a local notification (exported for direct use)
  */
-export function showLocalNotification(
-  title: string,
-  body: string,
-  options?: NotificationOptions
-) {
-  if (!isPushSupported()) return
-
-  if (Notification.permission === 'granted') {
-    new Notification(title, {
-      body,
-      icon: '/icons/icon-192.png',
-      badge: '/icons/icon-192.png',
-      ...options,
-    })
-  }
-}
+export { showLocalNotification }

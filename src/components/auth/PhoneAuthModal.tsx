@@ -104,8 +104,18 @@ export function PhoneAuthModal({ isOpen, onClose, onSuccess }: PhoneAuthModalPro
 
       setStep('otp')
       setCountdown(60) // 60 second cooldown for resend
-      // Focus first OTP input
-      setTimeout(() => otpRefs.current[0]?.focus(), 100)
+      // Focus first OTP input after modal animation completes
+      // Use longer delay to let user see the OTP screen first
+      setTimeout(() => {
+        const input = otpRefs.current[0]
+        if (input) {
+          input.focus()
+          // Ensure input is visible above keyboard on mobile
+          setTimeout(() => {
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }, 100)
+        }
+      }, 400)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send OTP. Please try again.')
     } finally {
@@ -188,7 +198,13 @@ export function PhoneAuthModal({ isOpen, onClose, onSuccess }: PhoneAuthModalPro
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Invalid OTP. Please try again.')
       setOtp(['', '', '', '', '', ''])
-      otpRefs.current[0]?.focus()
+      // Brief delay before refocusing on error so user can see the error message
+      setTimeout(() => {
+        const input = otpRefs.current[0]
+        if (input) {
+          input.focus()
+        }
+      }, 300)
     } finally {
       setLoading(false)
     }
@@ -280,7 +296,6 @@ export function PhoneAuthModal({ isOpen, onClose, onSuccess }: PhoneAuthModalPro
                         }}
                         placeholder="812 345 6789"
                         className="flex-1 px-4 py-3.5 text-lg bg-transparent focus:outline-none"
-                        autoFocus
                       />
                     </div>
                     {error && (
