@@ -38,6 +38,11 @@ export const PERMISSIONS = {
   // Audit & Settings
   view_audit_logs: ['super_admin', 'admin'],
   manage_settings: ['super_admin'],
+
+  // Broadcasts
+  view_broadcasts: ['super_admin', 'admin', 'moderator'],
+  send_broadcasts: ['super_admin', 'admin'],
+  send_emergency_broadcasts: ['super_admin'],
 } as const
 
 export type Permission = keyof typeof PERMISSIONS

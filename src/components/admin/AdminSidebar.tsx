@@ -13,6 +13,7 @@ import {
   Settings,
   Shield,
   X,
+  Radio,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { hasPermission, type AdminRole, type Permission } from '@/lib/admin-auth-client'
@@ -79,6 +80,12 @@ export function AdminSidebar({
       href: '/admin/users',
       icon: <Users className="w-5 h-5" />,
       permission: 'view_users',
+    },
+    {
+      label: 'Broadcasts',
+      href: '/admin/broadcasts',
+      icon: <Radio className="w-5 h-5" />,
+      permission: 'view_broadcasts',
     },
     {
       label: 'Team',
