@@ -29,21 +29,63 @@ export async function POST(request: NextRequest) {
     const isTestCode = code === '000000' || code === '123456'
     const isTestMode = process.env.AT_USERNAME === 'sandbox' || process.env.NODE_ENV === 'development'
 
-    // In test mode with test code, return mock user without DB
+    // In test mode with test code, still create/find real user in DB for push notifications to work
     if (isTestMode && isTestCode) {
-      console.log('Test mode: Returning mock user for', normalizedPhone)
-      const mockUser = {
-        id: `test-${Date.now()}`,
-        phone: normalizedPhone,
-        phone_verified: true,
-        trust_score: 0,
-        created_at: new Date().toISOString(),
-        last_active: new Date().toISOString(),
+      console.log('Test mode: Creating/finding real user for', normalizedPhone)
+
+      // Try to find existing user
+      let { data: user, error: userError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('phone', normalizedPhone)
+        .single()
+
+      if (userError || !user) {
+        // Create new user in database
+        const { data: newUser, error: createError } = await supabase
+          .from('users')
+          .insert({
+            phone: normalizedPhone,
+            phone_verified: true,
+            trust_score: 0,
+          })
+          .select()
+          .single()
+
+        if (createError) {
+          console.error('Failed to create test user:', createError)
+          // Fallback to mock user if DB fails
+          const mockUser = {
+            id: `test-${Date.now()}`,
+            phone: normalizedPhone,
+            phone_verified: true,
+            trust_score: 0,
+            created_at: new Date().toISOString(),
+            last_active: new Date().toISOString(),
+          }
+          return NextResponse.json({
+            success: true,
+            userId: mockUser.id,
+            user: mockUser,
+            testMode: true,
+          })
+        }
+        user = newUser
+      } else {
+        // Update existing user
+        await supabase
+          .from('users')
+          .update({
+            phone_verified: true,
+            last_active: new Date().toISOString(),
+          })
+          .eq('id', user.id)
       }
+
       return NextResponse.json({
         success: true,
-        userId: mockUser.id,
-        user: mockUser,
+        userId: user.id,
+        user,
         testMode: true,
       })
     }
