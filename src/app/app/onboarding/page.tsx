@@ -37,10 +37,10 @@ import { PhoneAuthModal } from '@/components/auth/PhoneAuthModal'
 import { INCIDENT_TYPES } from '@/types'
 import type { NigerianLocation, UserLocation, IncidentType } from '@/types'
 
-type Step = 'welcome' | 'phone' | 'areas' | 'preview' | 'location' | 'ready'
+type Step = 'welcome' | 'phone' | 'areas' | 'preview' | 'location' | 'notifications' | 'ready'
 
-const stepOrder: Step[] = ['welcome', 'phone', 'areas', 'preview', 'location', 'ready']
-const stepLabels = ['Welcome', 'Verify', 'Your Areas', 'Alerts', 'Location', 'Ready']
+const stepOrder: Step[] = ['welcome', 'phone', 'areas', 'preview', 'location', 'notifications', 'ready']
+const stepLabels = ['Welcome', 'Verify', 'Areas', 'Alerts', 'Location', 'Notify', 'Ready']
 
 // Popular areas in Nigeria
 const popularAreas = [
@@ -77,8 +77,10 @@ export default function OnboardingPage() {
   const { setHasCompletedOnboarding, setSavedLocations, setCurrentLocation, setUser } =
     useAppStore()
   const { getLocation, loading: locationLoading } = useLocation()
-  const { enable: enablePush, isSupported: pushSupported } =
+  const { enable: enablePush, isSupported: pushSupported, isEnabled: pushEnabled } =
     usePushNotifications()
+  const [notificationsLoading, setNotificationsLoading] = useState(false)
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false)
 
   const currentStepIndex = stepOrder.indexOf(step)
 
@@ -225,6 +227,29 @@ export default function OnboardingPage() {
     if (result.success) {
       setLocationGranted(true)
     }
+    goNext()
+  }
+
+  // Enable push notifications
+  const handleEnableNotifications = async () => {
+    setNotificationsLoading(true)
+    try {
+      const success = await enablePush()
+      setNotificationsEnabled(success)
+      // Brief delay to show success state
+      setTimeout(() => {
+        goNext()
+      }, 500)
+    } catch (error) {
+      console.error('Failed to enable notifications:', error)
+      goNext() // Continue even if it fails
+    } finally {
+      setNotificationsLoading(false)
+    }
+  }
+
+  // Skip notifications (not recommended but allowed)
+  const skipNotifications = () => {
     goNext()
   }
 
@@ -956,7 +981,135 @@ export default function OnboardingPage() {
             </motion.div>
           )}
 
-          {/* Step 5: Ready */}
+          {/* Step 5: Push Notifications */}
+          {step === 'notifications' && (
+            <motion.div
+              key="notifications"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-safety-amber/10 rounded-full mb-4">
+                  <Bell className="w-8 h-8 text-safety-amber" />
+                </div>
+                <h2 className="text-2xl font-bold text-foreground mb-2">
+                  Stay safe with instant alerts
+                </h2>
+                <p className="text-muted-foreground">
+                  Get notified immediately when incidents happen in your areas
+                </p>
+              </div>
+
+              {/* Why notifications matter */}
+              <div className="bg-background-elevated rounded-2xl p-4 mb-6">
+                <h3 className="font-semibold text-foreground mb-4">Why this matters:</h3>
+
+                <div className="space-y-4">
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 bg-safety-red/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg">🚨</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">Real-time alerts</p>
+                      <p className="text-sm text-muted-foreground">
+                        Know about robberies, accidents & dangers instantly
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 bg-safety-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg">✅</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">Even when app is closed</p>
+                      <p className="text-sm text-muted-foreground">
+                        Alerts reach you 24/7, no need to keep app open
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg">🔇</span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">You control it</p>
+                      <p className="text-sm text-muted-foreground">
+                        Customize which alerts you receive in settings
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sample notification preview */}
+              <div className="bg-muted/50 rounded-xl p-4 mb-6">
+                <p className="text-xs text-muted-foreground text-center mb-3">
+                  Notifications look like this:
+                </p>
+                <div className="bg-white rounded-xl p-3 shadow-sm border border-border flex items-start gap-3">
+                  <div className="w-10 h-10 bg-safety-red/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg">🔴</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-foreground text-sm">ROBBERY near Lekki Phase 1</p>
+                    <p className="text-xs text-muted-foreground truncate">Armed men spotted at Admiralty Way...</p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">now</span>
+                </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="space-y-3">
+                <Button
+                  onClick={handleEnableNotifications}
+                  disabled={notificationsLoading || notificationsEnabled}
+                  className="w-full btn-primary py-4"
+                >
+                  {notificationsLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      Enabling...
+                    </>
+                  ) : notificationsEnabled ? (
+                    <>
+                      <CheckCircle2 className="w-5 h-5 mr-2" />
+                      Notifications Enabled!
+                    </>
+                  ) : (
+                    <>
+                      <Bell className="w-5 h-5 mr-2" />
+                      Enable Notifications
+                    </>
+                  )}
+                </Button>
+
+                <div className="flex gap-3">
+                  <Button variant="secondary" onClick={goBack}>
+                    <ChevronLeft className="w-5 h-5" />
+                  </Button>
+                  <button
+                    onClick={skipNotifications}
+                    className="flex-1 text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                  >
+                    Skip (not recommended)
+                  </button>
+                </div>
+              </div>
+
+              {!pushSupported && (
+                <p className="mt-4 text-xs text-center text-safety-amber">
+                  ⚠️ Push notifications may not be supported on this browser.
+                  Try using Safari on iOS or Chrome on Android.
+                </p>
+              )}
+            </motion.div>
+          )}
+
+          {/* Step 6: Ready */}
           {step === 'ready' && (
             <motion.div
               key="ready"
