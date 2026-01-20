@@ -7,6 +7,11 @@ const withPWA = require('next-pwa')({
   fallbacks: {
     document: '/offline',
   },
+  buildExcludes: [
+    /app-build-manifest\.json$/,
+    /build-manifest\.json$/,
+    /middleware-manifest\.json$/,
+  ],
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/.*\.supabase\.co\/.*/i,
