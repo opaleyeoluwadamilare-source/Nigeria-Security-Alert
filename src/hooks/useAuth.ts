@@ -11,12 +11,17 @@ interface AuthState {
   isLoading: boolean
   isAuthenticated: boolean
   error: string | null
+  // Re-link state (for iOS PWA installs)
+  needsRelink: boolean
+  relinkPhone: string | null
 
   // Actions
   login: (phone: string, token: string, userId: string) => Promise<void>
   logout: () => Promise<void>
   refreshUser: () => Promise<void>
   updateProfile: (updates: Partial<User>) => Promise<void>
+  attemptRelink: (pushEndpoint?: string) => Promise<boolean>
+  clearRelinkState: () => void
 }
 
 interface StoredAuth {
@@ -27,56 +32,66 @@ interface StoredAuth {
 
 /**
  * Authentication hook for SafetyAlerts
- * Handles phone-based auth with Supabase backend
+ * Handles phone-based auth with HTTP-only session cookies
+ * Supports iOS PWA installs where localStorage is isolated
  */
 export function useAuth(): AuthState {
   const { user, setUser, reset } = useAppStore()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [needsRelink, setNeedsRelink] = useState(false)
+  const [relinkPhone, setRelinkPhone] = useState<string | null>(null)
 
-  // Initialize auth state from localStorage
+  // Initialize auth state - check server session first (survives iOS PWA installs)
   useEffect(() => {
     const initAuth = async () => {
       try {
+        // 1. Check server session (HTTP-only cookie)
+        // This works even after iOS PWA install because cookies survive
+        const sessionRes = await fetch('/api/auth/session')
+
+        if (sessionRes.ok) {
+          const { user: sessionUser } = await sessionRes.json()
+
+          // Valid server session - sync to local state
+          const appUser: User = {
+            id: sessionUser.id,
+            phone: sessionUser.phone,
+            phone_verified: sessionUser.phone_verified ?? false,
+            trust_score: sessionUser.trust_score ?? 0,
+            created_at: sessionUser.created_at,
+            last_active: sessionUser.last_active ?? sessionUser.created_at,
+          }
+
+          setUser(appUser)
+
+          // Sync to localStorage for fast subsequent reads
+          localStorage.setItem('safety-alerts-user', JSON.stringify({
+            id: sessionUser.id,
+            phone: sessionUser.phone,
+            token: 'session-cookie-auth',
+          }))
+
+          setIsLoading(false)
+          return
+        }
+
+        // 2. No valid server session - check localStorage for re-link opportunity
         const stored = localStorage.getItem('safety-alerts-user')
-        if (!stored) {
-          setIsLoading(false)
-          return
+        if (stored) {
+          const authData: StoredAuth = JSON.parse(stored)
+
+          // We have local data but no server session
+          // This likely means session expired or iOS PWA fresh install
+          // Offer re-link instead of full re-authentication
+          setNeedsRelink(true)
+          setRelinkPhone(authData.phone)
         }
 
-        const authData: StoredAuth = JSON.parse(stored)
-
-        // Fetch full user profile from Supabase
-        const supabase = getSupabase()
-        const { data: userData, error: fetchError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', authData.id)
-          .single()
-
-        if (fetchError || !userData) {
-          // Token might be invalid, clear storage
-          localStorage.removeItem('safety-alerts-user')
-          setUser(null)
-          setIsLoading(false)
-          return
-        }
-
-        // Map DB user to app User type
-        const appUser: User = {
-          id: userData.id,
-          phone: userData.phone,
-          phone_verified: userData.phone_verified ?? false,
-          trust_score: userData.trust_score ?? 0,
-          created_at: userData.created_at,
-          last_active: userData.last_active ?? userData.created_at,
-        }
-
-        setUser(appUser)
+        setIsLoading(false)
       } catch (err) {
         console.error('Auth init error:', err)
         setError('Failed to restore session')
-      } finally {
         setIsLoading(false)
       }
     }
@@ -85,41 +100,57 @@ export function useAuth(): AuthState {
   }, [setUser])
 
   // Login with phone OTP (called after successful OTP verification)
+  // Session cookie is set by the server, we just need to sync local state
   const login = useCallback(async (phone: string, token: string, userId: string) => {
     setIsLoading(true)
     setError(null)
 
     try {
-      // Fetch user profile from Supabase
-      const supabase = getSupabase()
-      const { data: userData, error: fetchError } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single()
+      // Fetch user profile from server session endpoint
+      // This also validates the session cookie was set correctly
+      const sessionRes = await fetch('/api/auth/session')
 
-      if (fetchError) {
-        throw new Error('Failed to fetch user profile')
+      if (sessionRes.ok) {
+        const { user: sessionUser } = await sessionRes.json()
+
+        const appUser: User = {
+          id: sessionUser.id,
+          phone: sessionUser.phone,
+          phone_verified: sessionUser.phone_verified ?? false,
+          trust_score: sessionUser.trust_score ?? 0,
+          created_at: sessionUser.created_at,
+          last_active: sessionUser.last_active ?? sessionUser.created_at,
+        }
+
+        // Store auth data for fast local reads
+        localStorage.setItem('safety-alerts-user', JSON.stringify({
+          id: sessionUser.id,
+          phone: sessionUser.phone,
+          token: 'session-cookie-auth',
+        }))
+
+        setUser(appUser)
+        setNeedsRelink(false)
+        setRelinkPhone(null)
+      } else {
+        // Fallback to provided data if session validation fails
+        const appUser: User = {
+          id: userId,
+          phone: phone,
+          phone_verified: true,
+          trust_score: 0,
+          created_at: new Date().toISOString(),
+          last_active: new Date().toISOString(),
+        }
+
+        localStorage.setItem('safety-alerts-user', JSON.stringify({
+          id: userId,
+          phone,
+          token: token || 'session-cookie-auth',
+        }))
+
+        setUser(appUser)
       }
-
-      // Create app user object
-      const appUser: User = {
-        id: userData.id,
-        phone: userData.phone,
-        phone_verified: userData.phone_verified ?? false,
-        trust_score: userData.trust_score ?? 0,
-        created_at: userData.created_at,
-        last_active: userData.last_active ?? userData.created_at,
-      }
-
-      // Store auth data
-      localStorage.setItem('safety-alerts-user', JSON.stringify({
-        id: userId,
-        phone,
-        token,
-      }))
-
-      setUser(appUser)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
       throw err
@@ -128,16 +159,81 @@ export function useAuth(): AuthState {
     }
   }, [setUser])
 
-  // Logout
+  // Attempt to re-link session using push subscription validation (no OTP needed)
+  const attemptRelink = useCallback(async (pushEndpoint?: string): Promise<boolean> => {
+    if (!relinkPhone) return false
+
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/auth/relink', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: relinkPhone,
+          push_endpoint: pushEndpoint,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (data.success && data.user) {
+        // Re-link successful - session restored without OTP
+        const appUser: User = {
+          id: data.user.id,
+          phone: data.user.phone,
+          phone_verified: data.user.phone_verified ?? false,
+          trust_score: data.user.trust_score ?? 0,
+          created_at: data.user.created_at,
+          last_active: data.user.last_active ?? data.user.created_at,
+        }
+
+        localStorage.setItem('safety-alerts-user', JSON.stringify({
+          id: data.user.id,
+          phone: data.user.phone,
+          token: 'session-cookie-auth',
+        }))
+
+        setUser(appUser)
+        setNeedsRelink(false)
+        setRelinkPhone(null)
+        setIsLoading(false)
+        return true
+      }
+
+      // Re-link failed - will need OTP
+      setIsLoading(false)
+      return false
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Re-link failed')
+      setIsLoading(false)
+      return false
+    }
+  }, [relinkPhone, setUser])
+
+  // Clear re-link state (user wants to use different account)
+  const clearRelinkState = useCallback(() => {
+    setNeedsRelink(false)
+    setRelinkPhone(null)
+    localStorage.removeItem('safety-alerts-user')
+  }, [])
+
+  // Logout - invalidate server session and clear local state
   const logout = useCallback(async () => {
     setIsLoading(true)
 
     try {
+      // Invalidate server session
+      await fetch('/api/auth/session', { method: 'DELETE' })
+
       // Clear local storage
       localStorage.removeItem('safety-alerts-user')
 
       // Reset entire app state
       reset()
+      setNeedsRelink(false)
+      setRelinkPhone(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Logout failed')
     } finally {
@@ -218,10 +314,14 @@ export function useAuth(): AuthState {
     isLoading,
     isAuthenticated: !!user,
     error,
+    needsRelink,
+    relinkPhone,
     login,
     logout,
     refreshUser,
     updateProfile,
+    attemptRelink,
+    clearRelinkState,
   }
 }
 

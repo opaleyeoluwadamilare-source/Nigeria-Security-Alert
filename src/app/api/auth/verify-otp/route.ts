@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
+import { createUserSession, setUserSessionCookie } from '@/lib/user-auth'
 
 export async function POST(request: NextRequest) {
+  const ipAddress = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
+  const userAgent = request.headers.get('user-agent')
   const supabase = createServerClient()
 
   try {
@@ -82,6 +85,13 @@ export async function POST(request: NextRequest) {
           .eq('id', user.id)
       }
 
+      // Create session and set cookie
+      const sessionToken = await createUserSession(
+        { id: user.id, phone: user.phone },
+        { ipAddress: ipAddress || undefined, userAgent: userAgent || undefined }
+      )
+      await setUserSessionCookie(sessionToken)
+
       return NextResponse.json({
         success: true,
         userId: user.id,
@@ -147,6 +157,13 @@ export async function POST(request: NextRequest) {
         })
         .eq('id', user.id)
     }
+
+    // Create session and set cookie
+    const sessionToken = await createUserSession(
+      { id: user.id, phone: user.phone },
+      { ipAddress: ipAddress || undefined, userAgent: userAgent || undefined }
+    )
+    await setUserSessionCookie(sessionToken)
 
     return NextResponse.json({
       success: true,

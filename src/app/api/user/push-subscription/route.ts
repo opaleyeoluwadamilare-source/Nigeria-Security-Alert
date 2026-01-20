@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { user_id, subscription } = body
+    const { user_id, subscription, phone } = body
 
     if (!subscription || !subscription.endpoint) {
       return NextResponse.json(
@@ -16,12 +16,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Upsert subscription
+    // If phone not provided, try to fetch it from user record
+    let userPhone = phone
+    if (!userPhone && user_id) {
+      const { data: user } = await supabase
+        .from('users')
+        .select('phone')
+        .eq('id', user_id)
+        .single()
+      userPhone = user?.phone
+    }
+
+    // Upsert subscription with phone for re-linking support
     const { data, error } = await supabase
       .from('push_subscriptions')
       .upsert(
         {
           user_id,
+          phone: userPhone,
           endpoint: subscription.endpoint,
           keys: {
             p256dh: subscription.keys.p256dh,
