@@ -4,11 +4,16 @@ import { useEffect } from 'react'
 import { useAppStore } from '@/lib/store'
 import { useNetworkStatus } from '@/hooks/useNetworkStatus'
 import { useAppInit } from '@/hooks/useAppInit'
+import { usePushManager } from '@/hooks/usePushManager'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { setIsOnline } = useAppStore()
   const { isOnline } = useNetworkStatus()
   const { isInitialized, isLoading } = useAppInit()
+
+  // Automatically manage push notifications
+  // This ensures subscriptions persist and are restored if lost
+  usePushManager()
 
   useEffect(() => {
     setIsOnline(isOnline)

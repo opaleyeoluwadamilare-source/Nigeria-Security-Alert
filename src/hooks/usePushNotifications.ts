@@ -12,15 +12,6 @@ import {
   type PushSupport,
 } from '@/lib/push'
 import { useAppStore } from '@/lib/store'
-import { getSupabase } from '@/lib/supabase'
-
-// Check if Supabase is configured
-function isSupabaseConfigured(): boolean {
-  return !!(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  )
-}
 
 interface UsePushNotificationsReturn {
   // Support info
@@ -105,22 +96,26 @@ export function usePushNotifications(): UsePushNotificationsReturn {
       }
 
       // Save subscription to database if user is authenticated
-      if (user && isSupabaseConfigured()) {
+      if (user?.id && !user.id.startsWith('test-') && !user.id.startsWith('local-')) {
         try {
-          const supabase = getSupabase()
           const subscriptionData = subscriptionToJSON(subscription)
-          const { error: dbError } = await supabase.from('push_subscriptions').upsert(
-            {
+          const response = await fetch('/api/user/push-subscription', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
               user_id: user.id,
-              endpoint: subscriptionData.endpoint,
-              keys: subscriptionData.keys,
-            },
-            { onConflict: 'endpoint' }
-          )
+              subscription: {
+                endpoint: subscriptionData.endpoint,
+                keys: subscriptionData.keys,
+              },
+            }),
+          })
 
-          if (dbError) {
-            console.warn('Failed to save push subscription to database:', dbError)
+          if (!response.ok) {
+            console.warn('Failed to save push subscription to database')
             // Continue anyway - local push will still work
+          } else {
+            console.log('Push subscription saved to database')
           }
         } catch (dbErr) {
           console.warn('Database save failed:', dbErr)
@@ -146,13 +141,14 @@ export function usePushNotifications(): UsePushNotificationsReturn {
     try {
       await unsubscribeFromPush()
 
-      if (user && isSupabaseConfigured()) {
+      // Remove subscription from database if user is authenticated
+      if (user?.id && !user.id.startsWith('test-') && !user.id.startsWith('local-')) {
         try {
-          const supabase = getSupabase()
-          await supabase
-            .from('push_subscriptions')
-            .delete()
-            .eq('user_id', user.id)
+          await fetch('/api/user/push-subscription', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: user.id }),
+          })
         } catch (dbErr) {
           console.warn('Failed to remove subscription from database:', dbErr)
         }

@@ -51,16 +51,22 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { endpoint } = body
+    const { endpoint, user_id } = body
 
-    if (!endpoint) {
-      return NextResponse.json({ error: 'Missing endpoint' }, { status: 400 })
+    if (!endpoint && !user_id) {
+      return NextResponse.json({ error: 'Missing endpoint or user_id' }, { status: 400 })
     }
 
-    const { error } = await supabase
-      .from('push_subscriptions')
-      .delete()
-      .eq('endpoint', endpoint)
+    // Delete by endpoint or user_id
+    const query = supabase.from('push_subscriptions').delete()
+
+    if (endpoint) {
+      query.eq('endpoint', endpoint)
+    } else if (user_id) {
+      query.eq('user_id', user_id)
+    }
+
+    const { error } = await query
 
     if (error) throw error
 

@@ -7,6 +7,8 @@ import { useAppStore } from '@/lib/store'
  * App initialization hook
  * Syncs user data from the database on app load
  * Ensures data persistence across sessions
+ *
+ * Note: Push notification management is handled by usePushManager hook
  */
 export function useAppInit() {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -18,7 +20,6 @@ export function useAppInit() {
     setSavedLocations,
     hasCompletedOnboarding,
     setHasCompletedOnboarding,
-    setIsPushEnabled,
   } = useAppStore()
 
   useEffect(() => {
@@ -67,43 +68,6 @@ export function useAppInit() {
             if (!hasCompletedOnboarding) {
               setHasCompletedOnboarding(true)
             }
-          } else if (savedLocations.length > 0 && !savedLocations[0].id.startsWith('local-')) {
-            // Store has locations but DB doesn't - they might have been deleted
-            // Keep the store locations as they may still be valid
-          }
-        }
-
-        // Check push subscription status
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-          try {
-            const registration = await navigator.serviceWorker.ready
-            const subscription = await registration.pushManager.getSubscription()
-
-            if (subscription) {
-              // User has an active push subscription
-              setIsPushEnabled(true)
-
-              // Ensure subscription is saved in database (upsert will handle duplicates)
-              const subscriptionJSON = subscription.toJSON()
-              await fetch('/api/user/push-subscription', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  user_id: user.id,
-                  subscription: {
-                    endpoint: subscription.endpoint,
-                    keys: {
-                      p256dh: subscriptionJSON.keys?.p256dh,
-                      auth: subscriptionJSON.keys?.auth,
-                    },
-                  },
-                }),
-              })
-            } else {
-              setIsPushEnabled(false)
-            }
-          } catch (pushError) {
-            console.warn('Push subscription check failed:', pushError)
           }
         }
       } catch (error) {
