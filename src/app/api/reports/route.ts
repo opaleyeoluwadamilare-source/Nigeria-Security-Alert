@@ -154,6 +154,7 @@ async function sendAlertNotifications(supabase: any, report: Report) {
       traffic: '🟡 TRAFFIC',
       suspicious: '🟠 SUSPICIOUS',
       other: '⚠️ ALERT',
+      official: '📢 OFFICIAL ALERT',
     }
 
     const title = `${incidentLabels[report.incident_type] || '⚠️ ALERT'} near ${report.area_name}`

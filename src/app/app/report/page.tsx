@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   MapPin,
@@ -21,7 +22,9 @@ import {
   MessageCircle,
   Sparkles,
   Lock,
+  Trash2,
 } from 'lucide-react'
+import { compressImage, validateImageFile, fileToDataUrl } from '@/lib/image-utils'
 import { NigerianShield } from '@/components/landing/NigerianShield'
 import {
   RobberyIcon,
@@ -79,8 +82,98 @@ export default function ReportPage() {
   const [showCelebration, setShowCelebration] = useState(false)
   const [adjustingLocation, setAdjustingLocation] = useState(false)
 
+  // Image upload state
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null)
+  const [imageError, setImageError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const { getLocation, loading: locationLoading, error: locationError } = useLocation()
   const { user } = useAppStore()
+
+  // Handle image selection
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setImageError(null)
+
+    // Validate file
+    const validation = validateImageFile(file)
+    if (!validation.valid) {
+      setImageError(validation.error || 'Invalid image')
+      return
+    }
+
+    setSelectedImage(file)
+
+    // Generate preview
+    try {
+      const dataUrl = await fileToDataUrl(file)
+      setImagePreview(dataUrl)
+    } catch (err) {
+      console.error('Failed to generate preview:', err)
+    }
+  }
+
+  // Remove selected image
+  const handleRemoveImage = () => {
+    setSelectedImage(null)
+    setImagePreview(null)
+    setUploadedImageUrl(null)
+    setImageError(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  // Upload image to server
+  const uploadImage = async (): Promise<string | null> => {
+    if (!selectedImage) return null
+    if (uploadedImageUrl) return uploadedImageUrl // Already uploaded
+
+    setUploadingImage(true)
+    setImageError(null)
+
+    try {
+      // Compress image
+      const compressedBlob = await compressImage(selectedImage, {
+        maxWidth: 1200,
+        maxHeight: 1200,
+        quality: 0.8,
+      })
+
+      // Create form data
+      const formData = new FormData()
+      formData.append('file', compressedBlob, 'photo.jpg')
+      if (user?.id) {
+        formData.append('user_id', user.id)
+      }
+
+      // Upload
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || 'Upload failed')
+      }
+
+      const data = await response.json()
+      setUploadedImageUrl(data.url)
+      return data.url
+    } catch (err) {
+      console.error('Image upload error:', err)
+      setImageError(err instanceof Error ? err.message : 'Failed to upload image')
+      return null
+    } finally {
+      setUploadingImage(false)
+    }
+  }
 
   const currentStepIndex = stepOrder.indexOf(step)
 
@@ -121,6 +214,13 @@ export default function ReportPage() {
     setSubmitError(null)
 
     try {
+      // Upload image first if selected
+      let photoUrl = uploadedImageUrl
+      if (selectedImage && !uploadedImageUrl) {
+        photoUrl = await uploadImage()
+        // Continue even if image upload fails - report is more important
+      }
+
       const response = await fetch('/api/reports', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -129,6 +229,7 @@ export default function ReportPage() {
           incident_type: selectedType,
           landmark: landmark || null,
           description: description || null,
+          photo_url: photoUrl,
           latitude: locationResult.coords.lat,
           longitude: locationResult.coords.lng,
           area_name: locationResult.area.name,
@@ -382,24 +483,80 @@ export default function ReportPage() {
                   maxLength={500}
                 />
 
-                {/* Photo Upload Placeholder */}
+                {/* Photo Upload */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Photo (optional)
                   </label>
-                  <div className="border-2 border-dashed border-border rounded-2xl p-6 text-center hover:border-border-hover transition-colors cursor-pointer">
-                    <div className="flex justify-center gap-4 mb-3">
-                      <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center">
-                        <Camera className="w-6 h-6 text-muted-foreground" />
+
+                  {/* Hidden file input */}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+                    capture="environment"
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
+
+                  {imagePreview ? (
+                    // Image preview
+                    <div className="relative rounded-2xl overflow-hidden bg-muted">
+                      <div className="relative aspect-video">
+                        <Image
+                          src={imagePreview}
+                          alt="Photo preview"
+                          fill
+                          className="object-cover"
+                        />
                       </div>
-                      <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center">
-                        <ImageIcon className="w-6 h-6 text-muted-foreground" />
-                      </div>
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4 text-white" />
+                      </button>
+                      {uploadingImage && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                          <div className="text-center text-white">
+                            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
+                            <p className="text-sm">Uploading...</p>
+                          </div>
+                        </div>
+                      )}
+                      {uploadedImageUrl && (
+                        <div className="absolute bottom-2 left-2 px-2 py-1 bg-safety-green/90 rounded-full text-xs text-white flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Uploaded
+                        </div>
+                      )}
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      Tap to add a photo (helps verify reports)
-                    </p>
-                  </div>
+                  ) : (
+                    // Upload button
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full border-2 border-dashed border-border rounded-2xl p-6 text-center hover:border-border-hover hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex justify-center gap-4 mb-3">
+                        <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center">
+                          <Camera className="w-6 h-6 text-muted-foreground" />
+                        </div>
+                        <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center">
+                          <ImageIcon className="w-6 h-6 text-muted-foreground" />
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Tap to add a photo (helps verify reports)
+                      </p>
+                    </button>
+                  )}
+
+                  {/* Image error message */}
+                  {imageError && (
+                    <p className="mt-2 text-sm text-safety-red">{imageError}</p>
+                  )}
                 </div>
               </div>
 
@@ -480,6 +637,21 @@ export default function ReportPage() {
                   <div className="py-4 border-b border-border">
                     <p className="text-sm text-muted-foreground mb-1">Description</p>
                     <p className="text-foreground">{description}</p>
+                  </div>
+                )}
+
+                {/* Photo */}
+                {imagePreview && (
+                  <div className="py-4 border-b border-border">
+                    <p className="text-sm text-muted-foreground mb-2">Photo</p>
+                    <div className="relative rounded-xl overflow-hidden aspect-video">
+                      <Image
+                        src={imagePreview}
+                        alt="Report photo"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
                 )}
 

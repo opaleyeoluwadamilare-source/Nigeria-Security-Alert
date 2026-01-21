@@ -47,6 +47,7 @@ import { Toggle } from '@/components/ui/Toggle'
 import { Input } from '@/components/ui/Input'
 import { Modal, ConfirmModal } from '@/components/ui/Modal'
 import { PhoneAuthModal } from '@/components/auth/PhoneAuthModal'
+import { TrustScoreCard } from '@/components/ui/TrustScoreBadge'
 import type { NigerianLocation, UserLocation } from '@/types'
 
 interface BeforeInstallPromptEvent extends Event {
@@ -196,6 +197,18 @@ export default function SettingsPage() {
     router.push('/')
   }
 
+  // Format account age
+  function formatAccountAge(createdAt: string): string {
+    const created = new Date(createdAt)
+    const now = new Date()
+    const diffDays = Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24))
+
+    if (diffDays < 7) return 'New'
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w`
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo`
+    return `${Math.floor(diffDays / 365)}y`
+  }
+
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
@@ -262,6 +275,16 @@ export default function SettingsPage() {
               )}
             </div>
           </div>
+        </section>
+
+        {/* Trust Score Section */}
+        <section>
+          <TrustScoreCard
+            score={user?.trust_score || 0}
+            phoneVerified={user?.phone_verified || false}
+            accountAge={user?.created_at ? formatAccountAge(user.created_at) : 'New'}
+            totalReports={0}
+          />
         </section>
 
         {/* Install App - Only show if not installed */}

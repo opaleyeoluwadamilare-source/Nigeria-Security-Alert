@@ -118,12 +118,13 @@ export default function OnboardingPage() {
     return () => clearTimeout(timer)
   }, [locationTypeSearch])
 
-  // Handle phone auth success
-  const handlePhoneAuthSuccess = (user: { id: string; phone: string }) => {
+  // Handle phone auth success - check for returning user
+  const handlePhoneAuthSuccess = async (user: { id: string; phone: string }) => {
     setIsPhoneVerified(true)
     setVerifiedPhone(user.phone)
     setShowPhoneAuthModal(false)
-    // Also update the store with the user
+
+    // Update the store with the user
     setUser({
       id: user.id,
       phone: user.phone,
@@ -132,7 +133,65 @@ export default function OnboardingPage() {
       created_at: new Date().toISOString(),
       last_active: new Date().toISOString(),
     })
-    goNext()
+
+    // Check if this is a returning user with existing data
+    try {
+      // Fetch existing locations
+      const locationsResponse = await fetch(`/api/user/locations?user_id=${user.id}`)
+      const existingLocations = locationsResponse.ok ? await locationsResponse.json() : { locations: [] }
+
+      // Check if THIS device has an active push subscription
+      // (not just if one exists in DB, which could be stale from another device)
+      let hasLocalPushSubscription = false
+      try {
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+          const registration = await navigator.serviceWorker.ready
+          const existingSub = await registration.pushManager.getSubscription()
+          hasLocalPushSubscription = !!existingSub
+        }
+      } catch (e) {
+        console.warn('Could not check local push subscription:', e)
+      }
+      const pushData = { hasSubscription: hasLocalPushSubscription }
+
+      const hasExistingLocations = existingLocations.locations && existingLocations.locations.length > 0
+      const hasExistingPush = pushData.hasSubscription
+
+      if (hasExistingLocations) {
+        // Restore user's saved locations
+        setSavedLocations(existingLocations.locations)
+
+        // Also populate selectedAreas for display
+        const restoredAreas: NigerianLocation[] = existingLocations.locations.map((loc: any) => ({
+          slug: loc.area_slug,
+          name: loc.area_name,
+          state: loc.state,
+          aliases: [],
+          nearby: [],
+        }))
+        setSelectedAreas(restoredAreas)
+      }
+
+      // Returning user with all data - skip to app directly
+      if (hasExistingLocations && hasExistingPush) {
+        setHasCompletedOnboarding(true)
+        router.push('/app')
+        return
+      }
+
+      // Returning user with locations but no push - skip to notifications step
+      if (hasExistingLocations && !hasExistingPush) {
+        setStep('notifications')
+        return
+      }
+
+      // New user or no locations - continue normal flow
+      goNext()
+    } catch (error) {
+      console.error('Error checking returning user data:', error)
+      // On error, continue with normal onboarding flow
+      goNext()
+    }
   }
 
   // Toggle alert type selection

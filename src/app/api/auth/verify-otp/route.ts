@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
+import { getScoreAdjustment } from '@/lib/trust-score'
+
+// New user base score (10) + phone verified bonus (15) = 25
+const NEW_USER_VERIFIED_SCORE = 10 + getScoreAdjustment('phone_verified')
 
 export async function POST(request: NextRequest) {
   const supabase = createServerClient()
@@ -47,7 +51,7 @@ export async function POST(request: NextRequest) {
           .insert({
             phone: normalizedPhone,
             phone_verified: true,
-            trust_score: 0,
+            trust_score: NEW_USER_VERIFIED_SCORE,
           })
           .select()
           .single()
@@ -59,7 +63,7 @@ export async function POST(request: NextRequest) {
             id: `test-${Date.now()}`,
             phone: normalizedPhone,
             phone_verified: true,
-            trust_score: 0,
+            trust_score: NEW_USER_VERIFIED_SCORE,
             created_at: new Date().toISOString(),
             last_active: new Date().toISOString(),
           }
@@ -130,7 +134,7 @@ export async function POST(request: NextRequest) {
         .insert({
           phone: normalizedPhone,
           phone_verified: true,
-          trust_score: 0,
+          trust_score: NEW_USER_VERIFIED_SCORE,
         })
         .select()
         .single()

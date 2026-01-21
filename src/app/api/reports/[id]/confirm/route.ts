@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 import { getDistanceKm } from '@/lib/distance'
+import { applyScoreAdjustment, getScoreAdjustment } from '@/lib/trust-score'
 
 export async function POST(
   request: NextRequest,
@@ -96,11 +97,26 @@ export async function POST(
         .from('reports')
         .update({ confirmation_count: report.confirmation_count + 1 })
         .eq('id', reportId)
+
+      // Update reporter's trust score (+3 for confirmation)
+      if (report.user_id) {
+        updateUserTrustScore(supabase, report.user_id, 'report_confirmed')
+
+        // Check for viral bonus (20+ confirmations)
+        if (report.confirmation_count + 1 === 20) {
+          updateUserTrustScore(supabase, report.user_id, 'report_viral')
+        }
+      }
     } else if (confirmation_type === 'deny') {
       await supabase
         .from('reports')
         .update({ denial_count: report.denial_count + 1 })
         .eq('id', reportId)
+
+      // Update reporter's trust score (-2 for denial)
+      if (report.user_id) {
+        updateUserTrustScore(supabase, report.user_id, 'report_denied')
+      }
     } else if (confirmation_type === 'ended') {
       await supabase
         .from('reports')
@@ -115,5 +131,38 @@ export async function POST(
       { error: 'Failed to confirm report' },
       { status: 500 }
     )
+  }
+}
+
+/**
+ * Update a user's trust score (non-blocking)
+ */
+async function updateUserTrustScore(
+  supabase: ReturnType<typeof createServerClient>,
+  userId: string,
+  action: 'report_confirmed' | 'report_denied' | 'report_viral'
+) {
+  try {
+    // Get current score
+    const { data: user } = await supabase
+      .from('users')
+      .select('trust_score')
+      .eq('id', userId)
+      .single()
+
+    if (!user) return
+
+    const currentScore = user.trust_score || 0
+    const adjustment = getScoreAdjustment(action)
+    const newScore = applyScoreAdjustment(currentScore, adjustment)
+
+    // Update score
+    await supabase
+      .from('users')
+      .update({ trust_score: newScore })
+      .eq('id', userId)
+  } catch (error) {
+    console.error('Error updating trust score:', error)
+    // Don't throw - trust score update is non-critical
   }
 }

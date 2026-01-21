@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase'
 import { requireAdmin, logAdminAction } from '@/lib/admin-auth'
+import { applyScoreAdjustment, getScoreAdjustment } from '@/lib/trust-score'
 
 export async function POST(
   request: NextRequest,
@@ -34,7 +35,7 @@ export async function POST(
   // Check if report exists
   const { data: report, error: fetchError } = await supabase
     .from('reports')
-    .select('id, moderation_status')
+    .select('id, user_id, moderation_status')
     .eq('id', id)
     .single()
 
@@ -72,6 +73,30 @@ export async function POST(
     reason,
     internal_notes: internalNotes,
   })
+
+  // Update reporter's trust score if report was removed
+  if (action === 'remove' && report.user_id) {
+    try {
+      const { data: user } = await supabase
+        .from('users')
+        .select('trust_score')
+        .eq('id', report.user_id)
+        .single()
+
+      if (user) {
+        const adjustment = getScoreAdjustment('report_removed')
+        const newScore = applyScoreAdjustment(user.trust_score || 0, adjustment)
+
+        await supabase
+          .from('users')
+          .update({ trust_score: newScore })
+          .eq('id', report.user_id)
+      }
+    } catch (err) {
+      console.error('Failed to update trust score:', err)
+      // Non-critical, continue
+    }
+  }
 
   // Log the action
   const ipAddress = request.headers.get('x-forwarded-for') || 'unknown'

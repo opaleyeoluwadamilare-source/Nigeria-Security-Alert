@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ChevronLeft,
@@ -22,6 +23,7 @@ import {
   BellOff,
   Copy,
   ChevronRight,
+  Camera,
 } from 'lucide-react'
 import {
   RobberyIcon,
@@ -382,6 +384,33 @@ export default function AlertDetailPage({ params }: { params: { id: string } }) 
           >
             <h3 className="font-semibold text-foreground mb-2">Description</h3>
             <p className="text-muted-foreground">{report.description}</p>
+          </motion.div>
+        )}
+
+        {/* Photo */}
+        {report.photo_url && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="bg-background-elevated rounded-2xl p-4 mb-4 border border-border"
+          >
+            <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+              <Camera className="w-5 h-5 text-muted-foreground" />
+              Photo Evidence
+            </h3>
+            <div className="relative rounded-xl overflow-hidden aspect-video bg-muted">
+              <Image
+                src={report.photo_url}
+                alt="Incident photo"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 500px"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              Photo submitted by reporter
+            </p>
           </motion.div>
         )}
 

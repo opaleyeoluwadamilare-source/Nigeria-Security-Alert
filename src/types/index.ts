@@ -86,6 +86,7 @@ export type IncidentType =
   | 'traffic'
   | 'suspicious'
   | 'other'
+  | 'official'
 
 export type ReportStatus = 'active' | 'ended' | 'removed'
 
@@ -140,6 +141,7 @@ export const INCIDENT_TYPES: IncidentTypeConfig[] = [
   { type: 'traffic', label: 'Traffic', icon: '🚧', color: 'yellow', severity: 1 },
   { type: 'suspicious', label: 'Suspicious', icon: '👀', color: 'orange', severity: 3 },
   { type: 'other', label: 'Other', icon: '⚠️', color: 'yellow', severity: 2 },
+  { type: 'official', label: 'Official Alert', icon: '📢', color: 'red', severity: 5 },
 ]
 
 // Alert for display (Report with computed fields)

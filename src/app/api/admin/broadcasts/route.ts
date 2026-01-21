@@ -175,8 +175,45 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Create a report entry so broadcast appears in the alerts feed
+    // This uses a special 'official' incident type
+    let reportId: string | null = null
+    try {
+      // Get target areas for the report
+      let targetAreaName = 'All Areas'
+      let targetAreaSlug = 'all'
+      let targetState = 'Nigeria'
+
+      if (body.target_type === 'area' && body.target_areas && body.target_areas.length > 0) {
+        targetAreaSlug = body.target_areas[0]
+        targetAreaName = body.target_areas.join(', ')
+      }
+
+      const { data: reportData } = await supabase
+        .from('reports')
+        .insert({
+          incident_type: 'official',
+          description: `${body.title}\n\n${body.body}`,
+          area_name: targetAreaName,
+          area_slug: targetAreaSlug,
+          state: targetState,
+          latitude: 9.0820, // Nigeria center
+          longitude: 8.6753,
+          status: 'active',
+          confirmation_count: 0,
+          denial_count: 0,
+        })
+        .select('id')
+        .single()
+
+      reportId = reportData?.id
+    } catch (err) {
+      console.warn('Failed to create report for broadcast:', err)
+      // Continue anyway - push notifications will still work
+    }
+
     // Send broadcast immediately
-    const result = await sendBroadcast(supabase, broadcast)
+    const result = await sendBroadcast(supabase, broadcast, reportId)
 
     // Update broadcast with results
     await supabase
@@ -253,7 +290,8 @@ interface SendResult {
 
 async function sendBroadcast(
   supabase: ReturnType<typeof createServerClient>,
-  broadcast: any
+  broadcast: any,
+  reportId?: string | null
 ): Promise<SendResult> {
   const result: SendResult = {
     total: 0,
@@ -307,15 +345,22 @@ async function sendBroadcast(
     }
 
     // Prepare notification payload
+    // If we have a reportId, link to the alert detail page
+    const notificationUrl = reportId
+      ? `/app/alert/${reportId}`
+      : (broadcast.action_url || '/app')
+
     const payload = JSON.stringify({
       title: `${broadcast.icon || '🔔'} ${broadcast.title}`,
       body: broadcast.body,
       tag: `broadcast-${broadcast.id}`,
-      url: broadcast.action_url || '/app',
+      url: notificationUrl,
+      alertId: reportId,
       data: {
         type: 'broadcast',
         broadcast_id: broadcast.id,
         broadcast_type: broadcast.broadcast_type,
+        report_id: reportId,
       },
     })
 
