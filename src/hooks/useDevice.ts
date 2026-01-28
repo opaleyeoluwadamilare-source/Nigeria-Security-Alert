@@ -18,6 +18,8 @@ export function useDevice(): DeviceInfo & { isLoading: boolean } {
     isPWA: false,
     needsPWAInstall: false,
     browser: 'other',
+    isInAppBrowser: false,
+    inAppBrowserName: null,
     canReceivePush: false,
     canReceiveLocalNotifications: false,
     fallbackMethod: 'none',

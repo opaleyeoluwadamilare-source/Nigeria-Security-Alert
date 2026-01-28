@@ -19,6 +19,10 @@ export interface DeviceInfo {
   // Browser
   browser: 'safari' | 'chrome' | 'firefox' | 'edge' | 'samsung' | 'other'
 
+  // In-app browser detection
+  isInAppBrowser: boolean
+  inAppBrowserName: 'instagram' | 'facebook' | 'tiktok' | 'twitter' | 'linkedin' | 'snapchat' | 'telegram' | 'whatsapp' | null
+
   // Capabilities
   canReceivePush: boolean
   canReceiveLocalNotifications: boolean
@@ -54,6 +58,56 @@ function detectBrowser(userAgent: string): DeviceInfo['browser'] {
 }
 
 /**
+ * Detect if running inside an in-app browser (Instagram, Facebook, TikTok, etc.)
+ * These browsers cannot install PWAs
+ */
+function detectInAppBrowser(userAgent: string): { isInApp: boolean; name: DeviceInfo['inAppBrowserName'] } {
+  const ua = userAgent.toLowerCase()
+
+  // Instagram: contains "Instagram" in UA
+  if (/instagram/i.test(userAgent)) {
+    return { isInApp: true, name: 'instagram' }
+  }
+
+  // Facebook: contains "FBAN" or "FBAV" (Facebook App)
+  if (/fban|fbav|fb_iab/i.test(userAgent)) {
+    return { isInApp: true, name: 'facebook' }
+  }
+
+  // TikTok: contains "TikTok" or "BytedanceWebview"
+  if (/tiktok|bytedancewebview|musical_ly/i.test(userAgent)) {
+    return { isInApp: true, name: 'tiktok' }
+  }
+
+  // Twitter/X: contains "Twitter" in UA
+  if (/twitter/i.test(userAgent)) {
+    return { isInApp: true, name: 'twitter' }
+  }
+
+  // LinkedIn: contains "LinkedIn" in UA
+  if (/linkedin/i.test(userAgent)) {
+    return { isInApp: true, name: 'linkedin' }
+  }
+
+  // Snapchat: contains "Snapchat" in UA
+  if (/snapchat/i.test(userAgent)) {
+    return { isInApp: true, name: 'snapchat' }
+  }
+
+  // Telegram: contains "TelegramBot" or specific Telegram patterns
+  if (/telegram/i.test(userAgent)) {
+    return { isInApp: true, name: 'telegram' }
+  }
+
+  // WhatsApp: contains "WhatsApp" in UA
+  if (/whatsapp/i.test(userAgent)) {
+    return { isInApp: true, name: 'whatsapp' }
+  }
+
+  return { isInApp: false, name: null }
+}
+
+/**
  * Check if running as installed PWA
  */
 function isPWAInstalled(): boolean {
@@ -86,6 +140,8 @@ export function getDeviceInfo(): DeviceInfo {
       isPWA: false,
       needsPWAInstall: false,
       browser: 'other',
+      isInAppBrowser: false,
+      inAppBrowserName: null,
       canReceivePush: false,
       canReceiveLocalNotifications: false,
       fallbackMethod: 'none',
@@ -107,6 +163,11 @@ export function getDeviceInfo(): DeviceInfo {
 
   // Browser
   const browser = detectBrowser(ua)
+
+  // In-app browser detection
+  const inAppBrowserInfo = detectInAppBrowser(ua)
+  const isInAppBrowser = inAppBrowserInfo.isInApp
+  const inAppBrowserName = inAppBrowserInfo.name
 
   // PWA status
   const isPWA = isPWAInstalled()
@@ -179,6 +240,8 @@ export function getDeviceInfo(): DeviceInfo {
     isPWA,
     needsPWAInstall,
     browser,
+    isInAppBrowser,
+    inAppBrowserName,
     canReceivePush,
     canReceiveLocalNotifications,
     fallbackMethod,

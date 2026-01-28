@@ -1,12 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { MapPin, Shield, Clock } from 'lucide-react'
+import { MapPin, Shield, Clock, Bell } from 'lucide-react'
 import { NigerianShield } from './NigerianShield'
+import { SmartAppButton, InAppBrowserBanner } from './SmartAppButton'
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden">
+      {/* In-app browser warning banner */}
+      <InAppBrowserBanner />
+
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/50 to-white" />
 
@@ -18,75 +22,85 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 pt-8 pb-16 md:pt-12 md:pb-24">
+      <div className="relative max-w-6xl mx-auto px-4 pt-6 pb-12 sm:pt-8 sm:pb-16 md:pt-12 md:pb-24">
         {/* Navigation */}
-        <nav className="flex items-center justify-between mb-12 md:mb-16">
-          <div className="flex items-center gap-3">
-            <NigerianShield className="w-10 h-10" />
-            <span className="font-semibold text-lg text-gray-900">SafetyAlerts</span>
+        <nav className="flex items-center justify-between mb-8 sm:mb-12 md:mb-16">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <NigerianShield className="w-8 h-8 sm:w-10 sm:h-10" />
+            <span className="font-semibold text-base sm:text-lg text-gray-900">SafetyAlerts</span>
           </div>
-          <Link
-            href="/app"
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-full transition-colors"
-          >
-            Open App
-            <span aria-hidden="true">→</span>
-          </Link>
+          <SmartAppButton />
         </nav>
 
         {/* Hero Content */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Copy */}
           <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Know what&apos;s happening
-              <span className="block text-emerald-700">before you step outside</span>
+            {/* Headline - Optimized for mobile with no awkward breaks */}
+            <h1 className="text-[1.75rem] leading-[1.2] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 md:leading-tight">
+              <span className="block">Stay informed.</span>
+              <span className="block text-emerald-700">Stay safe.</span>
             </h1>
 
-            <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-              Real-time safety alerts from people in your neighborhood. Robberies, checkpoints,
-              traffic, fires — know about it first.
+            <p className="mt-4 sm:mt-6 text-base sm:text-lg text-gray-600 leading-relaxed">
+              Real-time safety alerts from your neighbors. Robberies, checkpoints, traffic, fires — know about it first.
             </p>
 
-            {/* Trust indicators */}
-            <div className="mt-8 flex flex-wrap gap-6 text-sm text-gray-500">
+            {/* Trust indicators - Stack on mobile, row on tablet+ */}
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-6 text-sm text-gray-500">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-emerald-600" />
+                <div className="w-8 h-8 sm:w-auto sm:h-auto bg-emerald-50 sm:bg-transparent rounded-lg sm:rounded-none flex items-center justify-center sm:block">
+                  <MapPin className="w-4 h-4 text-emerald-600" />
+                </div>
                 <span>GPS verified reports</span>
               </div>
               <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-emerald-600" />
+                <div className="w-8 h-8 sm:w-auto sm:h-auto bg-emerald-50 sm:bg-transparent rounded-lg sm:rounded-none flex items-center justify-center sm:block">
+                  <Shield className="w-4 h-4 text-emerald-600" />
+                </div>
                 <span>Community confirmed</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-emerald-600" />
+                <div className="w-8 h-8 sm:w-auto sm:h-auto bg-emerald-50 sm:bg-transparent rounded-lg sm:rounded-none flex items-center justify-center sm:block">
+                  <Bell className="w-4 h-4 text-emerald-600" />
+                </div>
                 <span>Instant notifications</span>
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            {/* CTA - Single primary on mobile, two buttons on tablet+ */}
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link
                 href="/app"
-                className="inline-flex items-center justify-center px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-emerald-700/25"
+                className="inline-flex items-center justify-center px-6 py-3.5 sm:px-8 sm:py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-emerald-700/25 text-base"
               >
-                Start Protecting Your Area
+                Get Started Free
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white border border-gray-200 hover:border-gray-300 text-gray-700 font-medium rounded-xl transition-colors"
+                className="hidden sm:inline-flex items-center justify-center px-6 py-3.5 sm:px-8 sm:py-4 bg-white border border-gray-200 hover:border-gray-300 text-gray-700 font-medium rounded-xl transition-colors"
               >
                 See How It Works
               </a>
             </div>
 
-            <p className="mt-4 text-sm text-gray-500">
-              Free forever. Install directly from your browser — no app store needed.
+            {/* Sub-text */}
+            <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500">
+              Free forever. No app store needed.
             </p>
+
+            {/* Mobile-only secondary link */}
+            <a
+              href="#how-it-works"
+              className="sm:hidden inline-block mt-4 text-sm font-medium text-emerald-700"
+            >
+              See how it works →
+            </a>
           </div>
 
           {/* Right: Phone Mockup with Live Alert */}
-          <div className="relative flex justify-center lg:justify-end">
+          {/* Hidden on small mobile, visible from sm breakpoint */}
+          <div className="relative hidden sm:flex justify-center lg:justify-end">
             <PhoneMockup />
           </div>
         </div>
@@ -103,10 +117,10 @@ function PhoneMockup() {
       <div className="absolute inset-0 bg-gradient-to-r from-emerald-200 to-emerald-100 blur-3xl opacity-40 scale-150" />
 
       {/* Phone frame */}
-      <div className="relative bg-gray-900 rounded-[3rem] p-3 shadow-2xl">
-        <div className="bg-white rounded-[2.5rem] overflow-hidden w-[280px] md:w-[320px]">
+      <div className="relative bg-gray-900 rounded-[2.5rem] sm:rounded-[3rem] p-2.5 sm:p-3 shadow-2xl">
+        <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden w-[260px] sm:w-[280px] md:w-[320px]">
           {/* Status bar */}
-          <div className="bg-gray-50 px-6 py-3 flex justify-between items-center text-xs text-gray-500">
+          <div className="bg-gray-50 px-5 sm:px-6 py-2.5 sm:py-3 flex justify-between items-center text-xs text-gray-500">
             <span>9:41</span>
             <div className="flex gap-1">
               <div className="w-4 h-2 bg-gray-400 rounded-sm" />
@@ -116,30 +130,30 @@ function PhoneMockup() {
           </div>
 
           {/* App content */}
-          <div className="px-4 py-3">
+          <div className="px-3 sm:px-4 py-2.5 sm:py-3">
             {/* App header */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
-                <NigerianShield className="w-6 h-6" />
-                <span className="font-semibold text-sm">SafetyAlerts</span>
+                <NigerianShield className="w-5 h-5 sm:w-6 sm:h-6" />
+                <span className="font-semibold text-xs sm:text-sm">SafetyAlerts</span>
               </div>
-              <div className="text-xs text-gray-400">Lekki, Lagos</div>
+              <div className="text-[10px] sm:text-xs text-gray-400">Lekki, Lagos</div>
             </div>
 
             {/* Status banner */}
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg sm:rounded-xl p-2.5 sm:p-3 mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
-                <span className="text-sm font-medium text-amber-800">1 alert in your area</span>
+                <span className="text-xs sm:text-sm font-medium text-amber-800">1 alert in your area</span>
               </div>
             </div>
 
             {/* Alert cards */}
-            <div className="space-y-3">
+            <div className="space-y-2.5 sm:space-y-3">
               <AlertCard
                 type="robbery"
                 location="Lekki Phase 1"
-                description="Armed men spotted near Shoprite junction"
+                description="Armed men spotted near Shoprite"
                 time="3 min ago"
                 confirmations={7}
                 isActive={true}
@@ -155,7 +169,7 @@ function PhoneMockup() {
               <AlertCard
                 type="traffic"
                 location="Ajah"
-                description="Heavy traffic at Jakande from broken down truck"
+                description="Heavy traffic at Jakande"
                 time="1 hr ago"
                 confirmations={23}
                 isActive={false}
@@ -166,15 +180,15 @@ function PhoneMockup() {
       </div>
 
       {/* Floating notification */}
-      <div className="absolute -top-4 -right-4 md:-right-8 bg-white rounded-2xl shadow-xl p-4 w-64 border border-gray-100 animate-float">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
-            <span className="text-lg">⚠</span>
+      <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 md:-right-8 bg-white rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 w-52 sm:w-64 border border-gray-100 animate-float">
+        <div className="flex items-start gap-2.5 sm:gap-3">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-100 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+            <span className="text-sm sm:text-lg">⚠️</span>
           </div>
-          <div>
-            <div className="font-semibold text-sm text-gray-900">New Alert</div>
-            <div className="text-xs text-gray-500 mt-0.5">Robbery reported near your home</div>
-            <div className="text-xs text-emerald-600 mt-1">Just now</div>
+          <div className="min-w-0">
+            <div className="font-semibold text-xs sm:text-sm text-gray-900">New Alert</div>
+            <div className="text-[10px] sm:text-xs text-gray-500 mt-0.5 truncate">Robbery reported near you</div>
+            <div className="text-[10px] sm:text-xs text-emerald-600 mt-1">Just now</div>
           </div>
         </div>
       </div>
@@ -203,17 +217,17 @@ function AlertCard({ type, location, description, time, confirmations, isActive 
   const config = typeConfig[type]
 
   return (
-    <div className={`${config.bg} ${config.border} border rounded-xl p-3`}>
+    <div className={`${config.bg} ${config.border} border rounded-lg sm:rounded-xl p-2.5 sm:p-3`}>
       <div className="flex items-center justify-between mb-1">
-        <div className="flex items-center gap-2">
-          <div className={`w-2 h-2 ${config.dot} rounded-full ${isActive ? 'animate-pulse' : ''}`} />
-          <span className="text-xs font-bold text-gray-700">{config.label}</span>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 ${config.dot} rounded-full ${isActive ? 'animate-pulse' : ''}`} />
+          <span className="text-[10px] sm:text-xs font-bold text-gray-700">{config.label}</span>
         </div>
-        <span className="text-xs text-gray-400">{time}</span>
+        <span className="text-[10px] sm:text-xs text-gray-400">{time}</span>
       </div>
-      <div className="text-xs font-medium text-gray-900 mb-0.5">{location}</div>
-      <div className="text-xs text-gray-600 line-clamp-1">{description}</div>
-      <div className="text-xs text-gray-400 mt-2">{confirmations} confirmed</div>
+      <div className="text-[10px] sm:text-xs font-medium text-gray-900 mb-0.5">{location}</div>
+      <div className="text-[10px] sm:text-xs text-gray-600 line-clamp-1">{description}</div>
+      <div className="text-[10px] sm:text-xs text-gray-400 mt-1.5 sm:mt-2">{confirmations} confirmed</div>
     </div>
   )
 }
