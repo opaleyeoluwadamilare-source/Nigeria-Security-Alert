@@ -27,9 +27,10 @@ export function HeroSection() {
           </div>
           <Link
             href="/app"
-            className="text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-full transition-colors"
           >
-            Open App →
+            Open App
+            <span aria-hidden="true">→</span>
           </Link>
         </nav>
 

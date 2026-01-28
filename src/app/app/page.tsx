@@ -120,13 +120,25 @@ export default function AppFeedPage() {
     }
   })
 
-  // Show loading while hydrating or if not onboarded (will redirect)
-  if (!_hasHydrated || !hasCompletedOnboarding) {
+  // Show loading while hydrating
+  if (!_hasHydrated) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <NigerianShield className="w-16 h-16 mx-auto mb-4 animate-pulse" />
           <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show redirecting state for users who haven't completed onboarding
+  if (!hasCompletedOnboarding) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <NigerianShield className="w-16 h-16 mx-auto mb-4 animate-pulse" />
+          <p className="text-muted-foreground">Setting up your experience...</p>
         </div>
       </div>
     )
